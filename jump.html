@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            overflow: hidden;
+            padding: 20px;
+        }
+        
+        .game-title {
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        canvas {
+            background-color: #f7f7f7;
+            display: block;
+        }
+        
+        .controls {
+            margin-top: 25px;
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            width: 800px;
+        }
+        
+        .controls h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .control-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .score-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 18px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .high-score {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .cheat-mode {
+            position: absolute;
+            top: 120px;
+            right: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff0000;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            display: none;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 36px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .game-over h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+        
+        .game-over p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .game-over button {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(to right, #ff6b6b, #ff4c4c);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .game-over button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .game-status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .image-status {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+            color: #333;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 5px 12px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .cheat-button {
+            position: absolute;
+            top: 170px;
+            right: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff6b6b, #ff4c4c);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            display: none;
+        }
+        
+        .cheat-streak {
+            position: absolute;
+            top: 210px;
+            right: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            display: none;
+        }
+        
+        .cheat-hint {
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            font-size: 12px;
+            color: #666;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 4px 10px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="game-title">  </h1>
+    
+    <div class="game-container">
+        <div class="score-display">分数: <span id="score">0</span></div>
+        <div class="high-score">最高分: <span id="highScore">0</span></div>
+        <div class="cheat-mode" id="cheatMode">作弊模式已激活</div>
+        <div class="cheat-streak" id="cheatStreak">连胜: 0</div>
+        <button class="cheat-button" id="disableCheat">关闭作弊</button>
+        <div class="game-status" id="gameStatus">游戏中...</div>
+        <div class="image-status">图片状态: <span id="imageStatus">加载中...</span></div>
+        
+        <canvas id="gameCanvas" width="800" height="500"></canvas>
+        
+        <div class="game-over" id="gameOver">
+            <h2>游戏结束!</h2>
+            <p>最终得分: <span id="finalScore">0</span></p>
+            <button onclick="resetGame()">再玩一次</button>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <h3>游戏控制</h3>
+        <div class="controls-grid">
+            <div class="control-item">空格键 - 跳跃</div>
+            <div class="control-item">回车键 - 重置游戏</div>
+            <div class="control-item">Ctrl+C - 暂停游戏</div>
+            <div class="control-item">Ctrl+V - 继续游戏</div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏画布和上下文
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 图片路径 - 请根据您的实际路径修改
+        const STICKMAN_IMAGE_PATH = 'fanlink/e.png';
+        const SPIKE_IMAGE_PATH = 'fanlink/d.png';
+        
+        // 游戏状态
+        let gameRunning = true;
+        let gamePaused = false;
+        let score = 0;
+        let highScore = localStorage.getItem('highScore') || 0;
+        let cheatMode = false;
+        let cheatStreak = 0;
+        let maxCheatStreak = 0;
+        let cheatCodeInput = '';
+        
+        document.getElementById('highScore').textContent = highScore;
+        
+        // 游戏参数
+        let gameSpeed = 6;
+        let obstacleSpawnRate = 150;
+        let frameCount = 0;
+        let minGapBetweenObstacles = 350;
+        
+        // 图片对象
+        const stickmanImage = new Image();
+        const spikeImage = new Image();
+        let imagesLoaded = 0;
+        let imagesTotal = 2;
+        
+        // 火柴人属性
+        const stickman = {
+            originalWidth: 320,
+            originalHeight: 544,
+            scale: 0.2,
+            width: 320 * 0.2,
+            height: 544 * 0.2,
+            x: 50,
+            y: canvas.height - 544 * 0.2 - 20,
+            jumpForce: 16,
+            gravity: 0.7,
+            velocity: 0,
+            jumping: false
+        };
+        
+        // 地面
+        const ground = {
+            y: canvas.height - 20,
+            height: 20,
+            color: '#27ae60'
+        };
+        
+        // 障碍物数组
+        const obstacles = [];
+        
+        // 加载图片
+        function loadImages() {
+            stickmanImage.onload = imageLoaded;
+            stickmanImage.onerror = function() {
+                document.getElementById('imageStatus').textContent = '火柴人图片加载失败';
+                imagesLoaded++;
+                if (imagesLoaded === imagesTotal) {
+                    document.getElementById('imageStatus').textContent = '使用备用图形';
+                    initGame();
+                }
+            };
+            stickmanImage.src = STICKMAN_IMAGE_PATH;
+            
+            spikeImage.onload = imageLoaded;
+            spikeImage.onerror = function() {
+                document.getElementById('imageStatus').textContent = '刺图片加载失败';
+                imagesLoaded++;
+                if (imagesLoaded === imagesTotal) {
+                    document.getElementById('imageStatus').textContent = '使用备用图形';
+                    initGame();
+                }
+            };
+            spikeImage.src = SPIKE_IMAGE_PATH;
+        }
+        
+        // 图片加载完成回调
+        function imageLoaded() {
+            imagesLoaded++;
+            if (imagesLoaded === imagesTotal) {
+                document.getElementById('imageStatus').textContent = '图片加载成功';
+                initGame();
+            }
+        }
+        
+        // 初始化游戏
+        function initGame() {
+            score = 0;
+            gameSpeed = 6;
+            frameCount = 0;
+            obstacles.length = 0;
+            stickman.y = canvas.height - stickman.height - 20;
+            stickman.velocity = 0;
+            stickman.jumping = false;
+            document.getElementById('score').textContent = score;
+            document.getElementById('gameStatus').textContent = '游戏中...';
+            document.getElementById('gameOver').style.display = 'none';
+            gameRunning = true;
+            gamePaused = false;
+            
+            // 重置作弊连胜
+            if (cheatMode) {
+                cheatStreak = 0;
+                document.getElementById('cheatStreak').textContent = '连胜: 0';
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // 激活作弊模式
+        function activateCheatMode() {
+            cheatMode = true;
+            cheatStreak = 0;
+            document.getElementById('cheatMode').style.display = 'block';
+            document.getElementById('disableCheat').style.display = 'block';
+            document.getElementById('cheatStreak').style.display = 'block';
+            document.getElementById('cheatStreak').textContent = '连胜: 0';
+        }
+        
+        // 关闭作弊模式
+        function disableCheatMode() {
+            cheatMode = false;
+            cheatStreak = 0;
+            document.getElementById('cheatMode').style.display = 'none';
+            document.getElementById('disableCheat').style.display = 'none';
+            document.getElementById('cheatStreak').style.display = 'none';
+            
+            // 重置最高分记录（清除作弊模式的成绩）
+            if (maxCheatStreak > 0) {
+                localStorage.removeItem('highScore');
+                highScore = 0;
+                document.getElementById('highScore').textContent = '0';
+                maxCheatStreak = 0;
+            }
+        }
+        
+        // 绘制火柴人
+        function drawStickman() {
+            if (stickmanImage.complete && stickmanImage.naturalHeight !== 0) {
+                ctx.drawImage(stickmanImage, stickman.x, stickman.y, stickman.width, stickman.height);
+            } else {
+                // 备用绘制方案
+                ctx.fillStyle = '#3498db';
+                ctx.fillRect(stickman.x, stickman.y, stickman.width, stickman.height);
+                
+                ctx.beginPath();
+                ctx.arc(stickman.x + stickman.width/2, stickman.y - 5, 15, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffcc00';
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                ctx.fillStyle = '#333';
+                ctx.beginPath();
+                ctx.arc(stickman.x + stickman.width/2 - 6, stickman.y - 5, 3, 0, Math.PI * 2);
+                ctx.arc(stickman.x + stickman.width/2 + 6, stickman.y - 5, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(stickman.x + stickman.width/3, stickman.y + stickman.height);
+                ctx.lineTo(stickman.x + stickman.width/3, stickman.y + stickman.height + 20);
+                ctx.moveTo(stickman.x + 2*stickman.width/3, stickman.y + stickman.height);
+                ctx.lineTo(stickman.x + 2*stickman.width/3, stickman.y + stickman.height + 20);
+                ctx.stroke();
+            }
+            
+            // 在作弊模式下绘制特效
+            if (cheatMode) {
+                ctx.strokeStyle = '#ff0000';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeRect(stickman.x - 5, stickman.y - 5, stickman.width + 10, stickman.height + 10);
+                ctx.setLineDash([]);
+            }
+        }
+        
+        // 绘制刺
+        function drawSpike(x, y, width, height) {
+            if (spikeImage.complete && spikeImage.naturalHeight !== 0) {
+                ctx.drawImage(spikeImage, x, y, width, height);
+            } else {
+                ctx.fillStyle = '#e74c3c';
+                const spikeWidth = 15;
+                const spikeCount = Math.floor(width / spikeWidth);
+                
+                for (let i = 0; i < spikeCount; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(x + i * spikeWidth, y + height);
+                    ctx.lineTo(x + i * spikeWidth + spikeWidth/2, y);
+                    ctx.lineTo(x + i * spikeWidth + spikeWidth, y + height);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                
+                ctx.fillRect(x, y + height - 5, width, 5);
+            }
+            
+            // 在作弊模式下绘制碰撞特效
+            if (cheatMode && checkCollisionWithObstacle(x, y, width, height)) {
+                ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
+                ctx.fillRect(x, y, width, height);
+            }
+        }
+        
+        // 绘制地面
+        function drawGround() {
+            ctx.fillStyle = ground.color;
+            ctx.fillRect(0, ground.y, canvas.width, ground.height);
+            
+            ctx.fillStyle = '#219653';
+            for (let i = 0; i < canvas.width; i += 30) {
+                ctx.fillRect(i, ground.y, 15, 3);
+            }
+        }
+        
+        // 创建障碍物
+        function createObstacle() {
+            const minHeight = 40;
+            const maxHeight = 60;
+            const minWidth = 50;
+            const maxWidth = 70;
+            
+            const width = Math.floor(Math.random() * (maxWidth - minWidth + 1)) + minWidth;
+            const height = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+            
+            obstacles.push({
+                x: canvas.width,
+                y: ground.y - height,
+                width: width,
+                height: height
+            });
+        }
+        
+        // 更新障碍物位置
+        function updateObstacles() {
+            for (let i = 0; i < obstacles.length; i++) {
+                obstacles[i].x -= gameSpeed;
+                
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                    i--;
+                    score++;
+                    document.getElementById('score').textContent = score;
+                    
+                    // 在作弊模式下增加连胜
+                    if (cheatMode) {
+                        cheatStreak++;
+                        document.getElementById('cheatStreak').textContent = '连胜: ' + cheatStreak;
+                        if (cheatStreak > maxCheatStreak) {
+                            maxCheatStreak = cheatStreak;
+                        }
+                    }
+                    
+                    if (score % 10 === 0) {
+                        gameSpeed += 0.3;
+                    }
+                    
+                    if (score > highScore && !cheatMode) {
+                        highScore = score;
+                        document.getElementById('highScore').textContent = highScore;
+                        localStorage.setItem('highScore', highScore);
+                    }
+                }
+            }
+            
+            if (frameCount % obstacleSpawnRate === 0) {
+                let canSpawn = true;
+                if (obstacles.length > 0) {
+                    const lastObstacle = obstacles[obstacles.length - 1];
+                    if (lastObstacle.x > canvas.width - minGapBetweenObstacles) {
+                        canSpawn = false;
+                    }
+                }
+                
+                if (canSpawn) {
+                    createObstacle();
+                    obstacleSpawnRate = Math.max(120, 150 - Math.floor(score / 8));
+                }
+            }
+        }
+        
+        // 检查与特定障碍物的碰撞
+        function checkCollisionWithObstacle(x, y, width, height) {
+            return (stickman.x + stickman.width - 15 > x && 
+                    stickman.x + 15 < x + width && 
+                    stickman.y + stickman.height > y);
+        }
+        
+        // 碰撞检测
+        function checkCollision() {
+            for (let i = 0; i < obstacles.length; i++) {
+                const o = obstacles[i];
+                if (checkCollisionWithObstacle(o.x, o.y, o.width, o.height)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        // 游戏结束
+        function gameOver() {
+            gameRunning = false;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOver').style.display = 'flex';
+            document.getElementById('gameStatus').textContent = '游戏结束';
+        }
+        
+        // 游戏循环
+        function gameLoop() {
+            if (gamePaused) return;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (stickman.jumping) {
+                stickman.velocity -= stickman.gravity;
+                stickman.y -= stickman.velocity;
+                
+                if (stickman.y > canvas.height - stickman.height - 20) {
+                    stickman.y = canvas.height - stickman.height - 20;
+                    stickman.jumping = false;
+                    stickman.velocity = 0;
+                }
+            }
+            
+            updateObstacles();
+            
+            drawGround();
+            drawStickman();
+            for (let i = 0; i < obstacles.length; i++) {
+                drawSpike(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+            }
+            
+            // 在作弊模式下不检测碰撞
+            if (!cheatMode && checkCollision()) {
+                gameOver();
+                return;
+            }
+            
+            frameCount++;
+            
+            if (gameRunning) {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+        
+        // 跳跃函数
+        function jump() {
+            if (!stickman.jumping && gameRunning && !gamePaused) {
+                stickman.jumping = true;
+                stickman.velocity = stickman.jumpForce;
+            }
+        }
+        
+        // 重置游戏
+        function resetGame() {
+            initGame();
+        }
+        
+        // 暂停游戏
+        function pauseGame() {
+            if (gameRunning && !gamePaused) {
+                gamePaused = true;
+                document.getElementById('gameStatus').textContent = '已暂停';
+            }
+        }
+        
+        // 继续游戏
+        function continueGame() {
+            if (gameRunning && gamePaused) {
+                gamePaused = false;
+                document.getElementById('gameStatus').textContent = '游戏中...';
+                requestAnimationFrame(gameLoop);
+            }
+        }
+        
+        // 键盘事件监听
+        document.addEventListener('keydown', function(e) {
+            // 作弊代码输入
+            if (!cheatMode) {
+                cheatCodeInput += e.key.toLowerCase();
+                if (cheatCodeInput.length > 7) {
+                    cheatCodeInput = cheatCodeInput.slice(-7);
+                }
+                if (cheatCodeInput === 'fanlink') {
+                    activateCheatMode();
+                    cheatCodeInput = '';
+                }
+            }
+            
+            if (e.code === 'Space') {
+                jump();
+                e.preventDefault();
+            }
+            
+            if (e.code === 'Enter') {
+                resetGame();
+            }
+            
+            if (e.ctrlKey && e.code === 'KeyC') {
+                pauseGame();
+                e.preventDefault();
+            }
+            
+            if (e.ctrlKey && e.code === 'KeyV') {
+                continueGame();
+                e.preventDefault();
+            }
+        });
+        
+        // 关闭作弊按钮事件
+        document.getElementById('disableCheat').addEventListener('click', disableCheatMode);
+        
+        // 开始加载图片并初始化游戏
+        loadImages();
+    </script>
+</body>
+</html>
