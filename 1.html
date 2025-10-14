@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fdfdq的博客</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Arial", "Microsoft YaHei", sans-serif;
+        }
+        body {
+            line-height: 1.6;
+            color: #e0e0e0; /* 浅色文字 */
+            background-color: #1a1a1a; /* 深色背景 */
+            padding: 0;
+        }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .blog-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffffff; /* 白色姓名 */
+        }
+        .nav-container {
+            display: flex;
+            gap: 15px;
+        }
+        .nav-btn {
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .nav-btn:hover {
+            background-color: #2980b9;
+        }
+        .bg-img-section {
+            width: 100%;
+            height: auto;
+            background-image: url("fanlink.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 40px;
+            border-radius: 0;
+        }
+        .works-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .works-title {
+            font-size: 22px;
+            color: #ffffff; /* 白色标题 */
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .works-list {
+            list-style: none;
+        }
+        .works-item {
+            background-color: #2c2c2c; /* 作品项深色背景 */
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7); /* 深色半透明弹窗背景 */
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #2c2c2c; /* 弹窗深色背景 */
+            padding: 30px;
+            border-radius: 6px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #cccccc; /* 弹窗关闭按钮浅色 */
+        }
+        .modal-title {
+            font-size: 20px;
+            color: #ffffff; /* 弹窗白色标题 */
+            margin-bottom: 15px;
+        }
+        .version-section {
+            margin-bottom: 20px;
+        }
+        .version-title {
+            color: #ffffff; /* 弹窗版本白色标题 */
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .download-link {
+            display: block;
+            margin: 10px 0;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .download-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        .note {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .password {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <div class="blog-name">fdfdq</div>
+        <div class="nav-container">
+            <button class="nav-btn" id="fanlinkBtn">fanlink</button>
+            <button class="nav-btn" id="downloadBtn">下载</button>
+            <button class="nav-btn" id="aboutBtn">关于</button>
+        </div>
+    </div>
+
+    <div class="bg-img-section"></div>
+
+    <div class="works-section">
+        <h3 class="works-title">我的作品</h3>
+        <ul class="works-list">
+            <li class="works-item">浏览器主页：fanlink</li>
+            <li class="works-item">作品2：敬请期待</li>
+            <li class="works-item">作品3：敬请期待</li>
+        </ul>
+    </div>
+
+    <div class="modal" id="fanlinkModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">fanlink 介绍</h3>
+            <p>这是我开发的一款浏览器主页网站，可替代默认浏览器主页，提供更便捷的导航体验。</p>
+            <p>网站地址：<a href="https://fdfdq.github.io/fanlink/fanlink%203.00.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink 3.00.html</a></p>
+            <h4 class="update-title">3.00版本最新更新</h4>
+            <ul>
+                <li>优化页面加载速度，</li>
+                <li>新增自定义导航栏功能，支持添加常用网站快捷入口；</li>
+                <li>优化响应式布局，适配手机、平板等多设备屏幕；</li>
+                <li>修复旧版本中“书签同步”功能的稳定性问题。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal" id="downloadModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">fanlink 各版本下载方式</h3>
+
+            <!-- 2.18版本 -->
+            <div class="version-section">
+                <h2 class="version-title">2.18 版本</h2>
+                <p><strong>本地版下载：</strong></p>
+                <a href="https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw?pwd=1234" target="_blank" class="download-link">https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw?pwd=1234</a>
+                <p class="password">提取码：1234</p>
+                <p class="note">网页版：停止支持</p>
+            </div>
+
+            <!-- 2.19版本 -->
+            <div class="version-section">
+                <h2 class="version-title">2.19 版本</h2>
+                <p><strong>本地版下载：</strong></p>
+                <a href="https://wwzx.lanzouu.com/iud4M36pn3pg" target="_blank" class="download-link">https://wwzx.lanzouu.com/iud4M36pn3pg</a>
+                
+                <p><strong>网页版访问：</strong></p>
+                <a href="https://fdfdq.github.io/fanlink-2.19/fanlink.html" target="_blank" class="download-link">fdfdq.github.io/fanlink-2.19/fanlink.html</a>
+            </div>
+
+            <!-- 3.00版本 -->
+            <div class="version-section">
+                <h2 class="version-title">3.00 版本</h2>
+                <p><strong>本地版下载：</strong></p>
+                <a href="https://wwnz.lanzouu.com/ic5n2385yvqd" target="_blank" class="download-link">https://wwnz.lanzouu.com/ic5n2385yvqd</a>
+                <p class="password">密码：h3tk</p>
+                
+                <p><strong>网页版访问：</strong></p>
+                <a href="https://fdfdq.github.io/fanlink/fanlink 3.00.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink 3.00.html</a>
+            </div>
+
+            <p style="text-align: center; color: #7f8c8d; margin-top: 30px;">
+            </p>
+        </div>
+    </div>
+
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">关于我</h3>
+            <p>我是fdfdq，一名热爱编程的开发者，专注于前端开发与个人项目创作。</p>
+            <p>个人理念：通过代码打造实用且美观的数字产品，让技术服务于生活。</p>
+            <p>我的哔哩哔哩: https://space.bilibili.com/3537123240053728?spm_id_from=333.1007.0.0</p>
+        </div>
+    </div>
+
+    <script>
+        // fanlink弹窗逻辑
+        const fanlinkBtn = document.getElementById('fanlinkBtn');
+        const fanlinkModal = document.getElementById('fanlinkModal');
+        const closeModal = document.querySelectorAll('.close-modal');
+
+        fanlinkBtn.addEventListener('click', () => {
+            fanlinkModal.style.display = 'flex';
+        });
+
+        // 下载弹窗逻辑
+        const downloadBtn = document.getElementById('downloadBtn');
+        const downloadModal = document.getElementById('downloadModal');
+
+        downloadBtn.addEventListener('click', () => {
+            downloadModal.style.display = 'flex';
+        });
+
+        // 关于弹窗逻辑
+        const aboutBtn = document.getElementById('aboutBtn');
+        const aboutModal = document.getElementById('aboutModal');
+
+        aboutBtn.addEventListener('click', () => {
+            aboutModal.style.display = 'flex';
+        });
+
+        // 通用关闭弹窗逻辑
+        closeModal.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.closest('.modal');
+                modal.style.display = 'none';
+            });
+        });
+
+        // 点击弹窗外部关闭
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
