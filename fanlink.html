@@ -218,49 +218,223 @@
         .view-btn:hover::before {
             left: 100%;
         }
-        .expanded-products {
+
+        /* 侧边栏通用样式 */
+        .sidebar-overlay {
             display: none;
-            margin: 20px 0 40px;
-            padding: 20px;
-            background-color: #2c2c2c;
-            border-radius: 8px;
-            animation: fadeIn 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            animation: overlayFadeIn 0.3s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+.sidebar-menu {
+    position: fixed;
+    top: 0;
+    width: 60vw; /* 改为视口宽度的60% */
+    height: 100%;
+    background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+}
+
+        /* 产品侧边栏 - 左侧滑入 */
+        .products-sidebar {
+            left: 0;
+            transform: translateX(-100%);
         }
-        .expanded-item {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background-color: #383838;
-            border-radius: 4px;
+
+        .products-sidebar.active {
+            transform: translateX(0);
+        }
+
+        /* 下载侧边栏 - 右侧滑入 */
+        .download-sidebar {
+            right: 0;
+            transform: translateX(100%);
+        }
+
+        .download-sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .sidebar-title {
+            font-size: 22px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 24px;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-sidebar:hover {
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* 产品侧边栏项目样式 */
+        .sidebar-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #383838 0%, #2c2c2c 100%);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
             position: relative;
             overflow: hidden;
         }
-        .expanded-item::before {
+
+        .sidebar-item::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
             transition: left 0.5s;
         }
-        .expanded-item:last-child {
-            margin-bottom: 0;
+
+        .sidebar-item:hover {
+            background: linear-gradient(135deg, #404040 0%, #303030 100%);
+            border-left: 4px solid #3498db;
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
-        .expanded-item:hover {
-            background-color: #484848;
-            color: #3498db;
-            transform: translateX(5px);
-        }
-        .expanded-item:hover::before {
+
+        .sidebar-item:hover::before {
             left: 100%;
         }
+
+        .sidebar-item-title {
+            font-size: 16px;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-item-desc {
+            font-size: 12px;
+            color: #b0b0b0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease 0.1s;
+            height: 0;
+        }
+
+        .sidebar-item:hover .sidebar-item-desc {
+            opacity: 1;
+            transform: translateY(0);
+            height: auto;
+        }
+
+        /* 下载侧边栏内容样式 */
+        .version-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #383838 0%, #2c2c2c 100%);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .version-section:hover {
+            background: linear-gradient(135deg, #404040 0%, #303030 100%);
+            border-left: 4px solid #3498db;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .version-title {
+            color: #ffffff;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .download-link {
+            display: block;
+            margin: 10px 0;
+            color: #3498db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 20px;
+            word-break: break-all;
+        }
+
+        .download-link::before {
+            content: '↓';
+            position: absolute;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .download-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .download-link:hover::before {
+            transform: translateY(2px);
+        }
+
+        .note {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .password {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .download-info {
+            font-size: 13px;
+            color: #b0b0b0;
+            margin: 5px 0;
+        }
+
+        @keyframes overlayFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 模态窗口样式 */
         .modal {
             display: none;
             position: fixed;
@@ -321,53 +495,6 @@
             height: 2px;
             background: linear-gradient(90deg, #3498db, #2ecc71);
         }
-        .version-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #383838;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        .version-section:hover {
-            background-color: #404040;
-            transform: translateX(5px);
-        }
-        .version-title {
-            color: #ffffff;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-        .download-link {
-            display: block;
-            margin: 10px 0;
-            color: #3498db;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-left: 20px;
-        }
-        .download-link::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            transition: transform 0.3s ease;
-        }
-        .download-link:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
-        .download-link:hover::before {
-            transform: translateX(5px);
-        }
-        .note {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        .password {
-            color: #27ae60;
-            font-weight: bold;
-        }
         #productDetailModal .modal-content {
             max-width: 600px;
         }
@@ -388,27 +515,37 @@
             z-index: 100;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .blog-name {
-                margin-right: 0;
-            }
-            .nav-container {
-                width: 100%;
-                justify-content: center;
-            }
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            .modal-content {
-                padding: 20px;
-                width: 95%;
-            }
-        }
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .blog-name {
+        margin-right: 0;
+    }
+    .nav-container {
+        width: 100%;
+        justify-content: center;
+    }
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+    .sidebar-menu {
+        width: 90vw; /* 移动端改为90%宽度 */
+        max-width: none; /* 移除最大宽度限制 */
+    }
+    .products-sidebar {
+        transform: translateX(-100%);
+    }
+    .download-sidebar {
+        transform: translateX(100%);
+    }
+}
     </style>
 </head>
 <body>
@@ -421,15 +558,63 @@
         </div>
     </div>
 
+    <!-- 产品侧边栏 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar-menu products-sidebar" id="productsSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">全部产品</div>
+            <button class="close-sidebar" id="closeProductsSidebar">&times;</button>
+        </div>
+        <div class="sidebar-item" onclick="showProductDetail('浏览器主页：fanlink')">
+            <div class="sidebar-item-title">fanlink</div>
+            <div class="sidebar-item-desc">浏览器主页替代工具，支持自定义导航和多设备适配</div>
+        </div>
+        <div class="sidebar-item" onclick="showProductDetail('作品2：敬请期待')">
+            <div class="sidebar-item-title">产品二</div>
+            <div class="sidebar-item-desc">新功能开发中，敬请期待</div>
+        </div>
+        <div class="sidebar-item" onclick="showProductDetail('作品3：敬请期待')">
+            <div class="sidebar-item-title">产品三</div>
+            <div class="sidebar-item-desc">聚焦高效办公场景的轻量化工具</div>
+        </div>
+    </div>
+
+    <!-- 下载侧边栏 -->
+    <div class="sidebar-menu download-sidebar" id="downloadSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">fanlink 下载</div>
+            <button class="close-sidebar" id="closeDownloadSidebar">&times;</button>
+        </div>
+        
+        <div class="version-section">
+            <h2 class="version-title">2.18 版本</h2>
+            <p class="download-info"><strong>本地版下载：</strong></p>
+            <a href="https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw?pwd=1234" target="_blank" class="download-link">百度网盘：https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw</a>
+            <p class="password">提取码：1234</p>
+            <p class="note">注意：此版本网页版已停止支持，建议升级到3.00版</p>
+        </div>
+        
+        <div class="version-section">
+            <h2 class="version-title">2.19 版本</h2>
+            <p class="download-info"><strong>本地版下载：</strong></p>
+            <a href="https://wwzx.lanzouu.com/iud4M36pn3pg" target="_blank" class="download-link">蓝奏云：https://wwzx.lanzouu.com/iud4M36pn3pg</a>
+            <p class="download-info"><strong>网页版访问：</strong></p>
+            <a href="https://fdfdq.github.io/fanlink-2.19/fanlink.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink-2.19/fanlink.html</a>
+        </div>
+        
+        <div class="version-section">
+            <h2 class="version-title">3.00 版本（最新）</h2>
+            <p class="download-info"><strong>本地版下载：</strong></p>
+            <a href="https://wwnz.lanzouu.com/ic5n2385yvqd" target="_blank" class="download-link">蓝奏云：https://wwnz.lanzouu.com/ic5n2385yvqd</a>
+            <p class="password">密码：h3tk</p>
+            <p class="download-info"><strong>网页版访问：</strong></p>
+            <a href="https://fdfdq.github.io/fanlink/fanlink%203.00.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink%203.00.html</a>
+        </div>
+    </div>
+
     <div class="bg-img-section"></div>
 
     <div class="works-section">
-        <div class="expanded-products" id="expandedList">
-            <div class="expanded-item" onclick="showProductDetail('浏览器主页：fanlink')">浏览器主页：fanlink</div>
-            <div class="expanded-item" onclick="showProductDetail('作品2：敬请期待')">作品2：敬请期待</div>
-            <div class="expanded-item" onclick="showProductDetail('作品3：敬请期待')">作品3：敬请期待</div>
-        </div>
-
         <h3 class="works-title">我的作品</h3>
         <div class="product-grid">
             <div class="product-card">
@@ -453,6 +638,7 @@
         </div>
     </div>
 
+    <!-- 其他弹窗保持不变 -->
     <!-- Fanlink专属详情弹窗 -->
     <div class="modal" id="fanlinkModal">
         <div class="modal-content">
@@ -466,37 +652,7 @@
                 <li>书签同步：修复旧版本bug，实现跨浏览器书签导入</li>
             </ul>
             <p>官方网页版：<a href="https://fdfdq.github.io/fanlink/fanlink%203.00.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink 3.00.html</a></p>
-            <button class="view-btn" style="margin-top: 15px;" onclick="openDownloadModal()">去下载本地版</button>
-        </div>
-    </div>
-
-    <!-- 下载弹窗 -->
-    <div class="modal" id="downloadModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('downloadModal')">&times;</span>
-            <h3 class="modal-title">fanlink 各版本下载</h3>
-            <div class="version-section">
-                <h2 class="version-title">2.18 版本</h2>
-                <p><strong>本地版下载：</strong></p>
-                <a href="https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw?pwd=1234" target="_blank" class="download-link">百度网盘：https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw</a>
-                <p class="password">提取码：1234</p>
-                <p class="note">注意：此版本网页版已停止支持，建议升级到3.00版</p>
-            </div>
-            <div class="version-section">
-                <h2 class="version-title">2.19 版本</h2>
-                <p><strong>本地版下载：</strong></p>
-                <a href="https://wwzx.lanzouu.com/iud4M36pn3pg" target="_blank" class="download-link">蓝奏云：https://wwzx.lanzouu.com/iud4M36pn3pg</a>
-                <p><strong>网页版访问：</strong></p>
-                <a href="https://fdfdq.github.io/fanlink-2.19/fanlink.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink-2.19/fanlink.html</a>
-            </div>
-            <div class="version-section">
-                <h2 class="version-title">3.00 版本（最新）</h2>
-                <p><strong>本地版下载：</strong></p>
-                <a href="https://wwnz.lanzouu.com/ic5n2385yvqd" target="_blank" class="download-link">蓝奏云：https://wwnz.lanzouu.com/ic5n2385yvqd</a>
-                <p class="password">密码：h3tk</p>
-                <p><strong>网页版访问：</strong></p>
-                <a href="https://fdfdq.github.io/fanlink/fanlink 3.00.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink 3.00.html</a>
-            </div>
+            <button class="view-btn" style="margin-top: 15px;" onclick="openDownloadSidebar()">去下载本地版</button>
         </div>
     </div>
 
@@ -512,6 +668,7 @@
                 <li>用户体验优化（性能+交互设计）</li>
             </ul>
             <p>开发理念：用简洁的代码，做实用的产品，让技术服务于日常需求。</p>
+            <p>我的bilibili：https://space.bilibili.com/3537123240053728?spm_id_from=333.337.search-card.all.click</p>
         </div>
     </div>
 
@@ -533,32 +690,69 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载完成，开始绑定事件');
             
-            // 1. 顶部按钮功能：全部产品（下拉扩展/收起）
+            // 获取元素
             const allProductsBtn = document.getElementById('allProductsBtn');
-            const expandedList = document.getElementById('expandedList');
-            if (allProductsBtn && expandedList) {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const aboutBtn = document.getElementById('aboutBtn');
+            
+            const productsSidebar = document.getElementById('productsSidebar');
+            const downloadSidebar = document.getElementById('downloadSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            const closeProductsSidebar = document.getElementById('closeProductsSidebar');
+            const closeDownloadSidebar = document.getElementById('closeDownloadSidebar');
+
+            // 1. 全部产品按钮 - 左侧边栏
+            if (allProductsBtn && productsSidebar) {
                 allProductsBtn.addEventListener('click', () => {
                     console.log('全部产品按钮被点击');
-                    expandedList.style.display = expandedList.style.display === 'block' ? 'none' : 'block';
+                    closeAllSidebars();
+                    productsSidebar.classList.add('active');
+                    sidebarOverlay.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
                 });
             }
 
-            // 2. 顶部按钮功能：下载
-            const downloadBtn = document.getElementById('downloadBtn');
-            if (downloadBtn) {
+            // 2. 下载按钮 - 右侧边栏
+            if (downloadBtn && downloadSidebar) {
                 downloadBtn.addEventListener('click', () => {
                     console.log('下载按钮被点击');
-                    document.getElementById('downloadModal').style.display = 'flex';
+                    closeAllSidebars();
+                    downloadSidebar.classList.add('active');
+                    sidebarOverlay.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
                 });
             }
 
-            // 3. 顶部按钮功能：关于
-            const aboutBtn = document.getElementById('aboutBtn');
+            // 3. 关于按钮 - 模态窗口
             if (aboutBtn) {
                 aboutBtn.addEventListener('click', () => {
                     console.log('关于按钮被点击');
                     document.getElementById('aboutModal').style.display = 'flex';
                 });
+            }
+
+            // 关闭侧边栏函数
+            function closeAllSidebars() {
+                productsSidebar.classList.remove('active');
+                downloadSidebar.classList.remove('active');
+                setTimeout(() => {
+                    sidebarOverlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 400);
+            }
+
+            // 绑定关闭按钮事件
+            if (closeProductsSidebar) {
+                closeProductsSidebar.addEventListener('click', closeAllSidebars);
+            }
+
+            if (closeDownloadSidebar) {
+                closeDownloadSidebar.addEventListener('click', closeAllSidebars);
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeAllSidebars);
             }
 
             // 点击弹窗外部关闭弹窗
@@ -571,13 +765,14 @@
                 });
             });
 
-            // 添加键盘事件支持（ESC关闭弹窗）
+            // 添加键盘事件支持（ESC关闭所有）
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape') {
                     const modals = document.querySelectorAll('.modal');
                     modals.forEach(modal => {
                         modal.style.display = 'none';
                     });
+                    closeAllSidebars();
                 }
             });
         });
@@ -585,29 +780,53 @@
         // 4. 显示Fanlink专属弹窗
         function showFanlinkModal() {
             console.log('显示Fanlink弹窗');
+            closeAllSidebars();
             document.getElementById('fanlinkModal').style.display = 'flex';
         }
 
         // 5. 显示通用产品详情弹窗
         function showProductDetail(productName) {
             console.log('显示产品详情:', productName);
+            closeAllSidebars();
             const modal = document.getElementById('productDetailModal');
             const titleElem = document.getElementById('detailTitle');
             titleElem.textContent = productName;
             modal.style.display = 'flex';
         }
 
-        // 6. 打开下载弹窗（从Fanlink详情页跳转用）
-        function openDownloadModal() {
-            console.log('打开下载弹窗');
+        // 6. 打开下载侧边栏（从Fanlink详情页跳转用）
+        function openDownloadSidebar() {
+            console.log('打开下载侧边栏');
             closeModal('fanlinkModal');
-            document.getElementById('downloadModal').style.display = 'flex';
+            closeAllSidebars();
+            setTimeout(() => {
+                document.getElementById('downloadSidebar').classList.add('active');
+                document.getElementById('sidebarOverlay').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }, 100);
         }
 
         // 7. 关闭弹窗
         function closeModal(modalId) {
             console.log('关闭弹窗:', modalId);
             document.getElementById(modalId).style.display = 'none';
+        }
+
+        // 关闭所有侧边栏的函数
+        function closeAllSidebars() {
+            const productsSidebar = document.getElementById('productsSidebar');
+            const downloadSidebar = document.getElementById('downloadSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (productsSidebar) productsSidebar.classList.remove('active');
+            if (downloadSidebar) downloadSidebar.classList.remove('active');
+            
+            setTimeout(() => {
+                if (sidebarOverlay) {
+                    sidebarOverlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }, 400);
         }
     </script>
 </body>
