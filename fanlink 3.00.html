@@ -6,13 +6,13 @@
     <title>Fanlink 3.00 标签页</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* 基础样式保留 */
+        /* 基础样式 */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -29,14 +29,66 @@
             animation: gradientBG 20s ease infinite;
             overflow-x: hidden;
         }
-        
+
+        /* 动画定义 */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        
-        /* 标题动画增强 */
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 标题样式 */
         .title {
             text-align: center;
             font-size: 30px;
@@ -53,19 +105,8 @@
             letter-spacing: 1px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* 搜索栏动画增强 */
+
+        /* 搜索栏样式 */
         .search-bar {
             display: flex;
             align-items: center;
@@ -79,18 +120,7 @@
             z-index: 999;
             animation: slideInDown 0.7s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
         }
-        
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
+
         .search-bar input[type="text"] {
             width: 70%;
             padding: 12px 15px;
@@ -102,13 +132,13 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-        
+
         .search-bar input[type="text"]:focus {
             outline: none;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(62, 146, 204, 0.3);
             transform: scale(1.02);
         }
-        
+
         .search-bar select {
             padding: 10px 15px;
             font-size: 16px;
@@ -119,12 +149,12 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-        
+
         .search-bar select:focus {
             outline: none;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(62, 146, 204, 0.3);
         }
-        
+
         .search-bar button {
             padding: 12px 25px;
             font-size: 16px;
@@ -138,19 +168,19 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        
+
         .search-bar button:hover {
             background: linear-gradient(135deg, #0d8aee, #2196f3);
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
-        
+
         .search-bar button:active {
             transform: translateY(0) scale(0.98);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
-        
-        /* 侧边栏动画增强 */
+
+        /* 侧边栏样式 */
         .sidebar {
             width: 150px;
             background: linear-gradient(180deg, #0a2463, #3e92cc);
@@ -167,18 +197,7 @@
             border-radius: 0 15px 15px 0;
             animation: slideInLeft 0.8s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
         }
-        
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
+
         .sidebar h2 {
             margin: 0 0 10px;
             font-size: 1.2em;
@@ -187,17 +206,17 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             animation: fadeIn 0.8s 0.6s both;
         }
-        
+
         .sidebar ul {
             list-style: none;
             padding: 0;
         }
-        
+
         .sidebar ul li {
             margin-bottom: 10px;
             animation: fadeInLeft 0.6s both;
         }
-        
+
         .sidebar ul li:nth-child(1) { animation-delay: 0.7s; }
         .sidebar ul li:nth-child(2) { animation-delay: 0.8s; }
         .sidebar ul li:nth-child(3) { animation-delay: 0.9s; }
@@ -207,17 +226,7 @@
         .sidebar ul li:nth-child(7) { animation-delay: 1.3s; }
         .sidebar ul li:nth-child(8) { animation-delay: 1.4s; }
         .sidebar ul li:nth-child(9) { animation-delay: 1.5s; }
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
+
         .sidebar ul li a {
             color: white;
             text-decoration: none;
@@ -229,13 +238,13 @@
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .sidebar ul li a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateX(5px);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
         }
-        
+
         .sidebar .close-btn {
             position: absolute;
             top: 10px;
@@ -251,13 +260,13 @@
             background: rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
-        
+
         .sidebar .close-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: rotate(90deg);
         }
-        
-        /* 内容区域动画增强 */
+
+        /* 内容区域样式 */
         .content {
             flex: 1;
             padding: 30px;
@@ -276,18 +285,8 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             transform-origin: top center;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
+
+        /* 分类样式 - 列表布局 */
         .category {
             margin-bottom: 30px;
             background: #ffffff;
@@ -297,23 +296,12 @@
             transition: all 0.3s ease;
             animation: fadeInScale 0.6s both;
         }
-        
+
         .category:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
         }
-        
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
+
         .category h3 {
             margin: 0 0 15px;
             font-size: 1.3em;
@@ -323,26 +311,27 @@
             display: flex;
             align-items: center;
         }
-        
+
         .category h3 i {
             margin-right: 10px;
             color: #3e92cc;
         }
-        
-        .category ul {
+
+        /* 列表布局样式 */
+        .category ul.list-layout {
             list-style: none;
             padding: 0;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 15px;
         }
-        
-        .category ul li {
+
+        .category ul.list-layout li {
             margin-bottom: 5px;
             animation: fadeIn 0.5s both;
         }
-        
-        .category ul li a {
+
+        .category ul.list-layout li a {
             text-decoration: none;
             color: #333;
             font-size: 14px;
@@ -356,8 +345,8 @@
             position: relative;
             overflow: hidden;
         }
-        
-        .category ul li a::before {
+
+        .category ul.list-layout li a::before {
             content: '';
             position: absolute;
             top: 0;
@@ -368,241 +357,248 @@
             transform: translateX(-100%);
             transition: transform 0.5s ease;
         }
-        
-        .category ul li a:hover {
+
+        .category ul.list-layout li a:hover {
             color: #007bff;
             background: #e9ecef;
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
-        
-        .category ul li a:hover::before {
+
+        .category ul.list-layout li a:hover::before {
             transform: translateX(100%);
         }
-        
-        .category ul li a i {
+
+        .category ul.list-layout li a i {
             margin-right: 10px;
             font-size: 16px;
             color: #3e92cc;
             transition: all 0.3s ease;
         }
-        
-        .category ul li a:hover i {
+
+        .category ul.list-layout li a:hover i {
             transform: scale(1.2);
             color: #0a2463;
         }
-        
+
+        /* 网格布局样式 */
+        .category ul.grid-layout {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+        }
+
+        .category ul.grid-layout li {
+            margin-bottom: 5px;
+            animation: fadeIn 0.5s both;
+            text-align: center;
+        }
+
+        .category ul.grid-layout li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            min-height: 90px;
+        }
+
+        .category ul.grid-layout li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(62, 146, 204, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .category ul.grid-layout li a:hover {
+            color: #007bff;
+            background: #e9ecef;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category ul.grid-layout li a:hover::before {
+            transform: translateX(100%);
+        }
+
+        .category ul.grid-layout li a i {
+            font-size: 24px;
+            color: #3e92cc;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            margin-right: 0;
+        }
+
+        .category ul.grid-layout li a:hover i {
+            transform: scale(1.2);
+            color: #0a2463;
+        }
+
+        .category ul.grid-layout li a span {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1.3;
+        }
+
         .fa {
             margin-right: 5px;
         }
-        
-/* 设置面板动画增强 - 放在右侧并从右侧弹出 */
-.settings-panel {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 400px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(10px);
-    z-index: 1002;
-    display: flex;
-    flex-direction: column;
-    color: #333;
-    overflow-y: auto;
-    box-sizing: border-box;
-    transform: translateX(100%);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    visibility: hidden;
-}
 
-.settings-panel.active {
-    transform: translateX(0);
-    opacity: 1;
-    visibility: visible;
-}
+        /* 设置面板样式 */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+            overflow-y: auto;
+            box-sizing: border-box;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+        }
 
-.settings-content {
-    background: transparent;
-    border-radius: 0;
-    padding: 25px;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    color: #333;
-    box-shadow: none;
-    transform: translateX(20px);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
-}
+        .settings-panel.active {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+        }
 
-.settings-panel.active .settings-content {
-    transform: translateX(0);
-    opacity: 1;
-}
+        .settings-content {
+            background: transparent;
+            border-radius: 0;
+            padding: 25px;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            color: #333;
+            box-shadow: none;
+            transform: translateX(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+        }
 
-.settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    background: linear-gradient(90deg, #0a2463, #3e92cc);
-    color: white;
-    margin: -25px -25px 20px -25px;
-    padding: 20px 25px;
-}
+        .settings-panel.active .settings-content {
+            transform: translateX(0);
+            opacity: 1;
+        }
 
-.settings-header h2 {
-    margin: 0;
-    color: white;
-    font-size: 24px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            background: linear-gradient(90deg, #0a2463, #3e92cc);
+            color: white;
+            margin: -25px -25px 20px -25px;
+            padding: 20px 25px;
+        }
 
-.close-settings {
-    font-size: 30px;
-    cursor: pointer;
-    color: white;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-}
+        .settings-header h2 {
+            margin: 0;
+            color: white;
+            font-size: 24px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-.close-settings:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(90deg);
-}
+        .close-settings {
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
 
-/* 设置选项卡样式调整 - 紧凑水平排列 */
-.settings-tabs {
-    display: flex;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-    gap: 4px;
-    justify-content: flex-start;
-    overflow-x: auto;
-    padding-bottom: 5px;
-}
+        .close-settings:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
 
-.settings-tab {
-    padding: 6px 12px;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
-    border-radius: 6px 6px 0 0;
-    font-weight: 600;
-    background: rgba(0, 0, 0, 0.03);
-    font-size: 13px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.settings-tab.active {
-    border-bottom: 3px solid #3e92cc;
-    color: #3e92cc;
-    background: rgba(62, 146, 204, 0.1);
-}
-
-.settings-tab:hover:not(.active) {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .settings-tabs {
-        gap: 3px;
-    }
-    
-    .settings-tab {
-        padding: 5px 10px;
-        font-size: 12px;
-    }
-}    .settings-content {
-        padding: 15px;
-    }
-    
-    .settings-header {
-        margin: -15px -15px 20px -15px;
-        padding: 15px;
-    }
-}
-
-.close-settings {
-    font-size: 30px;
-    cursor: pointer;
-    color: #666;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    order: -1;
-}
-
-.close-settings:hover {
-    background: #f1f1f1;
-    transform: rotate(90deg);
-    color: #e74c3c;
-}        
+        /* 设置选项卡样式 */
         .settings-tabs {
             display: flex;
             margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
-            gap: 5px;
+            gap: 4px;
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
-        
+
         .settings-tab {
-            padding: 12px 25px;
+            padding: 6px 12px;
             cursor: pointer;
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
-            border-radius: 8px 8px 0 0;
+            border-radius: 6px 6px 0 0;
             font-weight: 600;
             background: rgba(0, 0, 0, 0.03);
+            font-size: 13px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
-        
+
         .settings-tab.active {
             border-bottom: 3px solid #3e92cc;
             color: #3e92cc;
             background: rgba(62, 146, 204, 0.1);
         }
-        
+
         .settings-tab:hover:not(.active) {
             background: rgba(0, 0, 0, 0.05);
         }
-        
-.settings-section {
-    display: none;
-    padding: 20px;
-    background: #fff;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    animation: fadeIn 0.5s ease;
-}
 
-
-.settings-section.active {
-    display: block !important;
-}
-        
-        .settings-section.active {
-            display: block;
+        /* 设置区域样式 */
+        .settings-section {
+            display: none;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             animation: fadeIn 0.5s ease;
         }
-        
+
+        .settings-section.active {
+            display: block !important;
+        }
+
         .settings-section h3 {
             margin-top: 0;
             color: #3e92cc;
@@ -611,18 +607,18 @@
             margin-bottom: 20px;
             font-size: 22px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
             color: #333;
         }
-        
+
         .form-group input[type="file"],
         .form-group input[type="range"],
         .form-group select {
@@ -634,7 +630,7 @@
             transition: all 0.3s ease;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .form-group input[type="file"]:focus,
         .form-group input[type="range"]:focus,
         .form-group select:focus {
@@ -642,18 +638,18 @@
             border-color: #3e92cc;
             box-shadow: 0 0 0 3px rgba(62, 146, 204, 0.2);
         }
-        
+
         .form-group input[type="range"] {
             padding: 0;
         }
-        
+
         .theme-options {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             margin-top: 10px;
         }
-        
+
         .theme-option {
             width: 70px;
             height: 70px;
@@ -663,30 +659,30 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-        
+
         .theme-option:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-        
+
         .theme-option.selected {
             border: 3px solid #3e92cc;
             box-shadow: 0 0 15px rgba(62, 146, 204, 0.7);
             transform: scale(1.1);
         }
-        
+
         .update-content {
             line-height: 1.7;
         }
-        
+
         .update-content h4 {
             margin-top: 20px;
             color: #3e92cc;
             padding-bottom: 5px;
             border-bottom: 1px dashed #ddd;
         }
-        
 
+        /* 下载项样式 */
         .download-item {
             display: flex;
             align-items: center;
@@ -699,13 +695,13 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
             animation: slideInRight 0.5s both;
         }
-        
+
         .download-item:hover {
             background-color: #f9f9f9;
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
         }
-        
+
         .download-icon {
             margin-right: 15px;
             color: #3e92cc;
@@ -714,23 +710,23 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .download-info {
             flex: 1;
         }
-        
+
         .download-name {
             font-weight: bold;
             margin-bottom: 5px;
             color: #333;
         }
-        
+
         .download-url {
             font-size: 12px;
             color: #666;
             word-break: break-all;
         }
-        
+
         .download-progress {
             width: 100%;
             height: 8px;
@@ -740,7 +736,7 @@
             overflow: hidden;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .download-progress-bar {
             height: 100%;
             background: linear-gradient(90deg, #3e92cc, #0a2463);
@@ -748,12 +744,12 @@
             transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 4px;
         }
-        
+
         .download-actions {
             display: flex;
             gap: 8px;
         }
-        
+
         .download-btn {
             padding: 8px 15px;
             border: none;
@@ -764,43 +760,24 @@
             font-weight: 600;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
-        
-        .download-btn.pause {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-        }
-        
-        .download-btn.resume {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            color: white;
-        }
-        
-        .download-btn.cancel {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-        }
-        
-        .download-btn.delete {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-            color: white;
-        }
-        
-        .download-btn.view {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-        }
-        
+
+        .download-btn.pause { background: linear-gradient(135deg, #f39c12, #e67e22); color: white; }
+        .download-btn.resume { background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; }
+        .download-btn.cancel { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+        .download-btn.delete { background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; }
+        .download-btn.view { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+
         .download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
-        
+
         .download-btn:active {
             transform: translateY(0);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
 
+        /* 地址栏样式 */
         .address-bar {
             position: fixed;
             bottom: 0;
@@ -815,18 +792,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             animation: slideInUp 0.6s 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
         }
-        
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
+
         .address-input {
             flex: 1;
             padding: 12px 20px;
@@ -838,12 +804,12 @@
             transition: all 0.3s ease;
             font-size: 15px;
         }
-        
+
         .address-input:focus {
             outline: none;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15), 0 0 0 3px rgba(62, 146, 204, 0.3);
         }
-        
+
         .address-btn {
             padding: 12px 25px;
             border: none;
@@ -857,19 +823,19 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        
+
         .address-btn:hover {
             background: linear-gradient(135deg, #0a2463, #3e92cc);
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
         }
-        
+
         .address-btn:active {
             transform: translateY(0);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
-        
 
+        /* 设置按钮样式 */
         .settings-btn {
             width: 50px;
             height: 50px;
@@ -885,20 +851,14 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: pulse 2s infinite;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
+
         .settings-btn:hover {
             transform: scale(1.1) rotate(90deg);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             animation: none;
         }
-        
 
+        /* 便签容器样式 */
         .sticky-notes-container {
             position: fixed;
             top: 120px;
@@ -909,7 +869,7 @@
             gap: 15px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
+
         .sticky-note {
             width: 375px;
             min-height: 200px;
@@ -924,30 +884,30 @@
             transform-origin: top right;
             position: relative;
         }
-        
+
         .sticky-note:hover {
             transform: translateY(-3px) rotate(1deg);
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
         }
-        
-.sticky-note-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    cursor: grab;
-    user-select: none; /* 防止文字被选中 */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
-}
 
-.sticky-note-header:active {
-    cursor: grabbing;
-}
-        
+        .sticky-note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .sticky-note-header:active {
+            cursor: grabbing;
+        }
+
         .sticky-note-title {
             font-weight: bold;
             color: #333;
@@ -957,18 +917,18 @@
             background: transparent;
             font-size: 14px;
         }
-        
+
         .sticky-note-title:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 4px;
         }
-        
+
         .sticky-note-toolbar {
             display: flex;
             gap: 5px;
         }
-        
+
         .sticky-note-btn {
             background: none;
             border: none;
@@ -979,12 +939,12 @@
             border-radius: 4px;
             transition: all 0.2s ease;
         }
-        
+
         .sticky-note-btn:hover {
             background: rgba(0, 0, 0, 0.1);
             color: #333;
         }
-        
+
         .sticky-note-content {
             flex: 1;
             padding: 10px;
@@ -997,13 +957,13 @@
             min-height: 120px;
             transition: all 0.3s ease;
         }
-        
+
         .sticky-note-content:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 6px;
         }
-        
+
         .sticky-note-footer {
             display: flex;
             justify-content: flex-end;
@@ -1011,7 +971,8 @@
             padding-top: 8px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
-        
+
+        /* 添加便签按钮样式 */
         .add-note-btn {
             position: fixed;
             bottom: 70px;
@@ -1031,13 +992,23 @@
             z-index: 997;
             animation: pulse 2s infinite;
         }
-        
+
         .add-note-btn:hover {
             transform: scale(1.1) rotate(90deg);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             animation: none;
         }
-        
+
+        /* 版本号样式 */
+        .version {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            z-index: 1000;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .sidebar {
@@ -1120,38 +1091,35 @@
             .sticky-note {
                 width: 220px;
             }
-        }
-        
-        /* 动画效果 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
+            
+            .settings-tabs {
+                gap: 3px;
             }
-            to {
-                opacity: 1;
-                transform: translateX(0);
+            
+            .settings-tab {
+                padding: 5px 10px;
+                font-size: 12px;
             }
-        }
-        
-        /* 版本号样式 */
-        .version {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-            z-index: 1000;
+
+            .category ul.grid-layout {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 15px;
+            }
+
+            .category ul.grid-layout li a {
+                padding: 12px 8px;
+                min-height: 80px;
+            }
+
+            .category ul.grid-layout li a i {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="title">Fanlink 标签页</div>
+    
     <div class="search-bar">
         <input type="text" id="search-input" placeholder="搜索...">
         <select id="engine-select">
@@ -1162,6 +1130,7 @@
         </select>
         <button onclick="performSearch()">搜索</button>
     </div>
+    
     <div class="sidebar" id="sidebar">
         <div class="close-btn" onclick="toggleSidebar()">&#10006;</div>
         <h2>分类</h2>
@@ -1175,161 +1144,173 @@
             <li><a href="#miscellaneous"><i class="fa fa-cogs"></i> 其他</a></li>
             <li><a href="#miscellaneous"><i class="fas fa-shield-alt"></i> 网络安全</a></li>
             <li><a href="javascript:void(0)" onclick="randomSite()"><i class="fas fa-random"></i> 漫游</a></li>
-    </ul>
-</div>
         </ul>
     </div>
+    
     <div class="content" id="content">
+        <!-- 社交分类 -->
         <div class="category" id="social">
             <h3><i class="fas fa-users"></i> 社交</h3>
-            <ul>
-                <li><a href="https://weixin.qq.com" target="_blank"><i class="fab fa-weixin"></i> 微信</a></li>
-                <li><a href="https://www.weibo.com" target="_blank"><i class="fab fa-weibo"></i> 微博</a></li>
-                <li><a href="https://www.qq.com" target="_blank"><i class="fab fa-qq"></i> QQ</a></li>
-                <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
-                <li><a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                <li><a href="https://www.reddit.com" target="_blank"><i class="fab fa-reddit"></i> Reddit</a></li>
-                <li><a href="https://www.zhihu.com" target="_blank"><i class="fab fa-quora"></i> 知乎</a></li>
-                <li><a href="https://www.douban.com" target="_blank"><i class="fas fa-book-open"></i> 豆瓣</a></li>
+            <ul class="list-layout">
+                <li><a href="https://weixin.qq.com" target="_blank"><i class="fab fa-weixin"></i> <span>微信</span></a></li>
+                <li><a href="https://www.weibo.com" target="_blank"><i class="fab fa-weibo"></i> <span>微博</span></a></li>
+                <li><a href="https://www.qq.com" target="_blank"><i class="fab fa-qq"></i> <span>QQ</span></a></li>
+                <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> <span>Instagram</span></a></li>
+                <li><a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a></li>
+                <li><a href="https://www.reddit.com" target="_blank"><i class="fab fa-reddit"></i> <span>Reddit</span></a></li>
+                <li><a href="https://www.zhihu.com" target="_blank"><i class="fab fa-quora"></i> <span>知乎</span></a></li>
+                <li><a href="https://www.douban.com" target="_blank"><i class="fas fa-book-open"></i> <span>豆瓣</span></a></li>
             </ul>
         </div>
+        
+        <!-- 新闻分类 -->
         <div class="category" id="news">
             <h3><i class="fas fa-newspaper"></i> 新闻</h3>
-            <ul>
-                <li><a href="https://news.qq.com" target="_blank"><i class="fas fa-newspaper"></i> 腾讯新闻</a></li>
-                <li><a href="https://news.sina.com.cn" target="_blank"><i class="fas fa-newspaper"></i> 新浪新闻</a></li>
-                <li><a href="https://www.thepaper.cn" target="_blank"><i class="fas fa-newspaper"></i> 澎湃新闻</a></li>
-                <li><a href="https://www.caixin.com" target="_blank"><i class="fas fa-newspaper"></i> 财新网</a></li>
-                <li><a href="https://www.redian.me/" target="_blank"><i class="fas fa-rss"></i> 热点头条</a></li>
+            <ul class="list-layout">
+                <li><a href="https://news.qq.com" target="_blank"><i class="fas fa-newspaper"></i> <span>腾讯新闻</span></a></li>
+                <li><a href="https://news.sina.com.cn" target="_blank"><i class="fas fa-newspaper"></i> <span>新浪新闻</span></a></li>
+                <li><a href="https://www.thepaper.cn" target="_blank"><i class="fas fa-newspaper"></i> <span>澎湃新闻</span></a></li>
+                <li><a href="https://www.caixin.com" target="_blank"><i class="fas fa-newspaper"></i> <span>财新网</span></a></li>
+                <li><a href="https://www.redian.me/" target="_blank"><i class="fas fa-rss"></i> <span>热点头条</span></a></li>
             </ul>
         </div>
+        
+        <!-- 工具分类 -->
         <div class="category" id="tools">
             <h3><i class="fas fa-wrench"></i> 工具</h3>
-            <ul>
-                <li><a href="https://www.bing.com" target="_blank"><i class="fas fa-search"></i> 必应搜索</a></li>
-                <li><a href="https://www.office.com" target="_blank"><i class="fas fa-file-word"></i> Office 365</a></li>
-                <li><a href="https://www.canva.com" target="_blank"><i class="fas fa-paint-brush"></i> Canva（设计工具）</a></li>
-                <li><a href="https://www.trello.com" target="_blank"><i class="fab fa-trello"></i> Trello（项目管理）</a></li>
-                <li><a href="https://www.grammarly.com" target="_blank"><i class="fas fa-spell-check"></i> Grammarly（语法检查）</a></li>
-                <li><a href="https://www.desmos.com" target="_blank"><i class="fas fa-calculator"></i> Desmos（图形计算器）</a></li>
-                <li><a href="https://www.colorhunt.co" target="_blank"><i class="fas fa-palette"></i> Color Hunt（配色工具）</a></li>
-                <li><a href="https://www.adobe.com" target="_blank"><i class="fab fa-adobe"></i> Adobe 全家桶</a></li>
-                <li><a href="https://www.figma.com" target="_blank"><i class="fab fa-figma"></i> Figma（设计协作）</a></li>
-                <li><a href="https://www.notion.so" target="_blank"><i class="fas fa-sticky-note"></i> Notion（笔记工具）</a></li>
-                <li><a href="https://www.zapier.com" target="_blank"><i class="fas fa-random"></i> Zapier（自动化工具）</a></li>
-                <li><a href="https://www.airtable.com" target="_blank"><i class="fas fa-table"></i> Airtable（数据库）</a></li>
-                <li><a href="https://www.remove.bg" target="_blank"><i class="fas fa-image"></i> Remove.bg（去背景）</a></li>
-                <li><a href="https://www.tinywow.com" target="_blank"><i class="fas fa-tools"></i> TinyWow（多功能工具）</a></li>
-                <li><a href="https://www.photopea.com" target="_blank"><i class="fas fa-photo-video"></i> Photopea（在线PS）</a></li>
-                <li><a href="https://www.screen.so" target="_blank"><i class="fas fa-desktop"></i> Screen（录屏工具）</a></li>
-                <li><a href="https://www.unscreen.com" target="_blank"><i class="fas fa-video-slash"></i> Unscreen（视频去背景）</a></li>
-
-                <li><a href="https://www.coolors.co" target="_blank"><i class="fas fa-palette"></i> Coolors（配色方案）</a></li>
-                <li><a href="https://www.similarweb.com" target="_blank"><i class="fas fa-chart-line"></i> SimilarWeb（网站分析）</a></li>
-                <li><a href="https://www.wappalyzer.com" target="_blank"><i class="fas fa-search-plus"></i> Wappalyzer（技术分析）</a></li>
-                <li><a href="https://www.excalidraw.com" target="_blank"><i class="fas fa-pencil-alt"></i> Excalidraw（手绘白板）</a></li>
-                <li><a href="https://www.squoosh.app" target="_blank"><i class="fas fa-compress-alt"></i> Squoosh（图片压缩）</a></li>
-                <li><a href="https://www.nbcharts.com/map/map.php" target="_blank"><i class="fas fa-map-marked-alt"></i> 地图图表生成器</a></li>
-
+            <ul class="list-layout">
+                <li><a href="https://www.bing.com" target="_blank"><i class="fas fa-search"></i> <span>必应搜索</span></a></li>
+                <li><a href="https://www.office.com" target="_blank"><i class="fas fa-file-word"></i> <span>Office 365</span></a></li>
+                <li><a href="https://www.canva.com" target="_blank"><i class="fas fa-paint-brush"></i> <span>Canva（设计工具）</span></a></li>
+                <li><a href="https://www.trello.com" target="_blank"><i class="fab fa-trello"></i> <span>Trello（项目管理）</span></a></li>
+                <li><a href="https://www.grammarly.com" target="_blank"><i class="fas fa-spell-check"></i> <span>Grammarly（语法检查）</span></a></li>
+                <li><a href="https://www.desmos.com" target="_blank"><i class="fas fa-calculator"></i> <span>Desmos（图形计算器）</span></a></li>
+                <li><a href="https://www.colorhunt.co" target="_blank"><i class="fas fa-palette"></i> <span>Color Hunt（配色工具）</span></a></li>
+                <li><a href="https://www.adobe.com" target="_blank"><i class="fab fa-adobe"></i> <span>Adobe 全家桶</span></a></li>
+                <li><a href="https://www.figma.com" target="_blank"><i class="fab fa-figma"></i> <span>Figma（设计协作）</span></a></li>
+                <li><a href="https://www.notion.so" target="_blank"><i class="fas fa-sticky-note"></i> <span>Notion（笔记工具）</span></a></li>
+                <li><a href="https://www.zapier.com" target="_blank"><i class="fas fa-random"></i> <span>Zapier（自动化工具）</span></a></li>
+                <li><a href="https://www.airtable.com" target="_blank"><i class="fas fa-table"></i> <span>Airtable（数据库）</span></a></li>
+                <li><a href="https://www.remove.bg" target="_blank"><i class="fas fa-image"></i> <span>Remove.bg（去背景）</span></a></li>
+                <li><a href="https://www.tinywow.com" target="_blank"><i class="fas fa-tools"></i> <span>TinyWow（多功能工具）</span></a></li>
+                <li><a href="https://www.photopea.com" target="_blank"><i class="fas fa-photo-video"></i> <span>Photopea（在线PS）</span></a></li>
+                <li><a href="https://www.screen.so" target="_blank"><i class="fas fa-desktop"></i> <span>Screen（录屏工具）</span></a></li>
+                <li><a href="https://www.unscreen.com" target="_blank"><i class="fas fa-video-slash"></i> <span>Unscreen（视频去背景）</span></a></li>
+                <li><a href="https://www.coolors.co" target="_blank"><i class="fas fa-palette"></i> <span>Coolors（配色方案）</span></a></li>
+                <li><a href="https://www.similarweb.com" target="_blank"><i class="fas fa-chart-line"></i> <span>SimilarWeb（网站分析）</span></a></li>
+                <li><a href="https://www.wappalyzer.com" target="_blank"><i class="fas fa-search-plus"></i> <span>Wappalyzer（技术分析）</span></a></li>
+                <li><a href="https://www.excalidraw.com" target="_blank"><i class="fas fa-pencil-alt"></i> <span>Excalidraw（手绘白板）</span></a></li>
+                <li><a href="https://www.squoosh.app" target="_blank"><i class="fas fa-compress-alt"></i> <span>Squoosh（图片压缩）</span></a></li>
+                <li><a href="https://www.nbcharts.com/map/map.php" target="_blank"><i class="fas fa-map-marked-alt"></i> <span>地图图表生成器</span></a></li>
             </ul>
         </div>
+        
+        <!-- 娱乐分类 -->
         <div class="category" id="entertainment">
             <h3><i class="fas fa-film"></i> 娱乐</h3>
-            <ul>
-                <li><a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i> YouTube</a></li>
-                <li><a href="https://www.bilibili.com" target="_blank"><i class="fas fa-play-circle"></i> B站</a></li>
-                <li><a href="https://www.douyin.com" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
-                <li><a href="https://www.netflix.com" target="_blank"><i class="fas fa-film"></i> Netflix</a></li>
-                <li><a href="https://www.spotify.com" target="_blank"><i class="fab fa-spotify"></i> Spotify</a></li>
-                <li><a href="https://music.163.com" target="_blank"><i class="fas fa-music"></i> 网易云音乐</a></li>
-                <li><a href="https://www.douyu.com" target="_blank"><i class="fas fa-video"></i> 斗鱼直播</a></li>
-                <li><a href="https://www.huya.com" target="_blank"><i class="fas fa-video"></i> 虎牙直播</a></li>
-                <li><a href="https://www.twitch.tv" target="_blank"><i class="fab fa-twitch"></i> Twitch</a></li>
-                <li><a href="https://www.disneyplus.com" target="_blank"><i class="fas fa-tv"></i> Disney+</a></li>
-                <li><a href="https://www.ixigua.com" target="_blank"><i class="fas fa-video"></i> 西瓜视频</a></li>
-                <li><a href="https://www.radio.garden" target="_blank"><i class="fas fa-globe-americas"></i> Radio Garden（全球电台）</a></li>
-                <li><a href="https://www.internetlivestats.com" target="_blank"><i class="fas fa-chart-pie"></i> 互联网实时统计</a></li>
-                <li><a href="https://www.staggeringbeauty.com" target="_blank"><i class="fas fa-headphones"></i> 音乐互动体验</a></li>
-                <li><a href="https://www.mapcrunch.com" target="_blank"><i class="fas fa-map-marked-alt"></i> 随机街景探索</a></li>
-                <li><a href="https://www.thisissand.com" target="_blank"><i class="fas fa-mountain"></i> 在线玩沙画</a></li>
-                <li><a href="https://www.silkky.net" target="_blank"><i class="fas fa-paint-brush"></i> Silk（互动艺术）</a></li>
-                <li><a href="https://www.zoomquilt.org" target="_blank"><i class="fas fa-expand"></i> 无限缩放画作</a></li>
-                <li><a href="https://www.meteorshowers.org" target="_blank"><i class="fas fa-meteor"></i> 实时流星雨观测</a></li>
-                <li><a href="https://www.radiooooo.com" target="_blank"><i class="fas fa-music"></i> 时空音乐之旅</a></li>
-                <li><a href="https://www.100000stars.xyz" target="_blank"><i class="fas fa-star"></i> 十万颗恒星探索</a></li>
-                <li><a href="https://www.patatap.com" target="_blank"><i class="fas fa-keyboard"></i> 键盘音乐创作</a></li>
-                <li><a href="https://www.weavesilk.com" target="_blank"><i class="fas fa-project-diagram"></i> 对称艺术创作</a></li>
-                <li><a href="https://www.supercook.com" target="_blank"><i class="fas fa-utensils"></i> 食材搭配推荐</a></li>
-                <li><a href="https://quickriddle.online/" target="_blank"><i class="fas fa-puzzle-piece"></i> QuickRiddle（game）</a></li>
+            <ul class="list-layout">
+                <li><a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i> <span>YouTube</span></a></li>
+                <li><a href="https://www.bilibili.com" target="_blank"><i class="fas fa-play-circle"></i> <span>B站</span></a></li>
+                <li><a href="https://www.douyin.com" target="_blank"><i class="fab fa-tiktok"></i> <span>抖音</span></a></li>
+                <li><a href="https://www.netflix.com" target="_blank"><i class="fas fa-film"></i> <span>Netflix</span></a></li>
+                <li><a href="https://www.spotify.com" target="_blank"><i class="fab fa-spotify"></i> <span>Spotify</span></a></li>
+                <li><a href="https://music.163.com" target="_blank"><i class="fas fa-music"></i> <span>网易云音乐</span></a></li>
+                <li><a href="https://www.douyu.com" target="_blank"><i class="fas fa-video"></i> <span>斗鱼直播</span></a></li>
+                <li><a href="https://www.huya.com" target="_blank"><i class="fas fa-video"></i> <span>虎牙直播</span></a></li>
+                <li><a href="https://www.twitch.tv" target="_blank"><i class="fab fa-twitch"></i> <span>Twitch</span></a></li>
+                <li><a href="https://www.disneyplus.com" target="_blank"><i class="fas fa-tv"></i> <span>Disney+</span></a></li>
+                <li><a href="https://www.ixigua.com" target="_blank"><i class="fas fa-video"></i> <span>西瓜视频</span></a></li>
+                <li><a href="https://www.radio.garden" target="_blank"><i class="fas fa-globe-americas"></i> <span>Radio Garden（全球电台）</span></a></li>
+                <li><a href="https://www.internetlivestats.com" target="_blank"><i class="fas fa-chart-pie"></i> <span>互联网实时统计</span></a></li>
+                <li><a href="https://www.staggeringbeauty.com" target="_blank"><i class="fas fa-headphones"></i> <span>音乐互动体验</span></a></li>
+                <li><a href="https://www.mapcrunch.com" target="_blank"><i class="fas fa-map-marked-alt"></i> <span>随机街景探索</span></a></li>
+                <li><a href="https://www.thisissand.com" target="_blank"><i class="fas fa-mountain"></i> <span>在线玩沙画</span></a></li>
+                <li><a href="https://www.silkky.net" target="_blank"><i class="fas fa-paint-brush"></i> <span>Silk（互动艺术）</span></a></li>
+                <li><a href="https://www.zoomquilt.org" target="_blank"><i class="fas fa-expand"></i> <span>无限缩放画作</span></a></li>
+                <li><a href="https://www.meteorshowers.org" target="_blank"><i class="fas fa-meteor"></i> <span>实时流星雨观测</span></a></li>
+                <li><a href="https://www.radiooooo.com" target="_blank"><i class="fas fa-music"></i> <span>时空音乐之旅</span></a></li>
+                <li><a href="https://www.100000stars.xyz" target="_blank"><i class="fas fa-star"></i> <span>十万颗恒星探索</span></a></li>
+                <li><a href="https://www.patatap.com" target="_blank"><i class="fas fa-keyboard"></i> <span>键盘音乐创作</span></a></li>
+                <li><a href="https://www.weavesilk.com" target="_blank"><i class="fas fa-project-diagram"></i> <span>对称艺术创作</span></a></li>
+                <li><a href="https://www.supercook.com" target="_blank"><i class="fas fa-utensils"></i> <span>食材搭配推荐</span></a></li>
+                <li><a href="https://quickriddle.online/" target="_blank"><i class="fas fa-puzzle-piece"></i> <span>QuickRiddle（game）</span></a></li>
             </ul>
         </div>
+        
+        <!-- 学习分类 -->
         <div class="category" id="learning">
             <h3><i class="fas fa-book"></i> 学习</h3>
-            <ul>
-                <li><a href="https://www.coursera.org" target="_blank"><i class="fas fa-graduation-cap"></i> Coursera</a></li>
-                <li><a href="https://www.edx.org" target="_blank"><i class="fas fa-university"></i> edX</a></li>
-                <li><a href="https://www.udemy.com" target="_blank"><i class="fas fa-laptop-code"></i> Udemy</a></li>
-                <li><a href="https://www.khanacademy.org" target="_blank"><i class="fas fa-chalkboard-teacher"></i> Khan Academy</a></li>
-                <li><a href="https://www.icourse163.org" target="_blank"><i class="fas fa-book"></i> 中国大学MOOC</a></li>
-                <li><a href="https://www.duolingo.com" target="_blank"><i class="fas fa-language"></i> Duolingo</a></li>
-                <li><a href="https://www.ted.com" target="_blank"><i class="fas fa-comment"></i> TED Talks</a></li>
-                <li><a href="https://www.zhihuishu.com" target="_blank"><i class="fas fa-book-reader"></i> 智慧树</a></li>
-                <li><a href="https://www.xuetangx.com" target="_blank"><i class="fas fa-school"></i> 学堂在线</a></li>
-                <li><a href="https://www.codecademy.com" target="_blank"><i class="fas fa-code"></i> Codecademy</a></li>
-                <li><a href="https://zh.forvo.com/" target="_blank"><i class="fas fa-language"></i> Forvo（发音查询）</a></li>
-                <li><a href="https://le.ouchn.cn/home" target="_blank"><i class="fas fa-graduation-cap"></i> 国家开放大学</a></li>
-                <li><a href="https://www.classcentral.com/" target="_blank"><i class="fas fa-university"></i> Class Central（课程搜索）</a></li>
-                <li><a href="https://www.examcoo.com/" target="_blank"><i class="fas fa-edit"></i> 考试酷（在线考试）</a></li>
-                <li><a href="https://phet.colorado.edu/zh_CN/" target="_blank"><i class="fas fa-flask"></i> PhET（互动模拟实验）</a></li>
-                <li><a href="https://www.xjlz365.com/" target="_blank"><i class="fas fa-book-reader"></i> 乡间郎中</a></li>
+            <ul class="list-layout">
+                <li><a href="https://www.coursera.org" target="_blank"><i class="fas fa-graduation-cap"></i> <span>Coursera</span></a></li>
+                <li><a href="https://www.edx.org" target="_blank"><i class="fas fa-university"></i> <span>edX</span></a></li>
+                <li><a href="https://www.udemy.com" target="_blank"><i class="fas fa-laptop-code"></i> <span>Udemy</span></a></li>
+                <li><a href="https://www.khanacademy.org" target="_blank"><i class="fas fa-chalkboard-teacher"></i> <span>Khan Academy</span></a></li>
+                <li><a href="https://www.icourse163.org" target="_blank"><i class="fas fa-book"></i> <span>中国大学MOOC</span></a></li>
+                <li><a href="https://www.duolingo.com" target="_blank"><i class="fas fa-language"></i> <span>Duolingo</span></a></li>
+                <li><a href="https://www.ted.com" target="_blank"><i class="fas fa-comment"></i> <span>TED Talks</span></a></li>
+                <li><a href="https://www.zhihuishu.com" target="_blank"><i class="fas fa-book-reader"></i> <span>智慧树</span></a></li>
+                <li><a href="https://www.xuetangx.com" target="_blank"><i class="fas fa-school"></i> <span>学堂在线</span></a></li>
+                <li><a href="https://www.codecademy.com" target="_blank"><i class="fas fa-code"></i> <span>Codecademy</span></a></li>
+                <li><a href="https://zh.forvo.com/" target="_blank"><i class="fas fa-language"></i> <span>Forvo（发音查询）</span></a></li>
+                <li><a href="https://le.ouchn.cn/home" target="_blank"><i class="fas fa-graduation-cap"></i> <span>国家开放大学</span></a></li>
+                <li><a href="https://www.classcentral.com/" target="_blank"><i class="fas fa-university"></i> <span>Class Central（课程搜索）</span></a></li>
+                <li><a href="https://www.examcoo.com/" target="_blank"><i class="fas fa-edit"></i> <span>考试酷（在线考试）</span></a></li>
+                <li><a href="https://phet.colorado.edu/zh_CN/" target="_blank"><i class="fas fa-flask"></i> <span>PhET（互动模拟实验）</span></a></li>
+                <li><a href="https://www.xjlz365.com/" target="_blank"><i class="fas fa-book-reader"></i> <span>乡间郎中</span></a></li>
             </ul>
         </div>
+        
+        <!-- 开发分类 -->
         <div class="category" id="development">
             <h3><i class="fas fa-code"></i> 开发</h3>
-            <ul>
-                <li><a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
-                <li><a href="https://gitlab.com" target="_blank"><i class="fab fa-gitlab"></i> GitLab</a></li>
-                <li><a href="https://stackoverflow.com" target="_blank"><i class="fab fa-stack-overflow"></i> Stack Overflow</a></li>
-                <li><a href="https://www.ray.so" target="_blank"><i class="fas fa-code"></i> Ray.so（代码美化）</a></li>
-                <li><a href="https://developer.mozilla.org" target="_blank"><i class="fab fa-firefox"></i> MDN Web Docs</a></li>
-                <li><a href="https://www.w3schools.com" target="_blank"><i class="fas fa-code"></i> W3Schools</a></li>
-                <li><a href="https://codepen.io" target="_blank"><i class="fab fa-codepen"></i> CodePen</a></li>
-                <li><a href="https://jsfiddle.net" target="_blank"><i class="fas fa-edit"></i> JSFiddle</a></li>
-                <li><a href="https://www.npmjs.com" target="_blank"><i class="fab fa-npm"></i> npm</a></li>
-                <li><a href="https://www.docker.com" target="_blank"><i class="fab fa-docker"></i> Docker</a></li>
-                <li><a href="https://www.postman.com" target="_blank"><i class="fas fa-server"></i> Postman</a></li>
-                <li><a href="https://www.runoob.com" target="_blank"><i class="fas fa-book"></i> 菜鸟教程</a></li>
-                <li><a href="https://segmentfault.com" target="_blank"><i class="fas fa-question-circle"></i> SegmentFault</a></li>
-               <li><a href="https://www.codeflying.net/#/index" target="_blank"><i class="fas fa-rocket"></i> 码上飞</a></li>
-               <li><a href="https://app.uiboy.com/" target="_blank"><i class="fas fa-palette"></i> UI Boy（UI设计工具）</a></li>
-               <li><a href="https://worldvectorlogo.com/zh/random-logos" target="_blank"><i class="fas fa-vector-square"></i> WorldVectorLogo（矢量Logo）</a></li>
-               <li><a href="https://www.boilertemplate.com" target="_blank"><i class="fas fa-file-code"></i> 代码模板生成器</a></li>
+            <ul class="list-layout">
+                <li><a href="https://github.com" target="_blank"><i class="fab fa-github"></i> <span>GitHub</span></a></li>
+                <li><a href="https://gitlab.com" target="_blank"><i class="fab fa-gitlab"></i> <span>GitLab</span></a></li>
+                <li><a href="https://stackoverflow.com" target="_blank"><i class="fab fa-stack-overflow"></i> <span>Stack Overflow</span></a></li>
+                <li><a href="https://www.ray.so" target="_blank"><i class="fas fa-code"></i> <span>Ray.so（代码美化）</span></a></li>
+                <li><a href="https://developer.mozilla.org" target="_blank"><i class="fab fa-firefox"></i> <span>MDN Web Docs</span></a></li>
+                <li><a href="https://www.w3schools.com" target="_blank"><i class="fas fa-code"></i> <span>W3Schools</span></a></li>
+                <li><a href="https://codepen.io" target="_blank"><i class="fab fa-codepen"></i> <span>CodePen</span></a></li>
+                <li><a href="https://jsfiddle.net" target="_blank"><i class="fas fa-edit"></i> <span>JSFiddle</span></a></li>
+                <li><a href="https://www.npmjs.com" target="_blank"><i class="fab fa-npm"></i> <span>npm</span></a></li>
+                <li><a href="https://www.docker.com" target="_blank"><i class="fab fa-docker"></i> <span>Docker</span></a></li>
+                <li><a href="https://www.postman.com" target="_blank"><i class="fas fa-server"></i> <span>Postman</span></a></li>
+                <li><a href="https://www.runoob.com" target="_blank"><i class="fas fa-book"></i> <span>菜鸟教程</span></a></li>
+                <li><a href="https://segmentfault.com" target="_blank"><i class="fas fa-question-circle"></i> <span>SegmentFault</span></a></li>
+                <li><a href="https://www.codeflying.net/#/index" target="_blank"><i class="fas fa-rocket"></i> <span>码上飞</span></a></li>
+                <li><a href="https://app.uiboy.com/" target="_blank"><i class="fas fa-palette"></i> <span>UI Boy（UI设计工具）</span></a></li>
+                <li><a href="https://worldvectorlogo.com/zh/random-logos" target="_blank"><i class="fas fa-vector-square"></i> <span>WorldVectorLogo（矢量Logo）</span></a></li>
+                <li><a href="https://www.boilertemplate.com" target="_blank"><i class="fas fa-file-code"></i> <span>代码模板生成器</span></a></li>
             </ul>
         </div>
+        
+        <!-- 其他分类 -->
         <div class="category" id="miscellaneous">
             <h3><i class="fas fa-cogs"></i> 其他</h3>
-            <ul>
-                <li><a href="https://www.amazon.com" target="_blank"><i class="fab fa-amazon"></i> 亚马逊</a></li>
-                <li><a href="https://www.taobao.com" target="_blank"><i class="fas fa-shopping-cart"></i> 淘宝</a></li>
-                <li><a href="https://www.jd.com" target="_blank"><i class="fas fa-box"></i> 京东</a></li>
-                <li><a href="https://www.pinduoduo.com" target="_blank"><i class="fas fa-store"></i> 拼多多</a></li>
-                <li><a href="https://www.meituan.com" target="_blank"><i class="fas fa-utensils"></i> 美团</a></li>
-                <li><a href="https://www.ele.me" target="_blank"><i class="fas fa-motorcycle"></i> 饿了么</a></li>
-                <li><a href="https://www.didiglobal.com" target="_blank"><i class="fas fa-car"></i> 滴滴出行</a></li>
-                <li><a href="https://www.airbnb.com" target="_blank"><i class="fas fa-home"></i> Airbnb</a></li>
-                <li><a href="https://www.trip.com" target="_blank"><i class="fas fa-plane"></i> 携程旅行</a></li>
-                <li><a href="https://www.booking.com" target="_blank"><i class="fas fa-hotel"></i> Booking</a></li>
+            <ul class="list-layout">
+                <li><a href="https://www.amazon.com" target="_blank"><i class="fab fa-amazon"></i> <span>亚马逊</span></a></li>
+                <li><a href="https://www.taobao.com" target="_blank"><i class="fas fa-shopping-cart"></i> <span>淘宝</span></a></li>
+                <li><a href="https://www.jd.com" target="_blank"><i class="fas fa-box"></i> <span>京东</span></a></li>
+                <li><a href="https://www.pinduoduo.com" target="_blank"><i class="fas fa-store"></i> <span>拼多多</span></a></li>
+                <li><a href="https://www.meituan.com" target="_blank"><i class="fas fa-utensils"></i> <span>美团</span></a></li>
+                <li><a href="https://www.ele.me" target="_blank"><i class="fas fa-motorcycle"></i> <span>饿了么</span></a></li>
+                <li><a href="https://www.didiglobal.com" target="_blank"><i class="fas fa-car"></i> <span>滴滴出行</span></a></li>
+                <li><a href="https://www.airbnb.com" target="_blank"><i class="fas fa-home"></i> <span>Airbnb</span></a></li>
+                <li><a href="https://www.trip.com" target="_blank"><i class="fas fa-plane"></i> <span>携程旅行</span></a></li>
+                <li><a href="https://www.booking.com" target="_blank"><i class="fas fa-hotel"></i> <span>Booking</span></a></li>
             </ul>
         </div>
+        
+        <!-- 网络安全分类 -->
         <div class="category" id="miscellaneous">
             <h3><i class="fas fa-shield-alt"></i> 网络安全</h3>
-            <ul>
-                <li><a href="https://www.12377.cn/" target="_blank"><i class="fas fa-shield-alt"></i> 中央网信办（国家互联网信息办公室）违法和不良信息举报中心</a></li>
+            <ul class="list-layout">
+                <li><a href="https://www.12377.cn/" target="_blank"><i class="fas fa-shield-alt"></i> <span>中央网信办举报中心</span></a></li>
             </ul>
         </div>
     </div>
     
-    <!-- 地址栏 - 常驻底部 -->
+    <!-- 地址栏 -->
     <div class="address-bar" id="addressBar">
         <input type="text" class="address-input" id="addressInput" placeholder="输入网址...">
         <button class="address-btn" onclick="navigateToAddress()">前往</button>
@@ -1364,6 +1345,22 @@
                 <div class="form-group">
                     <label for="bg-opacity">背景不透明度: <span id="opacity-value">70</span>%</label>
                     <input type="range" id="bg-opacity" min="10" max="100" value="70" oninput="updateOpacity(this.value)">
+                </div>
+                
+                <h3>布局设置</h3>
+                <div class="form-group">
+                    <label>网站布局</label>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button class="address-btn" onclick="setLayout('list')">列表布局</button>
+                        <button class="address-btn" onclick="setLayout('grid')">网格布局</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>侧边栏设置</label>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button class="address-btn" onclick="toggleSidebarPermanently()">隐藏/显示分类栏</button>
+                    </div>
                 </div>
                 
                 <h3>主题设置</h3>
@@ -1410,6 +1407,7 @@
                         <li>便签系统 - 新增完整的便签功能，支持文本格式编辑和拖拽移动</li>
                         <li>漫游功能 - 新增随机网站漫游功能，一键探索收录网站</li>
                         <li>网络安全分类 - 新增网络安全相关网站分类</li>
+                        <li>网格布局 - 新增网格布局模式，图标在上文字在下</li>
                     </ul>
                     
                     <h4>便签功能</h4>
@@ -1424,7 +1422,7 @@
                     <ul>
                         <li>便签移动慢的BUG被修复</li>
                     </ul>
-
+                    
                     <h4>🔗 新增网站收录 </h4>
                     <ul>
                         <h5>🌐 学习类</h5>
@@ -1444,25 +1442,25 @@
                           <li>     WorldVectorLogo - 矢量Logo资源库</li>
                           <li>     代码模板生成器 - 开发模板工具</li>
                         </ul>
-
+                        
                         <h5>🛠️ 工具类</h5>
                         <ul>
                           <li>     地图图表生成器 - 数据可视化工具</li>
                           <li>     QuickRiddle - 游戏</li>
                         </ul>
-
+                        
                         <h5>📰 新闻类：</h5>
                         <ul>
                         <li>热点头条 - 新闻聚合平台</li>
                         </ul>
-
+                        
                         <h5>🛡️ 网络安全：</h5>
                         <ul>
                         <li>     中央网信办举报中心 - 网络安全举报平台</li>
                         </ul>
-
+                        
                     </ul>
-
+                    
                     <h4>免责声明（不叠甲是不行的）</h4>
                     <ul>
                         <li>该作品纯属为爱发电，作者未收取任何网站的广告费</li>
@@ -1481,14 +1479,13 @@
                     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
                         <button class="address-btn" onclick="disableDeveloperMode()">关闭开发者模式</button>
                         <button class="address-btn" onclick="toggleWebsiteIcons()">显示/隐藏网站图标</button>
-                        <button class="address-btn" onclick="toggleSidebarPermanently()">隐藏/显示分类栏</button>
-                        <button class="address-btn" onclick="toggleQuickNavigation()">快捷导航关闭</button>
+                        <button class="address-btn" onclick="toggleQuickNavigation()">快捷导航打开/关闭</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- 便签容器 -->
     <div class="sticky-notes-container" id="sticky-notes-container"></div>
     
@@ -1496,59 +1493,60 @@
     <div class="add-note-btn" id="add-note-btn" style="display: none;">
         <i class="fas fa-plus"></i>
     </div>
-
+    
     <script>
-    // 主题设置功能 - 用户可在此修改主题颜色
-    // 可选主题: default, blue, green, red, purple, orange, teal, dark
-    // 修改下面的变量值并保存文件即可生效
-    const USER_THEME = 'green'; // 将 'default' 替换为您想要的主题名称
-    
-    // 开发者模式相关变量
-    let developerMode = localStorage.getItem('developerMode') === 'true';
-    let updateClickCount = 0;
-    let lastUpdateClickTime = 0;
-    let websiteIconsVisible = true;
-    let quickNavigationVisible = localStorage.getItem('quickNavigationVisible') !== 'false';
-    
-    // 随机漫游功能
-function randomSite() {
-    // 获取所有网站链接
-    const allLinks = document.querySelectorAll('.category ul li a');
-    const validLinks = [];
-    
-    // 过滤出有效的网站链接（排除分类锚点链接）
-    allLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && href.startsWith('http')) {
-            validLinks.push(link);
+        // 主题设置
+        const USER_THEME = 'green';
+        
+        // 开发者模式相关变量
+        let developerMode = localStorage.getItem('developerMode') === 'true';
+        let updateClickCount = 0;
+        let lastUpdateClickTime = 0;
+        let websiteIconsVisible = true;
+        let quickNavigationVisible = localStorage.getItem('quickNavigationVisible') !== 'false';
+        
+        // 便签功能变量
+        let notesEnabled = localStorage.getItem('notesEnabled') === 'true';
+        let stickyNotes = JSON.parse(localStorage.getItem('stickyNotes')) || [];
+        let noteColor = localStorage.getItem('noteColor') || '#fff8c9';
+        
+        // 布局设置变量
+        let currentLayout = localStorage.getItem('currentLayout') || 'list';
+        
+        // 随机漫游功能
+        function randomSite() {
+            const allLinks = document.querySelectorAll('.category ul li a');
+            const validLinks = [];
+            
+            allLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('http')) {
+                    validLinks.push(link);
+                }
+            });
+            
+            if (validLinks.length === 0) {
+                alert('没有找到可用的网站链接！');
+                return;
+            }
+            
+            const randomIndex = Math.floor(Math.random() * validLinks.length);
+            const randomLink = validLinks[randomIndex];
+            
+            window.open(randomLink.getAttribute('href'), '_blank');
+            
+            randomLink.style.animation = 'highlight 1s';
+            setTimeout(() => {
+                randomLink.style.animation = '';
+            }, 1000);
         }
-    });
-    
-    if (validLinks.length === 0) {
-        alert('没有找到可用的网站链接！');
-        return;
-    }
-    
-    // 随机选择一个链接
-    const randomIndex = Math.floor(Math.random() * validLinks.length);
-    const randomLink = validLinks[randomIndex];
-    
-    // 在新标签页中打开随机网站
-    window.open(randomLink.getAttribute('href'), '_blank');
-    
-    // 添加视觉反馈
-    randomLink.style.animation = 'highlight 1s';
-    setTimeout(() => {
-        randomLink.style.animation = '';
-    }, 1000);
-}
-        // 搜索功能 - 在新页面显示搜索结果
+        
+        // 搜索功能
         function performSearch() {
             const query = document.getElementById('search-input').value.trim();
             const engine = document.getElementById('engine-select').value;
             
             if (query === '') {
-                // 添加动画效果
                 const searchInput = document.getElementById('search-input');
                 searchInput.style.animation = 'shake 0.5s';
                 setTimeout(() => {
@@ -1557,10 +1555,7 @@ function randomSite() {
                 return;
             }
             
-            // 创建新窗口显示搜索结果
             const searchWindow = window.open('', '_blank');
-            
-            // 构建搜索结果页面HTML
             const searchResultsHTML = `
                 <!DOCTYPE html>
                 <html lang="zh-CN">
@@ -1662,7 +1657,6 @@ function randomSite() {
                 </html>
             `;
             
-            // 写入搜索结果页面
             searchWindow.document.open();
             searchWindow.document.write(searchResultsHTML);
             searchWindow.document.close();
@@ -1694,28 +1688,25 @@ function randomSite() {
             content.classList.toggle('active');
         }
         
-        // 彩蛋功能 - 连续点击7次关闭按钮
+        // 彩蛋功能
         let closeBtnClickCount = 0;
         let closeBtnClickTimer;
-
+        
         function checkEasterEgg() {
             closeBtnClickCount++;
             
             if (closeBtnClickCount === 7) {
-                // 打开彩蛋页面
                 window.open('jump.html', '_blank');
-                closeBtnClickCount = 0; // 重置计数器
+                closeBtnClickCount = 0;
                 alert('🎉 恭喜你发现了彩蛋！');
             }
             
-            // 设置计时器，5秒内没有再次点击就重置计数器
             clearTimeout(closeBtnClickTimer);
             closeBtnClickTimer = setTimeout(() => {
                 closeBtnClickCount = 0;
             }, 5000);
         }
-
-        // 为关闭按钮添加点击事件监听器
+        
         document.querySelector('.sidebar .close-btn').addEventListener('click', function() {
             checkEasterEgg();
         });
@@ -1730,13 +1721,11 @@ function randomSite() {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     e.preventDefault();
-                    // 添加滚动动画
                     targetElement.scrollIntoView({ 
                         behavior: 'smooth', 
                         block: 'start'
                     });
                     
-                    // 添加高亮效果
                     targetElement.style.animation = 'highlight 1.5s';
                     setTimeout(() => {
                         targetElement.style.animation = '';
@@ -1756,39 +1745,32 @@ function randomSite() {
         `;
         document.head.appendChild(style);
         
-// 设置面板功能 - 完整动画版本
-function toggleSettings() {
-    const settingsPanel = document.getElementById('settingsPanel');
-    const isActive = settingsPanel.classList.contains('active');
-    
-    if (isActive) {
-        // 关闭面板 - 先隐藏内容，再隐藏面板
-        const settingsContent = settingsPanel.querySelector('.settings-content');
-        settingsContent.style.transform = 'translateX(20px)';
-        settingsContent.style.opacity = '0';
-        
-        setTimeout(() => {
-            settingsPanel.classList.remove('active');
-        }, 300);
-    } else {
-        // 打开面板
-        settingsPanel.classList.add('active');
-        
-        // 延迟显示内容动画
-        setTimeout(() => {
-            const settingsContent = settingsPanel.querySelector('.settings-content');
-            settingsContent.style.transform = 'translateX(0)';
-            settingsContent.style.opacity = '1';
-        }, 50);
-        
-        // 显示设置面板时刷新下载列表
-        updateDownloadsList();
-    }
-}
+        // 设置面板功能
+        function toggleSettings() {
+            const settingsPanel = document.getElementById('settingsPanel');
+            const isActive = settingsPanel.classList.contains('active');
+            
+            if (isActive) {
+                const settingsContent = settingsPanel.querySelector('.settings-content');
+                settingsContent.style.transform = 'translateX(20px)';
+                settingsContent.style.opacity = '0';
+                
+                setTimeout(() => {
+                    settingsPanel.classList.remove('active');
+                }, 300);
+            } else {
+                settingsPanel.classList.add('active');
+                
+                setTimeout(() => {
+                    const settingsContent = settingsPanel.querySelector('.settings-content');
+                    settingsContent.style.transform = 'translateX(0)';
+                    settingsContent.style.opacity = '1';
+                }, 50);
+            }
+        }
         
         // 切换设置选项卡
         function switchTab(tabId) {
-            // 移除所有选项卡和内容的active类
             document.querySelectorAll('.settings-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -1796,16 +1778,9 @@ function toggleSettings() {
                 section.classList.remove('active');
             });
             
-            // 添加active类到选中的选项卡和内容
             document.querySelector(`.settings-tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
             document.getElementById(tabId).classList.add('active');
             
-            // 如果是下载选项卡，刷新下载列表
-            if (tabId === 'downloads') {
-                updateDownloadsList();
-            }
-            
-            // 如果是更新介绍选项卡，检查开发者模式激活
             if (tabId === 'updates') {
                 checkDeveloperModeActivation();
             }
@@ -1815,7 +1790,6 @@ function toggleSettings() {
         function checkDeveloperModeActivation() {
             const currentTime = new Date().getTime();
             
-            // 检查是否在2秒内连续点击
             if (currentTime - lastUpdateClickTime < 2000) {
                 updateClickCount++;
             } else {
@@ -1824,103 +1798,88 @@ function toggleSettings() {
             
             lastUpdateClickTime = currentTime;
             
-            // 如果连续点击5次，激活开发者模式
             if (updateClickCount >= 5 && !developerMode) {
                 activateDeveloperMode();
             }
         }
         
-// 激活开发者模式
-function activateDeveloperMode() {
-    developerMode = true;
-    localStorage.setItem('developerMode', 'true');
-    document.getElementById('dev-tab').style.display = 'block';
-    alert('开发者模式已激活！');
-    updateClickCount = 0;
-    
-    // 确保开发者选项卡正确显示
-    setTimeout(() => {
-        switchTab('developer');
-    }, 100);
-}
-
-// 关闭开发者模式
-function disableDeveloperMode() {
-    developerMode = false;
-    localStorage.setItem('developerMode', 'false');
-    document.getElementById('dev-tab').style.display = 'none';
-    switchTab('personalization');
-    alert('开发者模式已关闭');
-}
-
-// 显示/隐藏网站图标
-function toggleWebsiteIcons() {
-    websiteIconsVisible = !websiteIconsVisible;
-    localStorage.setItem('websiteIconsVisible', websiteIconsVisible.toString());
-    
-    const allIcons = document.querySelectorAll('.category ul li a i');
-    allIcons.forEach(icon => {
-        icon.style.display = websiteIconsVisible ? 'inline-block' : 'none';
-    });
-    
-    alert(websiteIconsVisible ? '网站图标已显示' : '网站图标已隐藏');
-}
-
-// 隐藏/显示分类栏
-function toggleSidebarPermanently() {
-    const sidebar = document.getElementById('sidebar');
-    const content = document.getElementById('content');
-    
-    if (sidebar.style.display === 'none') {
-        sidebar.style.display = 'block';
-        content.style.marginLeft = '150px';
-        localStorage.setItem('sidebarVisible', 'true');
-        alert('分类栏已显示');
-    } else {
-        sidebar.style.display = 'none';
-        content.style.marginLeft = '0';
-        localStorage.setItem('sidebarVisible', 'false');
-        alert('分类栏已隐藏');
-    }
-}
-
-// 切换快捷导航显示/隐藏
-function toggleQuickNavigation() {
-    quickNavigationVisible = !quickNavigationVisible;
-    localStorage.setItem('quickNavigationVisible', quickNavigationVisible.toString());
-    
-    const content = document.getElementById('content');
-    
-    if (quickNavigationVisible) {
-        // 显示所有分类和网站链接
-        content.style.display = 'block';
-        alert('快捷导航已显示');
-    } else {
-        // 隐藏所有分类和网站链接
-        content.style.display = 'none';
-        alert('快捷导航已隐藏');
-    }
-}
-
-// 关闭开发者模式
-function disableDeveloperMode() {
-    developerMode = false;
-    localStorage.setItem('developerMode', 'false');
-    document.getElementById('dev-tab').style.display = 'none';
-    switchTab('personalization');
-    alert('开发者模式已关闭');
-}
-
+        // 激活开发者模式
+        function activateDeveloperMode() {
+            developerMode = true;
+            localStorage.setItem('developerMode', 'true');
+            document.getElementById('dev-tab').style.display = 'block';
+            alert('开发者模式已激活！');
+            updateClickCount = 0;
+            
+            setTimeout(() => {
+                switchTab('developer');
+            }, 100);
+        }
+        
+        // 关闭开发者模式
+        function disableDeveloperMode() {
+            developerMode = false;
+            localStorage.setItem('developerMode', 'false');
+            document.getElementById('dev-tab').style.display = 'none';
+            switchTab('personalization');
+            alert('开发者模式已关闭');
+        }
+        
+        // 显示/隐藏网站图标
+        function toggleWebsiteIcons() {
+            websiteIconsVisible = !websiteIconsVisible;
+            localStorage.setItem('websiteIconsVisible', websiteIconsVisible.toString());
+            
+            const allIcons = document.querySelectorAll('.category ul li a i');
+            allIcons.forEach(icon => {
+                icon.style.display = websiteIconsVisible ? 'inline-block' : 'none';
+            });
+            
+            alert(websiteIconsVisible ? '网站图标已显示' : '网站图标已隐藏');
+        }
+        
+        // 隐藏/显示分类栏
+        function toggleSidebarPermanently() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            
+            if (sidebar.style.display === 'none') {
+                sidebar.style.display = 'block';
+                content.style.marginLeft = '150px';
+                localStorage.setItem('sidebarVisible', 'true');
+                alert('分类栏已显示');
+            } else {
+                sidebar.style.display = 'none';
+                content.style.marginLeft = '0';
+                localStorage.setItem('sidebarVisible', 'false');
+                alert('分类栏已隐藏');
+            }
+        }
+        
+        // 切换快捷导航显示/隐藏
+        function toggleQuickNavigation() {
+            quickNavigationVisible = !quickNavigationVisible;
+            localStorage.setItem('quickNavigationVisible', quickNavigationVisible.toString());
+            
+            const content = document.getElementById('content');
+            
+            if (quickNavigationVisible) {
+                content.style.display = 'block';
+                alert('快捷导航已显示');
+            } else {
+                content.style.display = 'none';
+                alert('快捷导航已隐藏');
+            }
+        }
+        
         // 设置背景图片
         function setBackgroundImage(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.body.style.backgroundImage = `url(${e.target.result})`;
-                    // 保存到本地存储
                     localStorage.setItem('customBackground', e.target.result);
                     
-                    // 添加过渡效果
                     document.body.style.transition = 'background-image 1s ease-in-out';
                     setTimeout(() => {
                         document.body.style.transition = '';
@@ -1935,21 +1894,17 @@ function disableDeveloperMode() {
             document.getElementById('opacity-value').textContent = value;
             document.body.style.backgroundColor = `rgba(244, 244, 249, ${1 - value/100})`;
             document.querySelector('.content').style.backgroundColor = `rgba(255, 255, 255, ${value/100})`;
-            // 保存到本地存储
             localStorage.setItem('bgOpacity', value);
         }
         
         // 设置主题
         function setTheme(theme) {
-            // 移除所有主题选项的selected类
             document.querySelectorAll('.theme-option').forEach(option => {
                 option.classList.remove('selected');
             });
             
-            // 添加selected类到选中的主题
             event.target.classList.add('selected');
             
-            // 根据主题更改样式
             let gradient;
             switch(theme) {
                 case 'blue':
@@ -1977,15 +1932,32 @@ function disableDeveloperMode() {
                     gradient = 'linear-gradient(90deg, #0a2463, #3e92cc)';
             }
             
-            // 应用主题
             document.querySelector('.title').style.background = gradient;
             document.querySelector('.search-bar').style.background = gradient;
             document.querySelector('.sidebar').style.background = gradient.replace('90deg', '180deg');
             
-            // 保存到本地存储
             localStorage.setItem('selectedTheme', theme);
         }
-                
+        
+        // 设置布局
+        function setLayout(layout) {
+            currentLayout = layout;
+            localStorage.setItem('currentLayout', layout);
+            
+            const categories = document.querySelectorAll('.category ul');
+            categories.forEach(category => {
+                if (layout === 'grid') {
+                    category.classList.remove('list-layout');
+                    category.classList.add('grid-layout');
+                } else {
+                    category.classList.remove('grid-layout');
+                    category.classList.add('list-layout');
+                }
+            });
+            
+            alert(layout === 'grid' ? '已切换到网格布局' : '已切换到列表布局');
+        }
+        
         // 地址栏功能
         function navigateToAddress() {
             const address = document.getElementById('addressInput').value.trim();
@@ -2008,7 +1980,6 @@ function disableDeveloperMode() {
         // 监听页面跳转
         document.addEventListener('click', function(e) {
             if (e.target.tagName === 'A' && e.target.getAttribute('target') === '_blank') {
-                // 更新地址栏
                 document.getElementById('addressInput').value = e.target.href;
                 e.preventDefault();
                 window.open(e.target.href, '_blank');
@@ -2016,9 +1987,6 @@ function disableDeveloperMode() {
         });
         
         // 便签功能
-        let notesEnabled = localStorage.getItem('notesEnabled') === 'true';
-        let stickyNotes = JSON.parse(localStorage.getItem('stickyNotes')) || [];
-        let noteColor = localStorage.getItem('noteColor') || '#fff8c9';
         
         // 启用便签功能
         function enableStickyNotes() {
@@ -2027,7 +1995,6 @@ function disableDeveloperMode() {
             document.getElementById('sticky-notes-container').style.display = 'flex';
             document.getElementById('add-note-btn').style.display = 'flex';
             
-            // 加载保存的便签
             loadStickyNotes();
         }
         
@@ -2038,7 +2005,6 @@ function disableDeveloperMode() {
             document.getElementById('sticky-notes-container').style.display = 'none';
             document.getElementById('add-note-btn').style.display = 'none';
             
-            // 清除所有便签
             document.getElementById('sticky-notes-container').innerHTML = '';
         }
         
@@ -2081,14 +2047,12 @@ function disableDeveloperMode() {
             
             document.getElementById('sticky-notes-container').appendChild(noteElement);
             
-            // 添加事件监听器
             const titleInput = noteElement.querySelector('.sticky-note-title');
             const contentDiv = noteElement.querySelector('.sticky-note-content');
             
             titleInput.addEventListener('input', () => saveNotes());
             contentDiv.addEventListener('input', () => saveNotes());
             
-            // 添加拖拽功能
             makeElementDraggable(noteElement);
         }
         
@@ -2143,93 +2107,91 @@ function disableDeveloperMode() {
             saveNotes();
         }
         
-// 使元素可拖拽（改进版）
-function makeElementDraggable(element) {
-    let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
-    let xOffset = 0;
-    let yOffset = 0;
-
-    element.querySelector('.sticky-note-header').addEventListener("mousedown", dragStart);
-    element.querySelector('.sticky-note-header').addEventListener("touchstart", dragStart, { passive: false });
-
-    function dragStart(e) {
-        e.preventDefault();
+        // 使元素可拖拽
+        function makeElementDraggable(element) {
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+            
+            element.querySelector('.sticky-note-header').addEventListener("mousedown", dragStart);
+            element.querySelector('.sticky-note-header').addEventListener("touchstart", dragStart, { passive: false });
+            
+            function dragStart(e) {
+                e.preventDefault();
+                
+                if (e.type === "touchstart") {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+                
+                if (e.target.classList.contains('sticky-note-btn') || 
+                    e.target.parentElement.classList.contains('sticky-note-btn') ||
+                    e.target.tagName === 'INPUT' || 
+                    e.target.tagName === 'TEXTAREA') {
+                    return;
+                }
+                
+                isDragging = true;
+                
+                document.addEventListener("mousemove", drag);
+                document.addEventListener("touchmove", drag, { passive: false });
+                document.addEventListener("mouseup", dragEnd);
+                document.addEventListener("touchend", dragEnd);
+                
+                element.style.cursor = "grabbing";
+                element.style.zIndex = "9999";
+                element.style.transition = "none";
+            }
+            
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+                
+                xOffset = currentX;
+                yOffset = currentY;
+                
+                setTranslate(currentX, currentY, element);
+            }
+            
+            function dragEnd() {
+                isDragging = false;
+                
+                document.removeEventListener("mousemove", drag);
+                document.removeEventListener("touchmove", drag);
+                document.removeEventListener("mouseup", dragEnd);
+                document.removeEventListener("touchend", dragEnd);
+                
+                element.style.cursor = "grab";
+                element.style.zIndex = "";
+                element.style.transition = "all 0.3s ease";
+                
+                saveNotePosition(element.dataset.id, element.style.left, element.style.top);
+            }
+            
+            function setTranslate(xPos, yPos, el) {
+                el.style.left = xPos + "px";
+                el.style.top = yPos + "px";
+            }
+            
+            element.querySelector('.sticky-note-header').style.cursor = "grab";
+        }
         
-        if (e.type === "touchstart") {
-            initialX = e.touches[0].clientX - xOffset;
-            initialY = e.touches[0].clientY - yOffset;
-        } else {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-        }
-
-        if (e.target.classList.contains('sticky-note-btn') || 
-            e.target.parentElement.classList.contains('sticky-note-btn') ||
-            e.target.tagName === 'INPUT' || 
-            e.target.tagName === 'TEXTAREA') {
-            return;
-        }
-
-        isDragging = true;
-
-        document.addEventListener("mousemove", drag);
-        document.addEventListener("touchmove", drag, { passive: false });
-        document.addEventListener("mouseup", dragEnd);
-        document.addEventListener("touchend", dragEnd);
-
-        // 添加拖动时的样式
-        element.style.cursor = "grabbing";
-        element.style.zIndex = "9999";
-        element.style.transition = "none"; // 移除过渡效果以便更流畅的拖动
-    }
-
-    function drag(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-
-        if (e.type === "touchmove") {
-            currentX = e.touches[0].clientX - initialX;
-            currentY = e.touches[0].clientY - initialY;
-        } else {
-            currentX = e.clientX - initialX;
-            currentY = e.clientY - initialY;
-        }
-
-        xOffset = currentX;
-        yOffset = currentY;
-
-        setTranslate(currentX, currentY, element);
-    }
-
-    function dragEnd() {
-        isDragging = false;
-        
-        document.removeEventListener("mousemove", drag);
-        document.removeEventListener("touchmove", drag);
-        document.removeEventListener("mouseup", dragEnd);
-        document.removeEventListener("touchend", dragEnd);
-
-        // 恢复样式
-        element.style.cursor = "grab";
-        element.style.zIndex = "";
-        element.style.transition = "all 0.3s ease";
-
-        // 保存位置
-        saveNotePosition(element.dataset.id, element.style.left, element.style.top);
-    }
-
-    function setTranslate(xPos, yPos, el) {
-        el.style.left = xPos + "px";
-        el.style.top = yPos + "px";
-    }
-
-    // 设置初始光标样式
-    element.querySelector('.sticky-note-header').style.cursor = "grab";
-}        // 保存便签位置
+        // 保存便签位置
         function saveNotePosition(id, left, top) {
             const noteIndex = stickyNotes.findIndex(note => note.id == id);
             if (noteIndex !== -1) {
@@ -2241,7 +2203,6 @@ function makeElementDraggable(element) {
         
         // 保存所有便签
         function saveNotes() {
-            // 更新所有便签内容
             document.querySelectorAll('.sticky-note').forEach(noteElement => {
                 const id = noteElement.dataset.id;
                 const title = noteElement.querySelector('.sticky-note-title').value;
@@ -2272,74 +2233,82 @@ function makeElementDraggable(element) {
             return "#" + (0x1000000 + (R << 16) + (G << 8) + B).toString(16).slice(1);
         }
         
-// 页面加载时恢复设置
-window.onload = function() {
-    // 恢复开发者模式
-    if (localStorage.getItem('developerMode') === 'true') {
-        developerMode = true;
-        document.getElementById('dev-tab').style.display = 'block';
-    }
-
-    // 恢复快捷导航显示状态
-    const savedQuickNavVisible = localStorage.getItem('quickNavigationVisible');
-    if (savedQuickNavVisible === 'false') {
-        quickNavigationVisible = false;
-        const content = document.getElementById('content');
-        content.style.display = 'none';
-    }
-    
-    // 恢复网站图标显示状态
-    const savedIconsVisible = localStorage.getItem('websiteIconsVisible');
-    if (savedIconsVisible === 'false') {
-        websiteIconsVisible = false;
-        const allIcons = document.querySelectorAll('.category ul li a i');
-        allIcons.forEach(icon => {
-            icon.style.display = 'none';
-        });
-    }
-    
-    // 恢复侧边栏显示状态
-    const savedSidebarVisible = localStorage.getItem('sidebarVisible');
-    if (savedSidebarVisible === 'false') {
-        const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('content');
-        sidebar.style.display = 'none';
-        content.style.marginLeft = '0';
-    }
-    
-    // 恢复背景图片
-    const savedBackground = localStorage.getItem('customBackground');
-    if (savedBackground) {
-        document.body.style.backgroundImage = `url(${savedBackground})`;
-    }
-    
-    // 恢复不透明度
-    const savedOpacity = localStorage.getItem('bgOpacity') || 70;
-    document.getElementById('bg-opacity').value = savedOpacity;
-    document.getElementById('opacity-value').textContent = savedOpacity;
-    updateOpacity(savedOpacity);
-    
-    // 恢复主题
-    const savedTheme = localStorage.getItem('selectedTheme') || 'default';
-    setTheme(savedTheme);
-    
-    // 添加分类区块动画
-    const categories = document.querySelectorAll('.category');
-    categories.forEach((category, index) => {
-        category.style.animationDelay = `${0.6 + index * 0.1}s`;
-    });
-    
-    // 恢复便签设置
-    if (localStorage.getItem('notesEnabled') === 'true') {
-        enableStickyNotes();
-    }
-    
-    // 恢复便签颜色
-    const savedNoteColor = localStorage.getItem('noteColor');
-    if (savedNoteColor) {
-        noteColor = savedNoteColor;
-        document.getElementById('note-color').value = savedNoteColor;
-    }
-};    </script>
+        // 页面加载时恢复设置
+        window.onload = function() {
+            // 恢复开发者模式
+            if (localStorage.getItem('developerMode') === 'true') {
+                developerMode = true;
+                document.getElementById('dev-tab').style.display = 'block';
+            }
+            
+            // 恢复快捷导航显示状态
+            const savedQuickNavVisible = localStorage.getItem('quickNavigationVisible');
+            if (savedQuickNavVisible === 'false') {
+                quickNavigationVisible = false;
+                const content = document.getElementById('content');
+                content.style.display = 'none';
+            }
+            
+            // 恢复网站图标显示状态
+            const savedIconsVisible = localStorage.getItem('websiteIconsVisible');
+            if (savedIconsVisible === 'false') {
+                websiteIconsVisible = false;
+                const allIcons = document.querySelectorAll('.category ul li a i');
+                allIcons.forEach(icon => {
+                    icon.style.display = 'none';
+                });
+            }
+            
+            // 恢复侧边栏显示状态
+            const savedSidebarVisible = localStorage.getItem('sidebarVisible');
+            if (savedSidebarVisible === 'false') {
+                const sidebar = document.getElementById('sidebar');
+                const content = document.getElementById('content');
+                sidebar.style.display = 'none';
+                content.style.marginLeft = '0';
+            }
+            
+            // 恢复布局设置
+            const savedLayout = localStorage.getItem('currentLayout');
+            if (savedLayout) {
+                currentLayout = savedLayout;
+                setLayout(savedLayout);
+            }
+            
+            // 恢复背景图片
+            const savedBackground = localStorage.getItem('customBackground');
+            if (savedBackground) {
+                document.body.style.backgroundImage = `url(${savedBackground})`;
+            }
+            
+            // 恢复不透明度
+            const savedOpacity = localStorage.getItem('bgOpacity') || 70;
+            document.getElementById('bg-opacity').value = savedOpacity;
+            document.getElementById('opacity-value').textContent = savedOpacity;
+            updateOpacity(savedOpacity);
+            
+            // 恢复主题
+            const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+            setTheme(savedTheme);
+            
+            // 添加分类区块动画
+            const categories = document.querySelectorAll('.category');
+            categories.forEach((category, index) => {
+                category.style.animationDelay = `${0.6 + index * 0.1}s`;
+            });
+            
+            // 恢复便签设置
+            if (localStorage.getItem('notesEnabled') === 'true') {
+                enableStickyNotes();
+            }
+            
+            // 恢复便签颜色
+            const savedNoteColor = localStorage.getItem('noteColor');
+            if (savedNoteColor) {
+                noteColor = savedNoteColor;
+                document.getElementById('note-color').value = savedNoteColor;
+            }
+        };
+    </script>
 </body>
 </html>
