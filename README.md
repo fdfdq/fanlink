@@ -1,4 +1,4 @@
-<    />
+<img src="a.png" alt="logo" width="300" height="300" />
 
 # Fanlink - 现代化浏览器起始页
 
