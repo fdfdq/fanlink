@@ -1,4 +1,5 @@
-<img src="a.png" alt="fanlink long" width="300" height="200" />
+<img src="a.png" alt="fanlink long" width="300" height="300" />
+
 # Fanlink - 现代化浏览器起始页
 
 Fanlink 是一个美观、高效、高度可定制的浏览器起始页，旨在为用户提供极致的上网体验和便捷的导航服务。
