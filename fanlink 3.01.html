@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<htmllang=“zh-CN”> 
-<头>
-    <metacharset=“UTF-8”> 
-    <metaname=“viewport”content=“width=device-width， initial-scale=1.0”>  
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fanlink 3.01 标签页</title>
-    <linkrel=“stylesheet”href=“https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css”>  
-    <风格>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
         /* 基础样式 */
-* {
-            盒子尺寸：边框盒;
-            优势：0;
-            缓冲：0;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        身体{ 
-            字体家族：'Segoe UI'，Tahoma，日内瓦，Verdana，衬线字体;
-            优势：0;
-            填充：0050px;  
-            背景：线性渐变（135度，#1a2a6c 度，#b21f1f 度，#1a2a6c）;
-            背景大小：400%400%; 
-            显示：flex;
-            灵活方向：列;
-            背景尺寸：封面;
-            背景-位置：中心;
-            背景-附件：固定;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0 0 50px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            background-size: 400% 400%;
+            display: flex;
+            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             transition: background-image 0.5s ease, background-position 0.5s ease;
             min-height: 100vh;
             animation: gradientBG 20s ease infinite;
@@ -34,31 +34,31 @@
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-            100%{背景位置：0%50%; }   
+            100% { background-position: 0% 50%; }
         }
 
-        @keyframesfadeInDown{  
-            from{opacity： 0; transform： translateY（-30px）; }  
-            to{不透明度： 1; 变换： translationY（0）; }  
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframesslideInDown{  
-            from{opacity： 0; transform： translateY（-20px）; }  
-            to{不透明度： 1; 变换： translationY（0）; }  
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframesslideInLeft{  
-            from{opacity： 0; transform： translateX（-100%）; }  
-            to{不透明度：1;变换：translateX（0）; }  
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        @keyframesfadeInLeft{  
-            from{opacity： 0; transform： translateX（-20px）; }  
-            to{不透明度：1;变换：translateX（0）; }  
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        @keyframesfadeInUp{  
-            from{不透明度： 0; 变换： translateY（30px）scale（0.95）; }   
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
