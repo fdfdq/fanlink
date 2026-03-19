@@ -9,40 +9,20 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Arial", "Microsoft YaHei", sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
+
         body {
-            line-height: 1.6;
-            color: #e0e0e0;
-            background-color: #1a1a1a;
-            padding: 0;
-            overflow-x: hidden;
+            background: #f8fafc;  /* 柔和背景 */
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 0 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
-        /* 页面加载动画 */
-        @keyframes pageLoad {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        .header-container, .bg-img-section, .works-section {
-            animation: pageLoad 0.8s ease-out forwards;
-            opacity: 0;
-        }
-        
-        .header-container {
-            animation-delay: 0.1s;
-        }
-        
-        .bg-img-section {
-            animation-delay: 0.2s;
-        }
-        
-        .works-section {
-            animation-delay: 0.3s;
-        }
-        
-        /* 浮动背景动画 */
+
+        /* 柔和浮动装饰 (极浅) */
         .floating-bg {
             position: fixed;
             top: 0;
@@ -51,843 +31,445 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
+            pointer-events: none;
         }
-        
         .floating-element {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, rgba(46, 204, 113, 0.05) 70%, transparent 100%);
-            animation: float 15s infinite linear;
-            opacity: 0.3;
+            background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.08), rgba(45, 212, 191, 0.02));
+            animation: float 18s infinite alternate ease-in-out;
         }
-        
-        .floating-element:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            left: 5%;
-            animation-duration: 25s;
-            animation-delay: 0s;
-        }
-        
-        .floating-element:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            top: 60%;
-            right: 10%;
-            animation-duration: 20s;
-            animation-delay: 5s;
-        }
-        
-        .floating-element:nth-child(3) {
-            width: 150px;
-            height: 150px;
-            bottom: 20%;
-            left: 15%;
-            animation-duration: 30s;
-            animation-delay: 10s;
-        }
-        
+        .floating-element:nth-child(1) { width: 320px; height: 320px; top: 5%; left: -50px; }
+        .floating-element:nth-child(2) { width: 240px; height: 240px; bottom: 10%; right: 0; animation-duration: 24s; }
+        .floating-element:nth-child(3) { width: 180px; height: 180px; top: 40%; left: 70%; animation-duration: 20s; }
+
         @keyframes float {
             0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(20px, 20px) rotate(90deg); }
-            50% { transform: translate(0, 40px) rotate(180deg); }
-            75% { transform: translate(-20px, 20px) rotate(270deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
+            100% { transform: translate(30px, -20px) rotate(12deg); }
         }
-        
+
+        /* 主容器 */
+        .header-container, .bg-img-section, .works-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ----- 头部 + 导航 (轻盈) ----- */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+            padding: 1.5rem 0.5rem 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
+
         .blog-name {
-            font-size: 28px;
-            font-weight: bold;
-            color: #ffffff;
-            position: relative;
-            padding-bottom: 5px;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #0f172a, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .blog-name::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-            transition: width 0.3s ease;
+            transition: opacity 0.2s;
+            padding: 0.2rem 0;
         }
         .blog-name:hover {
-            transform: translateY(-2px);
-            text-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            opacity: 0.75;
         }
-        .blog-name:hover::after {
-            width: 100%;
-        }
+
         .nav-container {
             display: flex;
-            gap: 15px;
+            gap: 0.5rem;
+            background: #ffffffcc;
+            backdrop-filter: blur(8px);
+            padding: 0.4rem;
+            border-radius: 48px;
+            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
         }
+
         .nav-btn {
-            padding: 12px 24px;
-            background: transparent;
-            color: #e0e0e0;
             border: none;
-            border-radius: 30px;
+            background: transparent;
+            padding: 0.6rem 1.6rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #334155;
             cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.2), transparent);
-            transition: left 0.5s;
+            transition: all 0.2s ease;
+            white-space: nowrap;
         }
         .nav-btn:hover {
-            color: #3498db;
-            background-color: rgba(52, 152, 219, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background: #e6f7f5;
+            color: #0d9488;
+            box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
         }
-        .nav-btn:hover::before {
-            left: 100%;
-        }
+
+        /* 横幅图片 —— 明亮简洁 */
         .bg-img-section {
-            width: 100%;
             height: 200px;
-            background-image: url("fanlink.png");
+            background-image: url('fanlink.png'); /* 保留原图，若不存在可用纯色占位 */
             background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-bottom: 40px;
-            border-radius: 0;
+            background-position: center 30%;
+            border-radius: 28px;
+            margin: 1.5rem auto 2rem;
+            box-shadow: 0 12px 24px -12px rgba(0, 150, 136, 0.2);
             position: relative;
-            animation: fadeInScale 1.2s ease-out;
+            background-color: #b2f0e5; /* 后备柔和色 */
+            border: 1px solid #ffffff50;
         }
+        /* 若图片加载失败，加一层微光 */
         .bg-img-section::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(26,26,26,0.3), rgba(26,26,26,0.7));
+            inset: 0;
+            border-radius: 28px;
+            background: linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+            pointer-events: none;
         }
+
+        /* ----- 作品区域 ----- */
         .works-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            animation: fadeInUp 1s ease-out 0.3s both;
+            padding: 0 0 3rem;
         }
+
         .works-title {
-            font-size: 22px;
-            color: #ffffff;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 2rem;
             position: relative;
+            display: inline-block;
         }
         .works-title::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: -10px;
             left: 0;
-            width: 50px;
-            height: 2px;
-            background: #2ecc71;
-            animation: expandWidth 1s ease-out 0.8s forwards;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #2dd4bf, #38bdf8);
+            border-radius: 4px;
         }
+
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        .product-card {
-            background-color: #2c2c2c;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out both;
-        }
-        .product-card:nth-child(1) { animation-delay: 0.4s; }
-        .product-card:nth-child(2) { animation-delay: 0.6s; }
-        .product-card:nth-child(3) { animation-delay: 0.8s; }
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
-        }
-        .product-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        /* Fanlink图标样式 */
-        .icon-fanlink {
-            width: 100px;
-            height: 100px;
-            background-image: url("a.png");
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            background-color: #383838;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-        
-        /* 为fanlink图标添加独特的蓝色光晕效果 */
-        .icon-fanlink::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 110px;
-            height: 110px;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            z-index: -1;
-        }
-        
-        .product-card:hover .icon-fanlink::after {
-            opacity: 0.5;
-            transform: translate(-50%, -50%) scale(1.2);
-        }
-        
-        .product-card:hover .icon-fanlink {
-            transform: scale(1.1) rotate(5deg);
-            animation: fanlinkPulse 2s infinite alternate;
-        }
-        
-        @keyframes fanlinkPulse {
-            0% { box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
-            100% { box-shadow: 0 0 20px rgba(52, 152, 219, 0.8); }
-        }
-        
-        /* faccount图标样式 */
-        .icon-faccount {
-            width: 100px;
-            height: 100px;
-            background-image: url("faccount.png");
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            background-color: #383838;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-        
-        /* 为faccount图标添加独特的绿色光晕效果 */
-        .icon-faccount::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 110px;
-            height: 110px;
-            background: radial-gradient(circle, rgba(46, 204, 113, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            z-index: -1;
-        }
-        
-        .product-card:hover .icon-faccount::after {
-            opacity: 0.5;
-            transform: translate(-50%, -50%) scale(1.2);
-        }
-        
-        .product-card:hover .icon-faccount {
-            transform: scale(1.1) rotate(-5deg);
-            animation: faccountFloat 3s infinite ease-in-out;
-        }
-        
-        @keyframes faccountFloat {
-            0% { transform: scale(1.1) rotate(-5deg) translateY(0); }
-            50% { transform: scale(1.1) rotate(-5deg) translateY(-5px); }
-            100% { transform: scale(1.1) rotate(-5deg) translateY(0); }
-        }
-        
-        .product-title {
-            font-size: 18px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-        .product-card:hover .product-title {
-            color: #3498db;
-        }
-        
-        .product-card:nth-child(2):hover .product-title {
-            color: #2ecc71;
-        }
-        
-        .product-desc {
-            font-size: 14px;
-            color: #b0b0b0;
-            margin-bottom: 25px;
-            flex: 1;
-            transition: color 0.3s ease;
-        }
-        .product-card:hover .product-desc {
-            color: #e0e0e0;
-        }
-        .view-btn {
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        .view-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-        .view-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-        .view-btn:hover::before {
-            left: 100%;
-        }
-        
-        /* 为faccount产品按钮设置独特的绿色 */
-        .product-card:nth-child(2) .view-btn {
-            background-color: #27ae60;
-        }
-        
-        .product-card:nth-child(2) .view-btn:hover {
-            background-color: #219653;
+            gap: 2rem;
         }
 
-        /* 侧边栏通用样式 */
+        /* 卡片 —— 轻盈毛玻璃 */
+        .product-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 32px;
+            padding: 2rem 1.5rem 1.8rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0,0,0,0.02);
+            transition: transform 0.25s ease, box-shadow 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 40px -16px rgba(45, 212, 191, 0.25);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 图标容器 —— 统一柔和 */
+        .icon-fanlink, .icon-faccount {
+            width: 88px;
+            height: 88px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 1.5rem;
+            border-radius: 24px;
+            background-color: #ffffff;
+            box-shadow: 0 12px 16px -12px #94a3b8;
+            transition: all 0.3s;
+        }
+
+        .icon-fanlink {
+            background-image: url('fanlink.png'); /* 保留原名，若缺失显示色块 */
+            background-color: #e0f2fe;
+        }
+        .icon-faccount {
+            background-image: url('faccount.png');
+            background-color: #d1fae5;
+        }
+
+        .product-card:hover .icon-fanlink {
+            box-shadow: 0 0 0 8px rgba(56, 189, 248, 0.15);
+            transform: scale(1.02);
+        }
+        .product-card:hover .icon-faccount {
+            box-shadow: 0 0 0 8px rgba(45, 212, 191, 0.15);
+            transform: scale(1.02);
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+
+        .product-desc {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-bottom: 2rem;
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .view-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            font-size: 0.95rem;
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffffd9;
+            backdrop-filter: blur(4px);
+        }
+
+        .product-card:nth-child(1) .view-btn { color: #0284c7; }
+        .product-card:nth-child(2) .view-btn { color: #0d9488; }
+
+        .view-btn:hover {
+            background: #f0fdfa;
+            border-color: #2dd4bf;
+            box-shadow: 0 8px 16px -12px #14b8a6;
+            transform: scale(0.98);
+        }
+
+        /* ----- 侧边栏 (清爽毛玻璃) ----- */
         .sidebar-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            animation: overlayFadeIn 0.3s ease;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.02);
+            backdrop-filter: blur(2px);
+            z-index: 998;
         }
 
         .sidebar-menu {
             position: fixed;
             top: 0;
-            width: 60vw;
-            height: 100%;
-            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-            z-index: 1000;
-            padding: 20px;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 360px;
+            max-width: 80vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.02);
+            z-index: 999;
+            padding: 2rem 1.5rem;
             overflow-y: auto;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
-
-        /* 产品侧边栏 - 左侧滑入 */
-        .products-sidebar {
-            left: 0;
-            transform: translateX(-100%);
-        }
-
-        .products-sidebar.active {
-            transform: translateX(0);
-        }
-
-        /* 下载侧边栏 - 右侧滑入 */
-        .download-sidebar {
-            right: 0;
-            transform: translateX(100%);
-        }
-
-        .download-sidebar.active {
-            transform: translateX(0);
-        }
-
-        /* faccount下载侧边栏 - 右侧滑入 */
-        .faccount-download-sidebar {
-            right: 0;
-            transform: translateX(100%);
-        }
-
-        .faccount-download-sidebar.active {
-            transform: translateX(0);
-        }
+        .products-sidebar { left: 0; transform: translateX(-100%); }
+        .download-sidebar, .faccount-download-sidebar { right: 0; transform: translateX(100%); border-right: none; border-left: 1px solid rgba(255,255,255,0.6); }
+        .sidebar-menu.active { transform: translateX(0); }
 
         .sidebar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #3498db;
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
         }
-
-        .faccount-download-sidebar .sidebar-header {
-            border-bottom: 2px solid #27ae60;
-        }
-
         .sidebar-title {
-            font-size: 22px;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        .close-sidebar {
-            background: none;
-            border: none;
-            color: #e0e0e0;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .close-sidebar:hover {
-            color: #e74c3c;
-            background-color: rgba(231, 76, 60, 0.1);
-            transform: rotate(90deg);
-        }
-
-        /* 产品侧边栏项目样式 */
-        .sidebar-item {
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #383838 0%, #2c2c2c 100%);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-left: 4px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .sidebar-item:hover {
-            background: linear-gradient(135deg, #404040 0%, #303030 100%);
-            border-left: 4px solid #3498db;
-            transform: translateX(8px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .sidebar-item-title {
-            font-size: 16px;
-            color: #ffffff;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 5px;
+            color: #0f172a;
+        }
+        .close-sidebar {
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            line-height: 1;
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.2s;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 40px;
+        }
+        .close-sidebar:hover {
+            color: #0f172a;
+            background: #f1f5f9;
         }
 
-        .sidebar-item-desc {
-            font-size: 12px;
-            color: #b0b0b0;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease 0.1s;
-            height: 0;
+        /* 侧边栏项目 */
+        .sidebar-item {
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.5rem;
+            background: #ffffffb3;
+            border-radius: 20px;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-
-        .sidebar-item:hover .sidebar-item-desc {
-            opacity: 1;
-            transform: translateY(0);
-            height: auto;
+        .sidebar-item:hover {
+            background: white;
+            border-color: #2dd4bf;
+            transform: translateX(6px);
         }
+        .sidebar-item-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.2rem; }
+        .sidebar-item-desc { font-size: 0.85rem; color: #475569; }
 
-        /* 下载侧边栏内容样式 */
         .version-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, #383838 0%, #2c2c2c 100%);
-            border-radius: 8px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-left: 4px solid transparent;
+            background: #ffffffb3;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #f1f5f9;
         }
-
-        .version-section:hover {
-            background: linear-gradient(135deg, #404040 0%, #303030 100%);
-            border-left: 4px solid #3498db;
-            transform: translateX(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .faccount-download-sidebar .version-section:hover {
-            border-left: 4px solid #27ae60;
-        }
-
         .version-title {
-            color: #ffffff;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-top: 0;
-            font-size: 18px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #0f172a;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 0.4rem;
         }
-
-        .faccount-download-sidebar .version-title {
-            border-bottom: 2px solid #27ae60;
-        }
-
+        .download-info { font-size: 0.9rem; margin: 0.5rem 0; color: #334155; font-weight: 500; }
         .download-link {
-            display: block;
-            margin: 10px 0;
-            color: #3498db;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-left: 20px;
+            display: inline-block;
             word-break: break-all;
+            color: #0891b2;
+            text-decoration: none;
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed #bae6fd;
         }
+        .download-link:hover { color: #0d9488; border-bottom-color: #2dd4bf; }
+        .password { font-size: 0.85rem; background: #e6f7f5; display: inline-block; padding: 0.2rem 1rem; border-radius: 20px; margin: 0.5rem 0; color: #115e59; }
+        .note { color: #b45309; background: #fffbeb; padding: 0.4rem 1rem; border-radius: 30px; font-size: 0.8rem; }
 
-        .faccount-download-sidebar .download-link {
-            color: #27ae60;
-        }
-
-        .download-link::before {
-            content: '↓';
-            position: absolute;
-            left: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .download-link:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
-
-        .faccount-download-sidebar .download-link:hover {
-            color: #219653;
-        }
-
-        .download-link:hover::before {
-            transform: translateY(2px);
-        }
-
-        .note {
-            color: #e74c3c;
-            font-weight: bold;
-            font-size: 12px;
-            margin-top: 8px;
-        }
-
-        .password {
-            color: #27ae60;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .download-info {
-            font-size: 13px;
-            color: #b0b0b0;
-            margin: 5px 0;
-        }
-
-        @keyframes overlayFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* 模态窗口样式 */
+        /* ----- 模态框 (轻盈) ----- */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.02);
+            backdrop-filter: blur(6px);
             align-items: center;
             justify-content: center;
-            animation: modalFadeIn 0.3s ease;
-        }
-        @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            z-index: 1001;
+            padding: 1rem;
         }
         .modal-content {
-            background-color: #2c2c2c;
-            padding: 30px;
-            border-radius: 8px;
-            max-width: 800px;
-            width: 90%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            max-width: 550px;
+            width: 100%;
+            padding: 2rem 2rem 2.2rem;
+            box-shadow: 0 30px 60px -30px rgba(0,150,136,0.3);
+            border: 1px solid #ffffff;
             position: relative;
-            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        @keyframes modalSlideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 24px;
+            top: 1.2rem; right: 1.5rem;
+            font-size: 2rem;
             cursor: pointer;
-            color: #cccccc;
-            transition: all 0.3s ease;
+            color: #94a3b8;
+            transition: color 0.2s;
+            line-height: 1;
         }
-        .close-modal:hover {
-            color: #e74c3c;
-            transform: scale(1.1);
-        }
+        .close-modal:hover { color: #0f172a; }
         .modal-title {
-            font-size: 20px;
-            color: #ffffff;
-            margin-bottom: 15px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        .modal-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-        }
-        #productDetailModal .modal-content {
-            max-width: 600px;
-        }
-        .detail-content {
-            line-height: 1.8;
-            color: #b0b0b0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-right: 2rem;
+            color: #0f172a;
         }
 
-        /* 确保按钮可以点击 */
-        .nav-btn {
-            pointer-events: auto !important;
-            z-index: 10;
-        }
-
-        /* 确保没有其他元素覆盖按钮 */
-        .header-container {
-            position: relative;
-            z-index: 100;
-        }
-
-        /* 新增动画效果 */
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(1.05); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes expandWidth {
-            from { width: 0; }
-            to { width: 50px; }
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
-        }
-
-        /* 联系信息模态框样式 */
         .contact-links {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 1rem;
         }
-        
         .contact-link {
             display: flex;
             align-items: center;
-            padding: 15px;
-            background: linear-gradient(135deg, #383838 0%, #2c2c2c 100%);
-            border-radius: 8px;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: #ffffffb3;
+            border-radius: 100px;
             text-decoration: none;
-            color: #e0e0e0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-left: 4px solid transparent;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
         }
-        
         .contact-link:hover {
+            background: white;
+            border-color: #2dd4bf;
             transform: translateX(8px);
-            border-left: 4px solid #3498db;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            color: #3498db;
         }
-        
-        .contact-icon {
-            margin-right: 15px;
-            font-size: 24px;
-        }
-        
-        .contact-text {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .contact-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .contact-url {
-            font-size: 12px;
-            color: #b0b0b0;
-        }
+        .contact-icon { font-size: 1.6rem; }
 
         /* 滚动指示器 */
         .scroll-indicator {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(52, 152, 219, 0.8);
-            border-radius: 50%;
+            bottom: 30px; right: 30px;
+            width: 48px; height: 48px;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.4s ease;
+            transition: 0.2s;
             z-index: 100;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-size: 1.6rem;
+            color: #64748b;
         }
-        
-        .scroll-indicator.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .scroll-indicator:hover {
-            background: rgba(41, 128, 185, 0.9);
-            transform: translateY(-5px);
-        }
-        
-        .scroll-indicator::after {
-            content: '↑';
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
+        .scroll-indicator.active { opacity: 1; visibility: visible; }
+        .scroll-indicator:hover { background: #f0fdfa; color: #0d9488; }
 
-        /* faccount专属弹窗样式 */
-        .faccount-modal .modal-title::after {
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-        }
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-    .blog-name {
-        margin-right: 0;
-    }
-    .nav-container {
-        width: 100%;
-        justify-content: center;
-    }
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-    .modal-content {
-        padding: 20px;
-        width: 95%;
-    }
-    .sidebar-menu {
-        width: 90vw;
-        max-width: none;
-    }
-    .products-sidebar {
-        transform: translateX(-100%);
-    }
-    .download-sidebar, .faccount-download-sidebar {
-        transform: translateX(100%);
-    }
-}
+        /* 其他微调 */
+        ul { list-style-type: disc; padding-left: 1.5rem; color: #334155; }
+        li { margin: 0.5rem 0; }
+        a { text-decoration: none; }
+        .faccount-modal .modal-title { color: #0d9488; }
     </style>
 </head>
 <body>
-    <!-- 浮动背景元素 -->
     <div class="floating-bg">
         <div class="floating-element"></div>
         <div class="floating-element"></div>
         <div class="floating-element"></div>
     </div>
-    
-    <!-- 滚动到顶部按钮 -->
-    <div class="scroll-indicator" id="scrollToTop"></div>
-    
+    <div class="scroll-indicator" id="scrollToTop">↑</div>
+
+    <!-- 头部 -->
     <div class="header-container">
         <div class="blog-name" id="blogName">fdfdq</div>
         <div class="nav-container">
@@ -897,420 +479,159 @@
         </div>
     </div>
 
-    <!-- 产品侧边栏 -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <div class="sidebar-menu products-sidebar" id="productsSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-title">全部产品</div>
-            <button class="close-sidebar" id="closeProductsSidebar">&times;</button>
-        </div>
-        <div class="sidebar-item" onclick="showProductDetail('浏览器主页：fanlink')">
-            <div class="sidebar-item-title">fanlink</div>
-            <div class="sidebar-item-desc">浏览器主页替代工具，支持自定义导航和多设备适配</div>
-        </div>
-        <div class="sidebar-item" onclick="showFaccountModal()">
-            <div class="sidebar-item-title">faccount</div>
-            <div class="sidebar-item-desc">智能记账本应用，帮助您轻松管理个人财务</div>
-        </div>
-        <div class="sidebar-item" onclick="showProductDetail('作品3：敬请期待')">
-            <div class="sidebar-item-title">产品三</div>
-            <div class="sidebar-item-desc">聚焦高效办公场景的轻量化工具</div>
-        </div>
-    </div>
+    <!-- 背景图 -->
+    <div class="bg-img-section" title="fanlink背景"></div>
 
-    <!-- fanlink下载侧边栏 -->
-    <div class="sidebar-menu download-sidebar" id="downloadSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-title">fanlink 下载</div>
-            <button class="close-sidebar" id="closeDownloadSidebar">&times;</button>
-        </div>
-        
-        <div class="version-section">
-            <h2 class="version-title">2.18 版本</h2>
-            <p class="download-info"><strong>本地版下载：</strong></p>
-            <a href="https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw?pwd=1234" target="_blank" class="download-link">百度网盘：https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw</a>
-            <p class="password">提取码：1234</p>
-            <p class="note">注意：此版本网页版已停止支持，建议升级到3.01版</p>
-            <p class="note">原本的网页已迁移至此页面</p>
-        </div>
-        
-        <div class="version-section">
-            <h2 class="version-title">2.19 版本</h2>
-            <p class="download-info"><strong>本地版下载：</strong></p>
-            <a href="https://wwzx.lanzouu.com/iud4M36pn3pg" target="_blank" class="download-link">蓝奏云：https://wwzx.lanzouu.com/iud4M36pn3pg</a>
-            <p class="download-info"><strong>网页版访问：</strong></p>
-            <a href="https://fdfdq.github.io/fanlink-2.19/fanlink.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink-2.19/fanlink.html</a>
-        </div>
-        
-        <div class="version-section">
-            <h2 class="version-title">3.00 版本</h2>
-            <p class="download-info"><strong>本地版下载：</strong></p>
-            <a href="https://wwnz.lanzouu.com/ic5n2385yvqd" target="_blank" class="download-link">蓝奏云：https://wwnz.lanzouu.com/ic5n2385yvqd</a>
-            <p class="password">密码：h3tk</p>
-            <p class="download-info"><strong>网页版访问：</strong></p>
-            <a href="https://fdfdq.github.io/fanlink/fanlink%203.00.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink%203.00.html</a>
-        </div>
-        
-        <div class="version-section">
-            <h2 class="version-title">3.01 版本</h2>
-            <p class="download-info"><strong>本地版下载：</strong></p>
-            <a href="https://wwnz.lanzouu.com/ic5n2385yvqd" target="_blank" class="download-link">蓝奏云：https://wwnz.lanzouu.com/ic5n2385yvqd</a>
-            <p class="password">密码：h3tk</p>
-            <p class="download-info"><strong>网页版访问：</strong></p>
-            <a href="https://fdfdq.github.io/fanlink/fanlink%203.01.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink%203.01.html</a>
-        </div>
-    </div>
-
-    <!-- faccount下载侧边栏 -->
-    <div class="sidebar-menu faccount-download-sidebar" id="faccountDownloadSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-title">faccount 下载</div>
-            <button class="close-sidebar" id="closeFaccountDownloadSidebar">&times;</button>
-        </div>
-        
-        <div class="version-section">
-            <h2 class="version-title">当前版本</h2>
-            <p class="download-info"><strong>本地版下载：</strong></p>
-            <a href="https://wwang.lanzouv.com/iqgxE3edpmgj" target="_blank" class="download-link">蓝奏云：https://wwang.lanzouv.com/iqgxE3edpmgj</a>
-            <p class="password">密码：1234</p>
-            </ul>
-        </div>
-        
-        <div class="version-section">
-            <h2 class="version-title">26w01a</h2>
-            <p class="download-info"><strong>本地版下载：</strong></p>
-            <a href="https://wwang.lanzouv.com/iWDrN3f6g2oh" target="_blank" class="download-link">蓝奏云：https://wwang.lanzouv.com/iWDrN3f6g2oh</a>
-            <p class="password">密码：1234</p>
-            </ul>
-        </div>
-        
-    </div>
-
-    <div class="bg-img-section"></div>
-
+    <!-- 作品区 -->
     <div class="works-section">
         <h3 class="works-title">我的作品</h3>
         <div class="product-grid">
             <div class="product-card">
                 <div class="icon-fanlink"></div>
-                <div class="product-title">浏览器主页：fanlink</div>
-                <div class="product-desc">替代默认浏览器主页，支持自定义导航、多设备适配，加载速度优化。</div>
-                <button class="view-btn" onclick="showFanlinkModal()">查看详情（fanlink专属）</button>
+                <div class="product-title">浏览器主页 · fanlink</div>
+                <div class="product-desc">自定义导航 · 多设备适配 · 轻量极速。替代默认主页，支持书签同步。</div>
+                <button class="view-btn" onclick="showFanlinkModal()">查看详情</button>
             </div>
             <div class="product-card">
                 <div class="icon-faccount"></div>
-                <div class="product-title">faccount：智能记账本</div>
-                <div class="product-desc">轻松记录收支，智能分类统计，助您高效管理个人财务，培养良好理财习惯。</div>
+                <div class="product-title">faccount · 智能记账本</div>
+                <div class="product-desc">无广告、丝滑动画、体积小巧。轻松记录收支，培养理财习惯。</div>
                 <button class="view-btn" onclick="showFaccountModal()">查看详情</button>
             </div>
             <div class="product-card">
-                <div class="icon-fanlink"></div>
-                <div class="product-title">作品3：敬请期待</div>
-                <div class="product-desc">聚焦高效办公场景，后续将推出轻量化、易操作的相关工具。</div>
-                <button class="view-btn" onclick="showProductDetail('作品3：敬请期待')">查看详情</button>
+                <div class="icon-fanlink" style="background-color:#f1f5f9;"></div>
+                <div class="product-title">作品三 · 敬请期待</div>
+                <div class="product-desc">聚焦高效办公场景，轻量化工具，后续逐步公开。</div>
+                <button class="view-btn" onclick="showProductDetail('作品三 · 敬请期待')">查看详情</button>
             </div>
         </div>
     </div>
 
-    <!-- 联系信息弹窗 -->
-    <div class="modal" id="contactModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
-            <h3 class="modal-title">联系我</h3>
-            <div class="contact-links">
-                <a href="https://github.com/fdfdq/fanlink" target="_blank" class="contact-link">
-                    <span class="contact-icon">📂</span>
-                    <div class="contact-text">
-                        <span class="contact-title">GitHub 项目</span>
-                        <span class="contact-url">https://github.com/fdfdq/fanlink</span>
-                    </div>
-                </a>
-                <a href="https://space.bilibili.com/3537123240053728?spm_id_from=333.337.search-card.all.click" target="_blank" class="contact-link">
-                    <span class="contact-icon">🎬</span>
-                    <div class="contact-text">
-                        <span class="contact-title">哔哩哔哩</span>
-                        <span class="contact-url">https://space.bilibili.com/3537123240053728</span>
-                    </div>
-                </a>
-            </div>
-            <p style="color: #b0b0b0; margin-top: 20px; text-align: center;">欢迎访问我的项目主页和视频空间！</p>
-        </div>
+    <!-- 侧边栏 (三个) + 遮罩 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 全部产品侧栏 -->
+    <div class="sidebar-menu products-sidebar" id="productsSidebar">
+        <div class="sidebar-header"><span class="sidebar-title">所有作品</span><button class="close-sidebar" id="closeProductsSidebar">&times;</button></div>
+        <div class="sidebar-item" onclick="showProductDetail('浏览器主页：fanlink')"><div class="sidebar-item-title">fanlink</div><div class="sidebar-item-desc">自定义导航，多设备适配</div></div>
+        <div class="sidebar-item" onclick="showFaccountModal()"><div class="sidebar-item-title">faccount</div><div class="sidebar-item-desc">智能记账，个人财务</div></div>
+        <div class="sidebar-item" onclick="showProductDetail('作品三：敬请期待')"><div class="sidebar-item-title">产品三</div><div class="sidebar-item-desc">轻量办公工具</div></div>
     </div>
 
-    <!-- fanlink专属详情弹窗 -->
-    <div class="modal" id="fanlinkModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('fanlinkModal')">&times;</span>
-            <h3 class="modal-title">fanlink 详细介绍</h3>
-            <p>这是我开发的一款<strong>浏览器主页替代工具</strong>，解决默认主页功能单一的问题，核心优势如下：</p>
-            <ul style="padding-left: 20px; margin: 15px 0; color: #b0b0b0;">
-                <li>自定义导航栏：支持添加常用网站快捷入口，一键访问</li>
-                <li>多设备适配：优化手机、平板、电脑端显示，响应式布局</li>
-                <li>性能优化：压缩资源体积，页面加载速度提升30%+</li>
-                <li>书签同步：修复旧版本bug，实现跨浏览器书签导入</li>
-            </ul>
-            <p>官方网页版：<a href="https://fdfdq.github.io/fanlink/fanlink%203.01.html" target="_blank" class="download-link">https://fdfdq.github.io/fanlink/fanlink 3.01.html</a></p>
-            <button class="view-btn" style="margin-top: 15px;" onclick="openDownloadSidebar()">去下载本地版（不能访问Github也没关系，用这个）</button>
-        </div>
+    <!-- fanlink下载侧栏 -->
+    <div class="sidebar-menu download-sidebar" id="downloadSidebar">
+        <div class="sidebar-header"><span class="sidebar-title">fanlink 下载</span><button class="close-sidebar" id="closeDownloadSidebar">&times;</button></div>
+        <div class="version-section"><h3 class="version-title">2.18</h3><p class="download-info">本地版：</p><a class="download-link" href="https://pan.baidu.com/s/1H_7u1PKlLeeImkOIK_6Nnw?pwd=1234" target="_blank">百度网盘</a><span class="password">提取码 1234</span><p class="note">注意：网页版已迁移，建议升级</p></div>
+        <div class="version-section"><h3 class="version-title">2.19</h3><a class="download-link" href="https://wwzx.lanzouu.com/iud4M36pn3pg" target="_blank">蓝奏云下载</a><a class="download-link" href="https://fdfdq.github.io/fanlink-2.19/fanlink.html" target="_blank">网页版访问</a></div>
+        <div class="version-section"><h3 class="version-title">3.00</h3><a class="download-link" href="https://wwnz.lanzouu.com/ic5n2385yvqd" target="_blank">蓝奏云</a><span class="password">密码 h3tk</span><a class="download-link" href="https://fdfdq.github.io/fanlink/fanlink%203.00.html" target="_blank">网页版 3.00</a></div>
+        <div class="version-section"><h3 class="version-title">3.01</h3><a class="download-link" href="https://fdfdq.github.io/fanlink/fanlink%203.01.html" target="_blank">网页版 3.01</a></div>
     </div>
 
-    <!-- faccount专属详情弹窗 -->
-    <div class="modal faccount-modal" id="faccountModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('faccountModal')">&times;</span>
-            <h3 class="modal-title">faccount 智能记账本</h3>
-            <p>这是一款<strong>个人财务管理工具</strong>，帮助您轻松记录收支，掌握消费习惯，培养良好理财习惯。</p>
-            <ul style="padding-left: 20px; margin: 15px 0; color: #b0b0b0;">
-                <li>简洁记账：快速记录收支，支持多种记账分类</li>
-                <li>无广告：动画丝滑，无广告，打开速度快</li>
-                <li>体积小：应用小而美</li>
-            </ul>
-            <p style="color: #27ae60; font-weight: bold;">🎯 帮助您建立健康的消费习惯，实现财务自由的第一步！</p>
-            <button class="view-btn" style="margin-top: 15px; background-color: #27ae60;" onclick="openFaccountDownloadSidebar()">立即下载</button>
-        </div>
+    <!-- faccount下载侧栏 -->
+    <div class="sidebar-menu faccount-download-sidebar" id="faccountDownloadSidebar">
+        <div class="sidebar-header"><span class="sidebar-title">faccount 下载</span><button class="close-sidebar" id="closeFaccountDownloadSidebar">&times;</button></div>
+        <div class="version-section"><h3 class="version-title">当前版本</h3><a class="download-link" href="https://wwang.lanzouv.com/iqgxE3edpmgj" target="_blank">蓝奏云</a><span class="password">密码 1234</span></div>
+        <div class="version-section"><h3 class="version-title">26w01a</h3><a class="download-link" href="https://wwang.lanzouv.com/iWDrN3f6g2oh" target="_blank">蓝奏云</a><span class="password">密码 1234</span></div>
     </div>
+
+    <!-- 模态框：联系信息（点击博客名） -->
+    <div class="modal" id="contactModal"><div class="modal-content"><span class="close-modal" onclick="closeModal('contactModal')">&times;</span><h3 class="modal-title">联系我</h3><div class="contact-links"><a href="https://github.com/fdfdq/fanlink" target="_blank" class="contact-link"><span class="contact-icon">📂</span> GitHub 项目</a><a href="https://space.bilibili.com/3537123240053728" target="_blank" class="contact-link"><span class="contact-icon">🎬</span> 哔哩哔哩</a></div><p style="color:#475569;text-align:center">欢迎访问我的项目主页~</p></div></div>
+
+    <!-- fanlink 专属弹窗 -->
+    <div class="modal" id="fanlinkModal"><div class="modal-content"><span class="close-modal" onclick="closeModal('fanlinkModal')">&times;</span><h3 class="modal-title">fanlink 详细介绍</h3><p style="margin-bottom:1rem"><strong>浏览器主页替代工具</strong>，解决默认主页功能单一问题。</p><ul><li>自定义导航栏，一键访问常用网站</li><li>多设备适配，响应式布局</li><li>性能优化，加载速度提升30%+</li><li>书签同步，跨浏览器导入</li></ul><p>网页版：<a class="download-link" href="https://fdfdq.github.io/fanlink/fanlink%203.01.html" target="_blank">https://fdfdq.github.io/fanlink/3.01</a></p><button class="view-btn" style="margin-top:1rem;" onclick="openDownloadSidebar()">下载本地版</button></div></div>
+
+    <!-- faccount 专属弹窗 -->
+    <div class="modal faccount-modal" id="faccountModal"><div class="modal-content"><span class="close-modal" onclick="closeModal('faccountModal')">&times;</span><h3 class="modal-title">faccount 智能记账本</h3><ul><li>简洁快速记账，多种分类</li><li>无广告、丝滑动画、体积小</li><li>帮助建立健康消费习惯</li></ul><p style="color:#0d9488;font-weight:500;margin:1rem 0">🎯 迈出财务自由第一步</p><button class="view-btn" style="background:#0d9488;color:white;border:none;" onclick="openFaccountDownloadSidebar()">立即下载</button></div></div>
 
     <!-- 关于弹窗 -->
-    <div class="modal" id="aboutModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('aboutModal')">&times;</span>
-            <h3 class="modal-title">关于我</h3>
-            <p>我是fdfdq，一名专注于<strong>前端开发</strong>的独立开发者，擅长：</p>
-            <ul style="padding-left: 20px; margin: 15px 0; color: #b0b0b0;">
-                <li>响应式网页设计（适配移动端/PC端）</li>
-                <li>轻量级工具开发（如fanlink浏览器主页）</li>
-                <li>用户体验优化（性能+交互设计）</li>
-            </ul>
-            <p>开发理念：用简洁的代码，做实用的产品，让技术服务于日常需求。</p>
-        </div>
-    </div>
+    <div class="modal" id="aboutModal"><div class="modal-content"><span class="close-modal" onclick="closeModal('aboutModal')">&times;</span><h3 class="modal-title">关于我</h3><p>我是fdfdq，独立开发者，专注前端与轻量工具。</p><ul><li>响应式网页设计</li><li>工具开发 (fanlink / faccount)</li><li>用户体验优化</li></ul><p>理念：简洁代码，实用产品。</p></div></div>
 
-    <!-- 通用产品详情弹窗（非fanlink用） -->
-    <div class="modal" id="productDetailModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('productDetailModal')">&times;</span>
-            <h3 class="modal-title" id="detailTitle"></h3>
-            <div class="detail-content" id="detailContent">
-                <p>该作品目前处于开发阶段，后续将逐步更新功能细节，敬请关注！</p>
-                <p style="margin-top: 15px; color: #3498db;">建议先查看已上线的「fanlink浏览器主页」，体验我的开发风格~</p>
-            </div>
-            <button class="view-btn" style="margin-top: 20px;" onclick="showFanlinkModal()">查看fanlink作品</button>
-        </div>
-    </div>
+    <!-- 通用产品详情 -->
+    <div class="modal" id="productDetailModal"><div class="modal-content"><span class="close-modal" onclick="closeModal('productDetailModal')">&times;</span><h3 class="modal-title" id="detailTitle"></h3><div class="detail-content" id="detailContent"><p>该作品开发中，敬请期待～ 建议先体验已上线的 fanlink。</p></div><button class="view-btn" style="margin-top:1rem;" onclick="showFanlinkModal()">查看fanlink</button></div></div>
 
     <script>
-        // 确保DOM加载完成后执行
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('页面加载完成，开始绑定事件');
-            
+        (function() {
             // 获取元素
             const blogName = document.getElementById('blogName');
             const allProductsBtn = document.getElementById('allProductsBtn');
             const downloadBtn = document.getElementById('downloadBtn');
             const aboutBtn = document.getElementById('aboutBtn');
-            
             const productsSidebar = document.getElementById('productsSidebar');
             const downloadSidebar = document.getElementById('downloadSidebar');
             const faccountDownloadSidebar = document.getElementById('faccountDownloadSidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            
-            const closeProductsSidebar = document.getElementById('closeProductsSidebar');
-            const closeDownloadSidebar = document.getElementById('closeDownloadSidebar');
-            const closeFaccountDownloadSidebar = document.getElementById('closeFaccountDownloadSidebar');
-            
-            // 滚动到顶部按钮
-            const scrollToTopBtn = document.getElementById('scrollToTop');
+            const closeProducts = document.getElementById('closeProductsSidebar');
+            const closeDownload = document.getElementById('closeDownloadSidebar');
+            const closeFaccountDownload = document.getElementById('closeFaccountDownloadSidebar');
+            const scrollBtn = document.getElementById('scrollToTop');
 
-            // 0. 博客名称点击事件 - 显示联系信息
-            if (blogName) {
-                blogName.addEventListener('click', () => {
-                    console.log('博客名称被点击');
-                    closeAllSidebars();
-                    document.getElementById('contactModal').style.display = 'flex';
-                });
-            }
-
-            // 1. 全部产品按钮 - 左侧边栏
-            if (allProductsBtn && productsSidebar) {
-                allProductsBtn.addEventListener('click', () => {
-                    console.log('全部产品按钮被点击');
-                    closeAllSidebars();
-                    productsSidebar.classList.add('active');
-                    sidebarOverlay.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                });
-            }
-
-            // 2. 下载按钮 - 右侧边栏（默认显示fanlink下载）
-            if (downloadBtn && downloadSidebar) {
-                downloadBtn.addEventListener('click', () => {
-                    console.log('下载按钮被点击');
-                    closeAllSidebars();
-                    downloadSidebar.classList.add('active');
-                    sidebarOverlay.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                });
-            }
-
-            // 3. 关于按钮 - 模态窗口
-            if (aboutBtn) {
-                aboutBtn.addEventListener('click', () => {
-                    console.log('关于按钮被点击');
-                    document.getElementById('aboutModal').style.display = 'flex';
-                });
-            }
-
-            // 关闭侧边栏函数
+            // 关闭全部侧栏
             function closeAllSidebars() {
-                productsSidebar.classList.remove('active');
-                downloadSidebar.classList.remove('active');
-                faccountDownloadSidebar.classList.remove('active');
-                setTimeout(() => {
-                    sidebarOverlay.style.display = 'none';
-                    document.body.style.overflow = '';
-                }, 400);
-            }
-
-            // 绑定关闭按钮事件
-            if (closeProductsSidebar) {
-                closeProductsSidebar.addEventListener('click', closeAllSidebars);
-            }
-
-            if (closeDownloadSidebar) {
-                closeDownloadSidebar.addEventListener('click', closeAllSidebars);
-            }
-
-            if (closeFaccountDownloadSidebar) {
-                closeFaccountDownloadSidebar.addEventListener('click', closeAllSidebars);
-            }
-
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener('click', closeAllSidebars);
-            }
-
-            // 点击弹窗外部关闭弹窗
-            window.addEventListener('click', (event) => {
-                const modals = document.querySelectorAll('.modal');
-                modals.forEach(modal => {
-                    if (event.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                });
-            });
-
-            // 添加键盘事件支持（ESC关闭所有）
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    const modals = document.querySelectorAll('.modal');
-                    modals.forEach(modal => {
-                        modal.style.display = 'none';
-                    });
-                    closeAllSidebars();
-                }
-            });
-            
-            // 滚动到顶部按钮功能
-            if (scrollToTopBtn) {
-                // 监听滚动事件
-                window.addEventListener('scroll', () => {
-                    if (window.pageYOffset > 300) {
-                        scrollToTopBtn.classList.add('active');
-                    } else {
-                        scrollToTopBtn.classList.remove('active');
-                    }
-                });
-                
-                // 点击滚动到顶部
-                scrollToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            }
-            
-            // 添加鼠标跟随效果
-            document.addEventListener('mousemove', (e) => {
-                const cursor = document.querySelector('.cursor-effect');
-                if (!cursor) return;
-                
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-        });
-
-        // 4. 显示fanlink专属弹窗
-        function showFanlinkModal() {
-            console.log('显示fanlink弹窗');
-            closeAllSidebars();
-            document.getElementById('fanlinkModal').style.display = 'flex';
-        }
-
-        // 5. 显示faccount专属弹窗
-        function showFaccountModal() {
-            console.log('显示faccount弹窗');
-            closeAllSidebars();
-            document.getElementById('faccountModal').style.display = 'flex';
-        }
-
-        // 6. 显示通用产品详情弹窗
-        function showProductDetail(productName) {
-            console.log('显示产品详情:', productName);
-            closeAllSidebars();
-            const modal = document.getElementById('productDetailModal');
-            const titleElem = document.getElementById('detailTitle');
-            titleElem.textContent = productName;
-            modal.style.display = 'flex';
-        }
-
-        // 7. 打开fanlink下载侧边栏
-        function openDownloadSidebar() {
-            console.log('打开fanlink下载侧边栏');
-            closeModal('fanlinkModal');
-            closeAllSidebars();
-            setTimeout(() => {
-                document.getElementById('downloadSidebar').classList.add('active');
-                document.getElementById('sidebarOverlay').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }, 100);
-        }
-
-        // 8. 打开faccount下载侧边栏
-        function openFaccountDownloadSidebar() {
-            console.log('打开faccount下载侧边栏');
-            closeModal('faccountModal');
-            closeAllSidebars();
-            setTimeout(() => {
-                document.getElementById('faccountDownloadSidebar').classList.add('active');
-                document.getElementById('sidebarOverlay').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }, 100);
-        }
-
-        // 9. 关闭弹窗
-        function closeModal(modalId) {
-            console.log('关闭弹窗:', modalId);
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // 关闭所有侧边栏的函数
-        function closeAllSidebars() {
-            const productsSidebar = document.getElementById('productsSidebar');
-            const downloadSidebar = document.getElementById('downloadSidebar');
-            const faccountDownloadSidebar = document.getElementById('faccountDownloadSidebar');
-            const sidebarOverlay = document.getElementById('sidebarOverlay');
-            
-            if (productsSidebar) productsSidebar.classList.remove('active');
-            if (downloadSidebar) downloadSidebar.classList.remove('active');
-            if (faccountDownloadSidebar) faccountDownloadSidebar.classList.remove('active');
-            
-            setTimeout(() => {
+                productsSidebar?.classList.remove('active');
+                downloadSidebar?.classList.remove('active');
+                faccountDownloadSidebar?.classList.remove('active');
                 if (sidebarOverlay) {
                     sidebarOverlay.style.display = 'none';
                     document.body.style.overflow = '';
                 }
-            }, 400);
-        }
+            }
+
+            // 打开侧栏通用
+            function openSidebar(sidebar) {
+                closeAllSidebars();
+                sidebar?.classList.add('active');
+                sidebarOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            // 事件绑定
+            if (blogName) blogName.addEventListener('click', ()=>{ closeAllSidebars(); document.getElementById('contactModal').style.display='flex'; });
+            if (allProductsBtn) allProductsBtn.addEventListener('click', ()=> openSidebar(productsSidebar));
+            if (downloadBtn) downloadBtn.addEventListener('click', ()=> openSidebar(downloadSidebar));
+            if (aboutBtn) aboutBtn.addEventListener('click', ()=> document.getElementById('aboutModal').style.display='flex');
+
+            [closeProducts, closeDownload, closeFaccountDownload].forEach(btn => btn?.addEventListener('click', closeAllSidebars));
+            if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeAllSidebars);
+
+            window.addEventListener('click', (e) => {
+                document.querySelectorAll('.modal').forEach(m => { if (e.target === m) m.style.display = 'none'; });
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+                    closeAllSidebars();
+                }
+            });
+
+            // 滚动按钮
+            window.addEventListener('scroll', ()=> {
+                if (window.pageYOffset > 200) scrollBtn.classList.add('active'); else scrollBtn.classList.remove('active');
+            });
+            scrollBtn?.addEventListener('click', ()=> window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            // 暴露全局函数 (与原有保持一致)
+            window.showFanlinkModal = function() { closeAllSidebars(); document.getElementById('fanlinkModal').style.display='flex'; };
+            window.showFaccountModal = function() { closeAllSidebars(); document.getElementById('faccountModal').style.display='flex'; };
+            window.showProductDetail = function(name) { 
+                closeAllSidebars(); 
+                document.getElementById('detailTitle').innerText = name; 
+                document.getElementById('productDetailModal').style.display='flex'; 
+            };
+            window.openDownloadSidebar = function() { 
+                closeModal('fanlinkModal'); 
+                closeAllSidebars(); 
+                setTimeout(()=> openSidebar(downloadSidebar), 100);
+            };
+            window.openFaccountDownloadSidebar = function() { 
+                closeModal('faccountModal'); 
+                closeAllSidebars(); 
+                setTimeout(()=> openSidebar(faccountDownloadSidebar), 100);
+            };
+            window.closeModal = function(id) { document.getElementById(id).style.display='none'; };
+            window.closeAllSidebars = closeAllSidebars;
+
+            // 修正一个潜在的重复声明，确保一切干净
+        })();
     </script>
 </body>
 </html>
