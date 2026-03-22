@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Fanlink 3.03 起始页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* ========== 主题颜色变量 ========== */
+        :root {
+            --theme-primary: #86b3a0;
+            --theme-primary-light: #a8cfb8;
+            --theme-primary-dark: #5f8b6f;
+            --theme-bg-start: #d4e9f7;
+            --theme-bg-end: #e2f3f5;
+            --theme-card-bg: rgba(255, 255, 245, 0.7);
+            --theme-sidebar-bg: rgba(235, 248, 235, 0.55);
+            --theme-sidebar-hover: rgba(250, 255, 240, 0.85);
+            --theme-text: #2c5a2e;
+            --theme-text-light: #4a6e4b;
+        }
+        
+        body.theme-green { --theme-primary: #86b3a0; --theme-primary-light: #a8cfb8; --theme-primary-dark: #5f8b6f; --theme-bg-start: #d4e9f7; --theme-bg-end: #e2f3f5; }
+        body.theme-blue { --theme-primary: #7a9bcb; --theme-primary-light: #9bb9df; --theme-primary-dark: #5a7ba8; --theme-bg-start: #d4e5f7; --theme-bg-end: #e0edfc; }
+        body.theme-lavender { --theme-primary: #b8a9c9; --theme-primary-light: #d1c2e0; --theme-primary-dark: #9583aa; --theme-bg-start: #efe6f5; --theme-bg-end: #f5edfc; }
+        body.theme-peach { --theme-primary: #e6b8a2; --theme-primary-light: #f0cfbe; --theme-primary-dark: #c69478; --theme-bg-start: #fef0e8; --theme-bg-end: #fff5ef; }
+        body.theme-mint { --theme-primary: #9bc4b0; --theme-primary-light: #bcddcc; --theme-primary-dark: #78a08a; --theme-bg-start: #dcf0e8; --theme-bg-end: #eaf9f2; }
+        
+        /* ========== 动画定义 ========== */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+        
+        .category { animation: fadeInUp 0.5s ease forwards; animation-delay: calc(var(--index, 0) * 0.05s); }
+        .category:nth-child(1) { --index: 1; }.category:nth-child(2) { --index: 2; }.category:nth-child(3) { --index: 3; }
+        .category:nth-child(4) { --index: 4; }.category:nth-child(5) { --index: 5; }.category:nth-child(6) { --index: 6; }
+        .category:nth-child(7) { --index: 7; }.category:nth-child(8) { --index: 8; }
+        
+        /* ========== 基础样式 ========== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', 'SF Pro Text', 'PingFang SC', Roboto, sans-serif;
+            background: linear-gradient(145deg, var(--theme-bg-start) 0%, var(--theme-bg-start) 40%, var(--theme-bg-end) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+        
+        /* 标题栏样式 */
+        .time-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            text-align: center;
+            background: rgba(245, 255, 240, 0.4); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(200, 220, 180, 0.6);
+            animation: slideIn 0.6s ease;
+            transition: all 0.3s ease;
+        }
+        .time-header.time-mode { padding: 14px 0 10px; }
+        .time-header.time-mode .clock-main { font-size: 2.3rem; font-weight: 600; color: var(--theme-text); font-family: monospace; letter-spacing: 2px; display: block; }
+        .time-header.time-mode .date-sub { font-size: 0.75rem; color: var(--theme-text-light); margin-top: 4px; display: block; }
+        .time-header.time-mode .title-mode-text { display: none; }
+        .time-header.title-mode { padding: 18px 0; }
+        .time-header.title-mode .title-mode-text { font-size: 1.8rem; font-weight: 600; color: var(--theme-text); letter-spacing: 2px; display: block; }
+        .time-header.title-mode .clock-main { display: none; }
+        .time-header.title-mode .date-sub { display: none; }
+        
+        .clock-main { font-size: 2.3rem; font-weight: 600; color: var(--theme-text); font-family: monospace; letter-spacing: 2px; }
+        .date-sub { font-size: 0.75rem; color: var(--theme-text-light); margin-top: 4px; }
+        .title-mode-text { font-size: 1.8rem; font-weight: 600; color: var(--theme-text); letter-spacing: 2px; }
+        
+        /* 搜索栏 - 自定义下拉菜单 */
+        .search-bar {
+            position: fixed; left: 0; right: 0;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            background: rgba(248, 255, 240, 0.5); backdrop-filter: blur(16px);
+            padding: 12px 20px; z-index: 999;
+            border-bottom: 1px solid rgba(180, 200, 150, 0.5);
+            animation: slideIn 0.5s ease 0.1s both;
+            transition: top 0.3s ease;
+        }
+        .search-bar input { flex: 1; max-width: 450px; padding: 12px 20px; border: none; border-radius: 40px; background: white; transition: all 0.3s; }
+        .search-bar input:focus { box-shadow: 0 0 0 3px var(--theme-primary-light); transform: scale(1.01); }
+        .search-bar button {
+            padding: 12px 24px;
+            border-radius: 40px;
+            border: none;
+            background: var(--theme-primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .search-bar button:hover { background: var(--theme-primary-dark); transform: translateY(-2px); }
+        
+        /* ========== 自定义搜索引擎下拉菜单 ========== */
+        .custom-select-wrapper {
+            position: relative;
+            min-width: 130px;
+        }
+        .custom-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #eef6e9;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            gap: 8px;
+        }
+        .custom-select-trigger:hover {
+            background: #e2f0df;
+            transform: translateY(-1px);
+        }
+        .selected-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--theme-text);
+        }
+        .selected-option i { font-size: 1rem; width: 20px; text-align: center; }
+        .trigger-icon {
+            color: var(--theme-text-light);
+            font-size: 0.75rem;
+            transition: transform 0.3s;
+        }
+        .custom-select-trigger.open .trigger-icon { transform: rotate(180deg); }
+        
+        .custom-select-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 250, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(135, 170, 120, 0.3);
+            overflow: hidden;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s ease;
+        }
+        .custom-select-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .select-options {
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        .select-options::-webkit-scrollbar { width: 5px; }
+        .select-options::-webkit-scrollbar-track { background: rgba(135, 170, 120, 0.1); border-radius: 10px; }
+        .select-options::-webkit-scrollbar-thumb { background: var(--theme-primary); border-radius: 10px; }
+        .select-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            margin: 4px 0;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            color: var(--theme-text);
+        }
+        .select-option i { width: 24px; text-align: center; font-size: 1rem; }
+        .select-option:hover {
+            background: rgba(135, 170, 120, 0.2);
+            transform: translateX(4px);
+        }
+        .select-option.selected {
+            background: var(--theme-primary);
+            color: white;
+        }
+        .select-option.selected i { color: white; }
+        .option-divider {
+            height: 1px;
+            background: rgba(135, 170, 120, 0.2);
+            margin: 8px 0;
+        }
+        .option-group-title {
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--theme-primary);
+        }
+        
+        .sidebar {
+            width: 80px; background: var(--theme-sidebar-bg); backdrop-filter: blur(18px);
+            border-radius: 0 28px 28px 0; padding: 20px 0;
+            height: calc(100vh - 145px); position: fixed; top: 140px; left: 0;
+            transition: width 0.3s; overflow-y: auto; z-index: 998;
+            border-right: 1px solid rgba(200, 220, 170, 0.6);
+            animation: fadeInLeft 0.6s ease 0.2s both;
+        }
+        .sidebar:hover { width: 210px; background: var(--theme-sidebar-hover); }
+        .sidebar ul { list-style: none; padding: 0 8px; }
+        .sidebar li { margin: 8px 0; white-space: nowrap; }
+        .sidebar li a { color: var(--theme-text); text-decoration: none; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 28px; background: rgba(230, 245, 220, 0.3); transition: all 0.3s; }
+        .sidebar li a i { font-size: 1.3rem; min-width: 28px; }
+        .sidebar li a span { display: none; }
+        .sidebar:hover li a span { display: inline-block; }
+        .sidebar li a:hover { background: rgba(120, 160, 100, 0.3); transform: translateX(5px); }
+        
+        .content {
+            margin-left: 95px; margin-right: 20px; margin-top: 150px; margin-bottom: 70px;
+            padding: 24px 28px; background: var(--theme-card-bg); backdrop-filter: blur(8px);
+            border-radius: 32px; min-height: calc(100vh - 210px);
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+        
+        .recent-card {
+            background: rgba(250, 255, 240, 0.8); backdrop-filter: blur(12px);
+            border-radius: 28px; padding: 20px 24px; margin-bottom: 24px;
+            border: 1px solid rgba(160, 190, 130, 0.5);
+        }
+        .section-title { font-size: 1.2rem; font-weight: 600; color: var(--theme-text); border-left: 4px solid var(--theme-primary); padding-left: 14px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+        .recent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+        .recent-item { background: rgba(245, 255, 235, 0.9); padding: 8px 14px; border-radius: 40px; transition: all 0.3s; }
+        .recent-item a { text-decoration: none; color: var(--theme-text); display: flex; align-items: center; gap: 8px; overflow: hidden; font-size: 0.85rem; }
+        .recent-item:hover { background: var(--theme-primary-light); transform: translateY(-2px); }
+        .recent-actions { margin-top: 16px; display: flex; gap: 12px; justify-content: center; }
+        .recent-actions button { background: rgba(135, 170, 120, 0.15); border: 1px solid var(--theme-primary); padding: 6px 16px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; color: var(--theme-text); transition: 0.2s; }
+        .recent-actions button:hover { background: var(--theme-primary); color: white; }
+        
+        .category { margin-bottom: 28px; background: var(--theme-card-bg); backdrop-filter: blur(5px); padding: 20px; border-radius: 28px; }
+        .category h3 { font-size: 1.3rem; color: var(--theme-text); border-bottom: 2px solid var(--theme-primary-light); padding-bottom: 10px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .category ul.list-layout, .category ul.grid-layout { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+        .category ul li a { text-decoration: none; color: var(--theme-text); display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 28px; background: #f6fcf2; transition: all 0.3s; }
+        .category ul li a i { transition: transform 0.3s; }
+        .category ul li a:hover { background: var(--theme-primary-light); transform: translateX(5px); }
+        .category ul li a:hover i { transform: scale(1.1); }
+        
+        /* 设置面板 */
+        .settings-panel {
+            position: fixed; top: 0; right: 0; width: 500px; height: 100vh;
+            background: rgba(250, 252, 245, 0.3); backdrop-filter: blur(24px);
+            z-index: 1002; transform: translateX(100%); transition: transform 0.4s;
+            border-left: 1px solid rgba(160, 190, 140, 0.5);
+            display: flex; flex-direction: column;
+        }
+        .settings-panel.active { transform: translateX(0); }
+        .settings-header {
+            background: rgba(135, 170, 120, 0.3); backdrop-filter: blur(16px);
+            padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(160, 190, 140, 0.4);
+        }
+        .settings-header h2 { font-size: 1.5rem; font-weight: 600; color: var(--theme-text); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .settings-header h2 i { font-size: 1.3rem; color: var(--theme-primary); }
+        .settings-close-btn {
+            width: 36px; height: 36px; background: rgba(100, 130, 90, 0.3);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 18px; color: var(--theme-text);
+            transition: all 0.3s;
+        }
+        .settings-close-btn:hover { background: rgba(200, 80, 60, 0.6); color: white; transform: rotate(90deg); }
+        .settings-body { display: flex; flex: 1; overflow: hidden; }
+        .settings-nav {
+            width: 140px; background: rgba(100, 130, 90, 0.2); backdrop-filter: blur(8px);
+            border-right: 1px solid rgba(160, 190, 140, 0.4);
+            padding: 20px 0; display: flex; flex-direction: column; gap: 8px;
+        }
+        .settings-nav-item {
+            padding: 12px 20px; margin: 0 12px; border-radius: 40px;
+            cursor: pointer; display: flex; align-items: center; gap: 12px;
+            font-size: 0.9rem; font-weight: 500; color: var(--theme-text);
+            transition: all 0.3s;
+        }
+        .settings-nav-item i { width: 24px; font-size: 1.1rem; }
+        .settings-nav-item:hover { background: rgba(109, 158, 120, 0.3); transform: translateX(5px); }
+        .settings-nav-item.active { background: var(--theme-primary); color: white; }
+        .settings-main { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        .settings-section { display: none; animation: scaleIn 0.3s ease; }
+        .settings-section.active { display: block; }
+        .setting-card { background: rgba(255, 255, 250, 0.7); backdrop-filter: blur(4px); border-radius: 28px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(180, 200, 150, 0.4); }
+        .setting-card h4 { font-size: 1rem; color: var(--theme-text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; border-left: 3px solid var(--theme-primary); padding-left: 12px; }
+        .time-option { display: flex; gap: 20px; }
+        .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+        .setting-btn { background: rgba(135, 170, 120, 0.2); border: 1px solid var(--theme-primary); padding: 8px 20px; border-radius: 40px; cursor: pointer; transition: all 0.3s; color: var(--theme-text); }
+        .setting-btn:hover { background: var(--theme-primary); color: white; transform: translateY(-2px); }
+        .theme-options { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; }
+        .theme-option { width: 60px; height: 60px; border-radius: 16px; cursor: pointer; transition: all 0.3s; border: 3px solid transparent; }
+        .theme-option:hover { transform: scale(1.05); }
+        .theme-option.selected { border-color: var(--theme-primary); box-shadow: 0 0 0 2px white; }
+        .theme-green { background: linear-gradient(135deg, #86b3a0, #5f8b6f); }
+        .theme-blue { background: linear-gradient(135deg, #7a9bcb, #5a7ba8); }
+        .theme-lavender { background: linear-gradient(135deg, #b8a9c9, #9583aa); }
+        .theme-peach { background: linear-gradient(135deg, #e6b8a2, #c69478); }
+        .theme-mint { background: linear-gradient(135deg, #9bc4b0, #78a08a); }
+        .title-style-option { display: flex; gap: 20px; margin-top: 10px; }
+        .title-style-option label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        
+        .sticky-notes-container { position: fixed; bottom: 90px; right: 20px; z-index: 997; display: flex; flex-direction: column; gap: 15px; }
+        .sticky-note { width: 280px; min-height: 200px; background: linear-gradient(135deg, #fff8c9, #fff3a7); padding: 15px; border-radius: 20px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 245, 180, 0.8); position: fixed; z-index: 998; }
+        .sticky-note-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0, 0, 0, 0.1); cursor: grab; user-select: none; }
+        .sticky-note-header:active { cursor: grabbing; }
+        .sticky-note-title { font-weight: bold; background: transparent; border: none; font-size: 1rem; width: 70%; outline: none; font-family: inherit; padding: 4px 0; }
+        .sticky-note-content { min-height: 120px; padding: 10px; background: rgba(255, 250, 210, 0.5); border-radius: 14px; outline: none; line-height: 1.5; font-size: 0.85rem; }
+        .sticky-note-footer { margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(0, 0, 0, 0.08); font-size: 0.7rem; color: #8b7355; text-align: right; }
+        .add-note-btn { position: fixed; bottom: 85px; right: 20px; width: 52px; height: 52px; background: linear-gradient(135deg, var(--theme-primary), var(--theme-primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: all 0.3s; z-index: 997; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); }
+        .address-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(235, 245, 225, 0.85); backdrop-filter: blur(16px); padding: 8px 24px; display: flex; gap: 12px; z-index: 999; border-top: 1px solid rgba(180, 200, 150, 0.6); }
+        .address-input { flex: 1; border-radius: 40px; border: none; padding: 10px 20px; transition: all 0.3s; }
+        .settings-btn { background: var(--theme-primary); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; color: white; }
+        .version { position: fixed; bottom: 12px; right: 16px; font-size: 11px; color: #678e6e; z-index: 1000; background: rgba(255,255,240,0.5); padding: 2px 10px; border-radius: 20px; }
+        .cmd-hint { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: #e0ffe0; padding: 6px 16px; border-radius: 40px; font-size: 0.7rem; z-index: 998; backdrop-filter: blur(8px); pointer-events: none; }
+        @media (max-width: 768px) { .settings-panel { width: 100%; } .settings-nav { width: 110px; } .custom-select-wrapper { min-width: 110px; } .custom-select-trigger { padding: 12px 16px; } }
+    </style>
+</head>
+<body>
+
+<div class="time-header" id="timeHeader">
+    <div class="clock-main" id="liveClock">--:--:--</div>
+    <div class="date-sub" id="liveDate"></div>
+    <div class="title-mode-text">Fanlink 标签页</div>
+</div>
+
+<!-- 搜索栏 - 自定义下拉菜单已集成 -->
+<div class="search-bar" id="searchBar">
+    <input type="text" id="search-input" placeholder="搜索或输入网址...">
+    <!-- 自定义搜索引擎下拉菜单 -->
+    <div class="custom-select-wrapper" id="customSelectWrapper">
+        <div class="custom-select-trigger" id="customSelectTrigger">
+            <div class="selected-option" id="selectedOption">
+                <span>必应</span>
+            </div>
+            <i class="fas fa-chevron-down trigger-icon"></i>
+        </div>
+        <div class="custom-select-dropdown" id="customSelectDropdown">
+            <div class="select-options">
+                <div class="select-option" data-value="bing" data-icon="fab fa-sistrix" data-name="必应">
+                    <span>必应</span>
+                </div>
+                <div class="select-option" data-value="baidu" data-icon="fas fa-paw" data-name="百度">
+                    <span>百度</span>
+                </div>
+                <div class="select-option" data-value="google" data-icon="fab fa-google" data-name="Google">
+                    <span>Google</span>
+                </div>
+                <div class="select-option" data-value="sogou" data-icon="" data-name="搜狗">
+                    <span>搜狗</span>
+                </div>
+                <div class="option-divider"></div>
+                <div class="select-option" data-value="site" data-icon="" data-name="站内搜索">
+                    <span>站内搜索</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button onclick="performSearch()">搜索</button>
+</div>
+
+<div class="sidebar" id="sidebar"><ul><li><a href="#social"><i class="fas fa-users"></i><span> 社交</span></a></li><li><a href="#news"><i class="fas fa-newspaper"></i><span> 新闻</span></a></li><li><a href="#tools"><i class="fas fa-wrench"></i><span> 工具</span></a></li><li><a href="#entertainment"><i class="fas fa-film"></i><span> 娱乐</span></a></li><li><a href="#learning"><i class="fas fa-book"></i><span> 学习</span></a></li><li><a href="#development"><i class="fas fa-code"></i><span> 开发</span></a></li><li><a href="#miscellaneous"><i class="fas fa-cogs"></i><span> 其他</span></a></li><li><a href="#cyber"><i class="fas fa-shield-alt"></i><span> 网络安全</span></a></li><li><a href="javascript:void(0)" onclick="randomSite()"><i class="fas fa-random"></i><span> 漫游</span></a></li></ul></div>
+
+<div class="content" id="content">
+    <div class="recent-card" id="recentCard" style="display: none;">
+        <div class="section-title"><i class="fas fa-history"></i> 最近访问</div>
+        <div id="recent-list" class="recent-grid"></div>
+        <div class="recent-actions"><button id="moreRecentBtn">显示更多</button><button id="clearRecentBtn">清除记录</button></div>
+    </div>
+    
+    <!-- 所有分类网站 - 完整保留 -->
+    <div class="category" id="social"><h3><i class="fas fa-users"></i> 社交</h3><ul class="list-layout"><li><a href="https://filehelper.weixin.qq.com" target="_blank"><i class="fab fa-weixin"></i> 文件传输助手网页版</a></li><li><a href="https://www.weibo.com" target="_blank"><i class="fab fa-weibo"></i> 微博</a></li><li><a href="https://www.qq.com" target="_blank"><i class="fab fa-qq"></i> QQ</a></li><li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li><li><a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li><li><a href="https://www.reddit.com" target="_blank"><i class="fab fa-reddit"></i> Reddit</a></li><li><a href="https://www.zhihu.com" target="_blank"><i class="fab fa-quora"></i> 知乎</a></li><li><a href="https://www.douban.com" target="_blank"><i class="fas fa-book-open"></i> 豆瓣</a></li></ul></div>
+    <div class="category" id="news"><h3><i class="fas fa-newspaper"></i> 新闻</h3><ul class="list-layout"><li><a href="https://news.qq.com" target="_blank"><i class="fas fa-newspaper"></i> 腾讯新闻</a></li><li><a href="https://news.sina.com.cn" target="_blank"><i class="fas fa-newspaper"></i> 新浪新闻</a></li><li><a href="https://www.thepaper.cn" target="_blank"><i class="fas fa-newspaper"></i> 澎湃新闻</a></li><li><a href="https://www.caixin.com" target="_blank"><i class="fas fa-chart-line"></i> 财新网</a></li><li><a href="https://www.redian.me/" target="_blank"><i class="fas fa-fire"></i> 热点头条</a></li></ul></div>
+    <div class="category" id="tools"><h3><i class="fas fa-wrench"></i> 工具</h3><ul class="list-layout"><li><a href="https://www.bing.com" target="_blank"><i class="fab fa-microsoft"></i> 必应搜索</a></li><li><a href="https://www.office.com" target="_blank"><i class="fas fa-file-word"></i> Office 365</a></li><li><a href="https://www.canva.com" target="_blank"><i class="fas fa-paint-brush"></i> Canva</a></li><li><a href="https://www.trello.com" target="_blank"><i class="fab fa-trello"></i> Trello</a></li><li><a href="https://www.grammarly.com" target="_blank"><i class="fas fa-spell-check"></i> Grammarly</a></li><li><a href="https://www.desmos.com" target="_blank"><i class="fas fa-chart-line"></i> Desmos</a></li><li><a href="https://www.colorhunt.co" target="_blank"><i class="fas fa-palette"></i> Color Hunt</a></li><li><a href="https://www.adobe.com" target="_blank"><i class="fab fa-adobe"></i> Adobe</a></li><li><a href="https://www.figma.com" target="_blank"><i class="fab fa-figma"></i> Figma</a></li><li><a href="https://www.notion.so" target="_blank"><i class="fas fa-sticky-note"></i> Notion</a></li><li><a href="https://www.zapier.com" target="_blank"><i class="fas fa-random"></i> Zapier</a></li><li><a href="https://www.airtable.com" target="_blank"><i class="fas fa-table"></i> Airtable</a></li><li><a href="https://www.remove.bg" target="_blank"><i class="fas fa-image"></i> Remove.bg</a></li><li><a href="https://www.tinywow.com" target="_blank"><i class="fas fa-tools"></i> TinyWow</a></li><li><a href="https://www.photopea.com" target="_blank"><i class="fas fa-edit"></i> Photopea</a></li><li><a href="https://www.screen.so" target="_blank"><i class="fas fa-desktop"></i> Screen</a></li><li><a href="https://www.unscreen.com" target="_blank"><i class="fas fa-video"></i> Unscreen</a></li><li><a href="https://www.coolors.co" target="_blank"><i class="fas fa-palette"></i> Coolors</a></li><li><a href="https://www.similarweb.com" target="_blank"><i class="fas fa-chart-line"></i> SimilarWeb</a></li><li><a href="https://www.wappalyzer.com" target="_blank"><i class="fas fa-search"></i> Wappalyzer</a></li><li><a href="https://www.excalidraw.com" target="_blank"><i class="fas fa-pencil-ruler"></i> Excalidraw</a></li><li><a href="https://www.squoosh.app" target="_blank"><i class="fas fa-compress-alt"></i> Squoosh</a></li><li><a href="https://www.nbcharts.com/map/map.php" target="_blank"><i class="fas fa-map-marked-alt"></i> 地图图表生成器</a></li><li><a href="https://www.ysjf.com/material" target="_blank"><i class="fas fa-video"></i> 影视飓风资源库</a></li><li><a href="https://resourceboy.com/" target="_blank"><i class="fas fa-palette"></i> Resourceboy</a></li></ul></div>
+    <div class="category" id="entertainment"><h3><i class="fas fa-film"></i> 娱乐</h3><ul class="list-layout"><li><a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i> YouTube</a></li><li><a href="https://www.bilibili.com" target="_blank"><i class="fab fa-bilibili"></i> B站</a></li><li><a href="https://www.douyin.com" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li><li><a href="https://www.netflix.com" target="_blank"><i class="fas fa-tv"></i> Netflix</a></li><li><a href="https://www.spotify.com" target="_blank"><i class="fab fa-spotify"></i> Spotify</a></li><li><a href="https://music.163.com" target="_blank"><i class="fas fa-music"></i> 网易云音乐</a></li><li><a href="https://www.douyu.com" target="_blank"><i class="fas fa-video"></i> 斗鱼直播</a></li><li><a href="https://www.huya.com" target="_blank"><i class="fas fa-video"></i> 虎牙直播</a></li><li><a href="https://www.twitch.tv" target="_blank"><i class="fab fa-twitch"></i> Twitch</a></li><li><a href="https://www.disneyplus.com" target="_blank"><i class="fas fa-magic"></i> Disney+</a></li><li><a href="https://www.ixigua.com" target="_blank"><i class="fas fa-video"></i> 西瓜视频</a></li><li><a href="https://www.radio.garden" target="_blank"><i class="fas fa-globe-americas"></i> Radio Garden</a></li><li><a href="https://www.internetlivestats.com" target="_blank"><i class="fas fa-chart-pie"></i> 互联网实时统计</a></li><li><a href="https://www.staggeringbeauty.com" target="_blank"><i class="fas fa-headphones"></i> 音乐互动</a></li><li><a href="https://www.mapcrunch.com" target="_blank"><i class="fas fa-map-marked-alt"></i> 随机街景</a></li><li><a href="https://www.thisissand.com" target="_blank"><i class="fas fa-mountain"></i> 在线沙画</a></li><li><a href="https://www.silkky.net" target="_blank"><i class="fas fa-paint-brush"></i> Silk艺术</a></li><li><a href="https://www.zoomquilt.org" target="_blank"><i class="fas fa-expand-alt"></i> 无限缩放画作</a></li><li><a href="https://www.meteorshowers.org" target="_blank"><i class="fas fa-meteor"></i> 流星雨观测</a></li><li><a href="https://www.radiooooo.com" target="_blank"><i class="fas fa-music"></i> 时空音乐</a></li><li><a href="https://www.100000stars.xyz" target="_blank"><i class="fas fa-star"></i> 十万颗恒星</a></li><li><a href="https://www.patatap.com" target="_blank"><i class="fas fa-keyboard"></i> 键盘音乐</a></li><li><a href="https://www.weavesilk.com" target="_blank"><i class="fas fa-spider"></i> 对称艺术</a></li><li><a href="https://www.supercook.com" target="_blank"><i class="fas fa-utensils"></i> 食材搭配</a></li><li><a href="https://quickriddle.online/" target="_blank"><i class="fas fa-puzzle-piece"></i> QuickRiddle</a></li><li><a href="https://play-cs.com/zh/servers" target="_blank"><i class="fas fa-gamepad"></i> 在线CS</a></li></ul></div>
+    <div class="category" id="learning"><h3><i class="fas fa-book"></i> 学习</h3><ul class="list-layout"><li><a href="https://www.coursera.org" target="_blank"><i class="fas fa-graduation-cap"></i> Coursera</a></li><li><a href="https://www.edx.org" target="_blank"><i class="fas fa-university"></i> edX</a></li><li><a href="https://www.udemy.com" target="_blank"><i class="fas fa-laptop-code"></i> Udemy</a></li><li><a href="https://www.khanacademy.org" target="_blank"><i class="fas fa-chalkboard-teacher"></i> Khan Academy</a></li><li><a href="https://www.icourse163.org" target="_blank"><i class="fas fa-book-open"></i> 中国大学MOOC</a></li><li><a href="https://www.duolingo.com" target="_blank"><i class="fas fa-language"></i> Duolingo</a></li><li><a href="https://www.ted.com" target="_blank"><i class="fas fa-comment"></i> TED Talks</a></li><li><a href="https://www.zhihuishu.com" target="_blank"><i class="fas fa-book-reader"></i> 智慧树</a></li><li><a href="https://www.xuetangx.com" target="_blank"><i class="fas fa-school"></i> 学堂在线</a></li><li><a href="https://www.codecademy.com" target="_blank"><i class="fas fa-code"></i> Codecademy</a></li><li><a href="https://zh.forvo.com/" target="_blank"><i class="fas fa-volume-up"></i> Forvo</a></li><li><a href="https://le.ouchn.cn/home" target="_blank"><i class="fas fa-graduation-cap"></i> 国家开放大学</a></li><li><a href="https://www.classcentral.com/" target="_blank"><i class="fas fa-search"></i> Class Central</a></li><li><a href="https://www.examcoo.com/" target="_blank"><i class="fas fa-edit"></i> 考试酷</a></li><li><a href="https://phet.colorado.edu/zh_CN/" target="_blank"><i class="fas fa-flask"></i> PhET</a></li><li><a href="https://www.xjlz365.com/" target="_blank"><i class="fas fa-leaf"></i> 乡间郎中</a></li></ul></div>
+    <div class="category" id="development"><h3><i class="fas fa-code"></i> 开发</h3><ul class="list-layout"><li><a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a></li><li><a href="https://gitlab.com" target="_blank"><i class="fab fa-gitlab"></i> GitLab</a></li><li><a href="https://stackoverflow.com" target="_blank"><i class="fab fa-stack-overflow"></i> Stack Overflow</a></li><li><a href="https://www.ray.so" target="_blank"><i class="fas fa-code"></i> Ray.so</a></li><li><a href="https://developer.mozilla.org" target="_blank"><i class="fab fa-firefox"></i> MDN</a></li><li><a href="https://www.w3schools.com" target="_blank"><i class="fab fa-html5"></i> W3Schools</a></li><li><a href="https://codepen.io" target="_blank"><i class="fab fa-codepen"></i> CodePen</a></li><li><a href="https://jsfiddle.net" target="_blank"><i class="fab fa-js"></i> JSFiddle</a></li><li><a href="https://www.npmjs.com" target="_blank"><i class="fab fa-npm"></i> npm</a></li><li><a href="https://www.docker.com" target="_blank"><i class="fab fa-docker"></i> Docker</a></li><li><a href="https://www.postman.com" target="_blank"><i class="fas fa-server"></i> Postman</a></li><li><a href="https://www.runoob.com" target="_blank"><i class="fas fa-book"></i> 菜鸟教程</a></li><li><a href="https://segmentfault.com" target="_blank"><i class="fas fa-question-circle"></i> SegmentFault</a></li><li><a href="https://www.codeflying.net/#/index" target="_blank"><i class="fas fa-rocket"></i> 码上飞</a></li><li><a href="https://app.uiboy.com/" target="_blank"><i class="fas fa-palette"></i> UI Boy</a></li><li><a href="https://worldvectorlogo.com/zh/random-logos" target="_blank"><i class="fas fa-vector-square"></i> WorldVectorLogo</a></li><li><a href="https://www.boilertemplate.com" target="_blank"><i class="fas fa-file-code"></i> 代码模板生成器</a></li></ul></div>
+    <div class="category" id="miscellaneous"><h3><i class="fas fa-cogs"></i> 其他</h3><ul class="list-layout"><li><a href="https://www.amazon.com" target="_blank"><i class="fab fa-amazon"></i> 亚马逊</a></li><li><a href="https://zh.ifixit.com" target="_blank"><i class="fas fa-tools"></i> 万物皆可修</a></li><li><a href="https://www.taobao.com" target="_blank"><i class="fas fa-shopping-cart"></i> 淘宝</a></li><li><a href="https://www.jd.com" target="_blank"><i class="fas fa-box"></i> 京东</a></li><li><a href="https://www.pinduoduo.com" target="_blank"><i class="fas fa-store"></i> 拼多多</a></li><li><a href="https://www.meituan.com" target="_blank"><i class="fas fa-utensils"></i> 美团</a></li><li><a href="https://www.ele.me" target="_blank"><i class="fas fa-motorcycle"></i> 淘宝闪购</a></li><li><a href="https://www.didiglobal.com" target="_blank"><i class="fas fa-car"></i> 滴滴出行</a></li><li><a href="https://www.airbnb.com" target="_blank"><i class="fas fa-home"></i> Airbnb</a></li><li><a href="https://www.trip.com" target="_blank"><i class="fas fa-plane"></i> 携程旅行</a></li><li><a href="https://www.booking.com" target="_blank"><i class="fas fa-hotel"></i> Booking</a></li></ul></div>
+    <div class="category" id="cyber"><h3><i class="fas fa-shield-alt"></i> 网络安全</h3><ul class="list-layout"><li><a href="https://www.12377.cn" target="_blank"><i class="fas fa-shield-alt"></i> 中央网信办举报中心</a></li><li><a href="https://www.12348.gov.cn" target="_blank"><i class="fas fa-balance-scale"></i> 中国法律服务网</a></li></ul></div>
+</div>
+
+<div class="address-bar">
+    <input type="text" class="address-input" id="addressInput" placeholder="输入网址...">
+    <button class="setting-btn" onclick="navigateToAddress()" style="background:var(--theme-primary); color:white;">前往</button>
+    <div class="settings-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></div>
+</div>
+
+<!-- 设置面板 -->
+<div class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+        <h2> 设置</h2>
+        <div class="settings-close-btn" onclick="toggleSettings()"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="settings-body">
+        <div class="settings-nav">
+            <div class="settings-nav-item active" data-tab="personalization"> 外观</div>
+            <div class="settings-nav-item" data-tab="notes"> 便签</div>
+            <div class="settings-nav-item" data-tab="recent"> 最近访问</div>
+            <div class="settings-nav-item" data-tab="updates"> 更新介绍</div>
+        </div>
+        <div class="settings-main">
+            <div id="personalization" class="settings-section active">
+                <div class="setting-card"><h4><i class="far fa-clock"></i> 标题栏样式</h4><div class="title-style-option"><label><input type="radio" name="titleStyle" value="time" id="titleTime"> 时间显示</label><label><input type="radio" name="titleStyle" value="title" id="titleFanlink"> Fanlink标签页</label></div></div>
+                <div class="setting-card"><h4><i class="far fa-clock"></i> 时间显示格式</h4><div class="time-option"><label><input type="radio" name="timeFormat" value="24" id="format24"> 24小时制</label><label><input type="radio" name="timeFormat" value="12" id="format12"> 12小时制</label></div></div>
+                <div class="setting-card"><h4><i class="fas fa-palette"></i> 主题颜色</h4><div class="theme-options"><div class="theme-option theme-green" data-theme="green" title="清新绿"></div><div class="theme-option theme-blue" data-theme="blue" title="静谧蓝"></div><div class="theme-option theme-lavender" data-theme="lavender" title="薰衣草"></div><div class="theme-option theme-peach" data-theme="peach" title="蜜桃粉"></div><div class="theme-option theme-mint" data-theme="mint" title="薄荷绿"></div></div></div>
+                <div class="setting-card"><h4><i class="fas fa-image"></i> 背景壁纸</h4><input type="file" id="bg-image" accept="image/*" onchange="setBackgroundImage(this)"><div class="btn-group" style="margin-top:10px;"><button class="setting-btn" onclick="resetToDefaultBg()">恢复默认背景</button></div></div>
+                <div class="setting-card"><h4><i class="fas fa-th-large"></i> 网站布局</h4><div class="btn-group"><button class="setting-btn" onclick="setLayout('list')">列表布局</button><button class="setting-btn" onclick="setLayout('grid')">网格布局</button></div></div>
+                <div class="setting-card"><h4><i class="fas fa-bars"></i> 侧边栏</h4><button class="setting-btn" onclick="toggleSidebarPermanently()">隐藏/显示分类栏</button></div>
+            </div>
+            <div id="notes" class="settings-section"><div class="setting-card"><h4><i class="fas fa-sticky-note"></i> 便签管理</h4><div class="btn-group"><button class="setting-btn" onclick="enableStickyNotes()">✅ 启用便签</button><button class="setting-btn" onclick="disableStickyNotes()">❌ 禁用便签</button></div><div class="btn-group" style="margin-top:12px;"><button class="setting-btn" onclick="createStickyNote()">➕ 添加新便签</button><button class="setting-btn" onclick="clearAllNotes()">🗑️ 清除所有便签</button></div></div></div>
+            <div id="recent" class="settings-section"><div class="setting-card"><h4><i class="fas fa-history"></i> 访问记录</h4><div class="btn-group"><button class="setting-btn" id="toggleRecentBtn">开启最近访问</button><button class="setting-btn" id="forceClearRecentBtn">🧹 清除所有记录</button></div></div></div>
+            <div id="updates" class="settings-section"><div class="setting-card"><h4><i class="fas fa-leaf"></i> Fanlink 3.03</h4><p><strong>✨ 新增功能</strong></p><ul style="margin-left:20px;"><li><i class="fas fa-search"></i> 站内搜索已集成到搜索栏</li><li><i class="fas fa-keyboard"></i> Shift+Tab 快速切换搜索引擎</li><li><i class="fas fa-sticky-note"></i> 便签拖拽功能 - 流畅跟手拖拽</li><li><i class="fas fa-palette"></i> 多色主题切换 - 5种淡色主题</li><li><i class="fas fa-header"></i> 标题栏样式切换 - 时间显示 / Fanlink标签页</li><li><i class="fas fa-caret-down"></i> 自定义搜索引擎下拉菜单 - 告别浏览器默认样式</li></ul></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="sticky-notes-container" id="sticky-notes-container"></div>
+<div class="add-note-btn" id="add-note-btn" style="display: none;" onclick="createStickyNote()"><i class="fas fa-plus"></i></div>
+
+<script>
+    // ========== 自定义搜索引擎下拉菜单 ==========
+    const engineList = ['bing', 'baidu', 'google', 'sogou', 'site'];
+    const engineConfig = {
+        bing: { name: '必应', icon: 'fab fa-microsoft', url: 'https://www.bing.com/search?q=' },
+        baidu: { name: '百度', icon: 'fab fa-sistrix', url: 'https://www.baidu.com/s?wd=' },
+        google: { name: 'Google', icon: 'fab fa-google', url: 'https://www.google.com/search?q=' },
+        sogou: { name: '搜狗', icon: 'fas fa-paw', url: 'https://www.sogou.com/web?query=' },
+        site: { name: '站内搜索', icon: 'fas fa-folder-open', url: '' }
+    };
+    let currentEngine = localStorage.getItem('currentEngine') || 'bing';
+    
+    // DOM 元素
+    const trigger = document.getElementById('customSelectTrigger');
+    const dropdown = document.getElementById('customSelectDropdown');
+    const selectedOptionDiv = document.getElementById('selectedOption');
+    
+    // 更新UI显示
+    function updateEngineUI() {
+        const engine = engineConfig[currentEngine];
+        if (selectedOptionDiv) {
+            selectedOptionDiv.innerHTML = `<i class="${engine.icon}"></i><span>${engine.name}</span>`;
+        }
+        // 更新下拉菜单中的选中状态
+        document.querySelectorAll('.select-option').forEach(opt => {
+            if (opt.dataset.value === currentEngine) {
+                opt.classList.add('selected');
+            } else {
+                opt.classList.remove('selected');
+            }
+        });
+    }
+    
+    // 切换引擎
+    function switchEngine(newEngine) {
+        if (engineConfig[newEngine]) {
+            currentEngine = newEngine;
+            localStorage.setItem('currentEngine', currentEngine);
+            updateEngineUI();
+            closeDropdown();
+            showHint(`已切换到 ${engineConfig[currentEngine].name}`, false);
+        }
+    }
+    
+    // 循环切换引擎 (Shift+Tab)
+    function switchEngineCycle() {
+        let idx = engineList.indexOf(currentEngine);
+        idx = (idx + 1) % engineList.length;
+        switchEngine(engineList[idx]);
+    }
+    
+    // 下拉菜单开关
+    function toggleDropdown() {
+        dropdown.classList.toggle('show');
+        trigger.classList.toggle('open');
+    }
+    
+    function closeDropdown() {
+        dropdown.classList.remove('show');
+        trigger.classList.remove('open');
+    }
+    
+    // 点击外部关闭
+    document.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('customSelectWrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+            closeDropdown();
+        }
+    });
+    
+    // 绑定触发器
+    if (trigger) {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown();
+        });
+    }
+    
+    // 绑定选项点击事件
+    document.querySelectorAll('.select-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const value = opt.dataset.value;
+            if (value) switchEngine(value);
+        });
+    });
+    
+    // Shift+Tab 切换引擎
+    document.addEventListener('keydown', function(e) {
+        if (e.shiftKey && e.key === 'Tab') {
+            e.preventDefault();
+            switchEngineCycle();
+        }
+    });
+    
+    // ========== 标题栏样式切换 ==========
+    let currentTitleStyle = localStorage.getItem('titleStyle') || 'time';
+    const timeHeader = document.getElementById('timeHeader');
+    const searchBar = document.getElementById('searchBar');
+    const content = document.getElementById('content');
+    
+    function setTitleStyle(style) {
+        currentTitleStyle = style;
+        localStorage.setItem('titleStyle', style);
+        if (style === 'time') {
+            timeHeader.classList.remove('title-mode');
+            timeHeader.classList.add('time-mode');
+            document.getElementById('titleTime').checked = true;
+            searchBar.style.top = '80px';
+            content.style.marginTop = '160px';
+            updateClock();
+        } else {
+            timeHeader.classList.remove('time-mode');
+            timeHeader.classList.add('title-mode');
+            document.getElementById('titleFanlink').checked = true;
+            searchBar.style.top = '72px';
+            content.style.marginTop = '150px';
+        }
+    }
+    
+    document.getElementById('titleTime').addEventListener('click', () => setTitleStyle('time'));
+    document.getElementById('titleFanlink').addEventListener('click', () => setTitleStyle('title'));
+    
+    // ========== 主题切换 ==========
+    function setTheme(theme) {
+        document.body.className = '';
+        document.body.classList.add('theme-' + theme);
+        localStorage.setItem('selectedTheme', theme);
+        document.querySelectorAll('.theme-option').forEach(opt => {
+            if (opt.dataset.theme === theme) opt.classList.add('selected');
+            else opt.classList.remove('selected');
+        });
+    }
+    const savedTheme = localStorage.getItem('selectedTheme') || 'green';
+    setTheme(savedTheme);
+    document.querySelectorAll('.theme-option').forEach(opt => {
+        opt.addEventListener('click', () => setTheme(opt.dataset.theme));
+    });
+    
+    // ========== 背景恢复 ==========
+    function resetToDefaultBg() {
+        document.body.style.backgroundImage = '';
+        localStorage.removeItem('bgImg');
+        showHint('已恢复默认背景');
+    }
+    
+    // 获取所有收录网站
+    function getAllSites() {
+        let sites = [];
+        document.querySelectorAll('.category ul li a').forEach(a => {
+            if (a.href && a.href.startsWith('http')) {
+                sites.push({ name: a.innerText.trim(), url: a.href });
+            }
+        });
+        return sites;
+    }
+    
+    function performSiteSearch(query) {
+        const sites = getAllSites();
+        const results = sites.filter(s => s.name.toLowerCase().includes(query) || s.url.toLowerCase().includes(query));
+        if (results.length === 0) { showHint(`🔍 未找到 "${query}" 相关的收录网站`, true); return null; }
+        return results;
+    }
+    
+    function showSiteSearchResults(results) {
+        const container = document.createElement('div');
+        container.style.cssText = 'position:fixed; top:140px; left:50%; transform:translateX(-50%); width:400px; max-height:300px; overflow-y:auto; background:rgba(250,255,240,0.95); backdrop-filter:blur(16px); border-radius:28px; padding:12px; z-index:1001; box-shadow:0 8px 32px rgba(0,0,0,0.15);';
+        container.innerHTML = `<div style="padding:8px; border-bottom:1px solid #ccc; font-weight:bold;">📁 找到 ${results.length} 个收录网站</div>`;
+        results.forEach(r => {
+            const item = document.createElement('div');
+            item.style.cssText = 'padding:10px; border-bottom:1px solid #e0e0e0; cursor:pointer; transition:0.2s; display:flex; align-items:center; gap:8px;';
+            item.innerHTML = `<i class="fas fa-link" style="color:#86b3a0;"></i> <span style="color:#2c5a34;">${r.name}</span>`;
+            item.onmouseover = () => item.style.background = '#e8f5e5';
+            item.onmouseout = () => item.style.background = 'transparent';
+            item.onclick = () => { window.open(r.url, '_blank'); container.remove(); recordVisit(r.url, r.name); };
+            container.appendChild(item);
+        });
+        const closeBtn = document.createElement('div');
+        closeBtn.innerHTML = '✕';
+        closeBtn.style.cssText = 'position:absolute; top:12px; right:12px; width:28px; height:28px; border-radius:50%; background:rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; cursor:pointer;';
+        closeBtn.onclick = () => container.remove();
+        container.appendChild(closeBtn);
+        document.body.appendChild(container);
+        setTimeout(() => container.remove(), 8000);
+    }
+    
+    function performSearch() {
+        const query = document.getElementById('search-input').value.trim();
+        if (!query) {
+            document.getElementById('search-input').style.animation = 'shake 0.3s';
+            setTimeout(() => document.getElementById('search-input').style.animation = '', 300);
+            return;
+        }
+        if (currentEngine === 'site') {
+            const results = performSiteSearch(query.toLowerCase());
+            if (results && results.length > 0) showSiteSearchResults(results);
+        } else {
+            window.open(engineConfig[currentEngine].url + encodeURIComponent(query), '_blank');
+        }
+        document.getElementById('search-input').value = '';
+    }
+    
+    function showHint(msg, isError = false) {
+        const hint = document.getElementById('cmdHint');
+        hint.textContent = isError ? `⚠️ ${msg}` : `✅ ${msg}`;
+        hint.style.background = isError ? 'rgba(200,80,60,0.9)' : 'rgba(0,0,0,0.7)';
+        setTimeout(() => {
+            hint.textContent = '💡 Shift+Tab 切换搜索引擎 | 输入 /help 查看指令';
+            hint.style.background = 'rgba(0,0,0,0.7)';
+        }, 2000);
+    }
+    
+    // 指令列表
+    const allCommands = [
+        '/help', '/settings', '/recent', '/layout list', '/layout grid',
+        '/time 24', '/time 12', '/notes on', '/notes off', '/addnote', '/bg reset',
+        '/cft social', '/cft 社交', '/cft news', '/cft 新闻', '/cft tools', '/cft 工具',
+        '/cft entertainment', '/cft 娱乐', '/cft learning', '/cft 学习',
+        '/cft development', '/cft 开发', '/cft miscellaneous', '/cft 其他', '/cft cyber', '/cft 网络安全'
+    ];
+    
+    function showCommandError(input) {
+        const firstChar = input[1] ? input[1].toLowerCase() : '';
+        const suggestions = allCommands.filter(cmd => cmd.startsWith('/' + firstChar) || cmd.toLowerCase().includes(firstChar));
+        let msg = `❌ 错误指令: "${input}"`;
+        if (suggestions.length > 0 && suggestions.length <= 5) {
+            msg += `\n\n💡 您是否想输入:\n${suggestions.map(s => `  • ${s}`).join('\n')}`;
+        } else if (suggestions.length > 5) {
+            msg += `\n\n💡 以 "/${firstChar}" 开头的指令有 ${suggestions.length} 个，输入 /help 查看全部`;
+        } else {
+            msg += `\n\n💡 输入 /help 查看所有可用指令`;
+        }
+        alert(msg);
+    }
+    
+    function parseQuickCommand(input) {
+        const cmd = input.trim().toLowerCase();
+        if (cmd === '/help') { alert('📋 快捷指令大全\n\n🔍 搜索引擎切换:\n  Shift+Tab 循环切换引擎\n\n📁 分类跳转:\n  /cft social, /cft 社交\n  /cft news, /cft 新闻\n  /cft tools, /cft 工具\n  /cft entertainment, /cft 娱乐\n  /cft learning, /cft 学习\n  /cft development, /cft 开发\n\n⚙️ 系统功能:\n  /settings - 打开设置\n  /recent - 最近访问\n  /layout list/grid - 布局切换\n  /time 24/12 - 时间格式\n  /notes on/off - 便签开关\n  /addnote - 添加便签\n  /bg reset - 重置背景'); return true; }
+        if (cmd === '/settings') { toggleSettings(); return true; }
+        if (cmd === '/recent') { document.getElementById('recentCard')?.scrollIntoView({ behavior: 'smooth' }); return true; }
+        if (cmd === '/layout list') { setLayout('list'); showHint('列表布局'); return true; }
+        if (cmd === '/layout grid') { setLayout('grid'); showHint('网格布局'); return true; }
+        if (cmd === '/time 24') { switchTimeFormat('24'); return true; }
+        if (cmd === '/time 12') { switchTimeFormat('12'); return true; }
+        if (cmd === '/notes on') { enableStickyNotes(); return true; }
+        if (cmd === '/notes off') { disableStickyNotes(); return true; }
+        if (cmd === '/addnote') { createStickyNote(); return true; }
+        if (cmd === '/bg reset') { resetToDefaultBg(); return true; }
+        if (cmd.startsWith('/cft ')) {
+            const target = cmd.substring(5).trim();
+            const map = { 'social': 'social', '社交': 'social', 'news': 'news', '新闻': 'news', 'tools': 'tools', '工具': 'tools', 'entertainment': 'entertainment', '娱乐': 'entertainment', 'learning': 'learning', '学习': 'learning', 'development': 'development', '开发': 'development', 'miscellaneous': 'miscellaneous', '其他': 'miscellaneous', 'cyber': 'cyber', '网络安全': 'cyber' };
+            const id = map[target];
+            if (id && document.getElementById(id)) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); showHint(`跳转到 ${target}`); return true; }
+            showHint(`未找到分类: ${target}`, true);
+            return false;
+        }
+        return false;
+    }
+    
+    function navigateToAddress() {
+        let addr = document.getElementById('addressInput').value.trim();
+        if (!addr) return;
+        if (addr.startsWith('/')) { 
+            if (!parseQuickCommand(addr)) showCommandError(addr);
+            document.getElementById('addressInput').value = ''; 
+            return; 
+        }
+        if (!addr.startsWith('http')) addr = 'https://' + addr;
+        window.open(addr, '_blank');
+        document.getElementById('addressInput').value = '';
+    }
+    document.getElementById('addressInput').addEventListener('keypress', e => { if (e.key === 'Enter') navigateToAddress(); });
+    
+    // 时钟
+    let currentTimeFormat = localStorage.getItem('timeFormat') || '24';
+    function updateClock() {
+        const now = new Date();
+        let h = now.getHours(), m = String(now.getMinutes()).padStart(2,'0'), s = String(now.getSeconds()).padStart(2,'0');
+        if (currentTimeFormat === '12') { let h12 = h % 12 || 12; document.getElementById('liveClock').innerText = `${String(h12).padStart(2,'0')}:${m}:${s} ${h>=12?'PM':'AM'}`; }
+        else { document.getElementById('liveClock').innerText = `${String(h).padStart(2,'0')}:${m}:${s}`; }
+        document.getElementById('liveDate').innerText = `${now.getFullYear()}.${now.getMonth()+1}.${now.getDate()} ${['周日','周一','周二','周三','周四','周五','周六'][now.getDay()]}`;
+    }
+    function switchTimeFormat(f) { currentTimeFormat = f; localStorage.setItem('timeFormat', f); updateClock(); }
+    document.getElementById('format24')?.addEventListener('click', () => switchTimeFormat('24'));
+    document.getElementById('format12')?.addEventListener('click', () => switchTimeFormat('12'));
+    updateClock(); setInterval(updateClock, 1000);
+    
+    // 最近访问
+    let recentLinks = JSON.parse(localStorage.getItem('recentLinks')) || [], showAllRecent = false, recentEnabled = localStorage.getItem('recentEnabled') === 'true';
+    function renderRecent() { let c = document.getElementById('recent-list'); if(!c) return; let items = showAllRecent ? recentLinks : recentLinks.slice(0,9); if(items.length===0) { c.innerHTML='<div style="padding:12px;text-align:center;">暂无访问记录</div>'; return; } c.innerHTML = items.map(l=>`<div class="recent-item"><a href="${l.url}" target="_blank"><i class="fas fa-link"></i> ${l.title.length>24?l.title.slice(0,22)+'..':l.title}</a></div>`).join(''); }
+    function recordVisit(url, title) { if(!url||!recentEnabled) return; recentLinks = recentLinks.filter(l=>l.url!==url); recentLinks.unshift({url, title:title||url, time:Date.now()}); if(recentLinks.length>30) recentLinks.pop(); localStorage.setItem('recentLinks',JSON.stringify(recentLinks)); renderRecent(); }
+    function clearRecent() { recentLinks=[]; localStorage.setItem('recentLinks','[]'); renderRecent(); }
+    function toggleRecentFeature() { recentEnabled=!recentEnabled; localStorage.setItem('recentEnabled',recentEnabled); document.getElementById('recentCard').style.display=recentEnabled?'block':'none'; if(recentEnabled) renderRecent(); }
+    document.getElementById('moreRecentBtn')?.addEventListener('click',()=>{ showAllRecent=!showAllRecent; renderRecent(); });
+    document.getElementById('clearRecentBtn')?.addEventListener('click',clearRecent);
+    document.getElementById('toggleRecentBtn')?.addEventListener('click',toggleRecentFeature);
+    document.getElementById('forceClearRecentBtn')?.addEventListener('click',clearRecent);
+    if(recentEnabled) document.getElementById('recentCard').style.display='block';
+    renderRecent();
+    document.querySelectorAll('.category ul li a').forEach(a=>a.addEventListener('click',()=>setTimeout(()=>recordVisit(a.href,a.innerText.trim()),30)));
+    function randomSite() { let all=[...document.querySelectorAll('.category ul li a')].filter(a=>a.href.startsWith('http')); if(all.length){ let r=all[Math.floor(Math.random()*all.length)]; window.open(r.href,'_blank'); recordVisit(r.href,r.innerText); } }
+    function toggleSidebarPermanently() { let s=document.getElementById('sidebar'); if(s.style.display==='none'){ s.style.display=''; localStorage.setItem('sidebarHide','false'); showHint('侧边栏已显示'); }else{ s.style.display='none'; localStorage.setItem('sidebarHide','true'); showHint('侧边栏已隐藏'); } }
+    if(localStorage.getItem('sidebarHide')==='true') document.getElementById('sidebar').style.display='none';
+    function setLayout(l) { let uls=document.querySelectorAll('.category ul'); uls.forEach(ul=>{ if(l==='grid'){ ul.classList.remove('list-layout'); ul.classList.add('grid-layout'); }else{ ul.classList.remove('grid-layout'); ul.classList.add('list-layout'); } }); localStorage.setItem('layout',l); }
+    if(localStorage.getItem('layout')) setLayout(localStorage.getItem('layout'));
+    function setBackgroundImage(i) { if(i.files[0]){ let r=new FileReader(); r.onload=e=>{ document.body.style.backgroundImage=`url(${e.target.result})`; localStorage.setItem('bgImg',e.target.result); showHint('背景已更换'); }; r.readAsDataURL(i.files[0]); } }
+    let savedBg=localStorage.getItem('bgImg'); if(savedBg) document.body.style.backgroundImage=`url(${savedBg})`;
+    function toggleSettings() { document.getElementById('settingsPanel').classList.toggle('active'); }
+    function switchSettingsTab(tabId) { document.querySelectorAll('.settings-section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.settings-nav-item').forEach(n=>n.classList.remove('active')); document.getElementById(tabId).classList.add('active'); document.querySelector(`.settings-nav-item[data-tab="${tabId}"]`).classList.add('active'); }
+    document.querySelectorAll('.settings-nav-item').forEach(item=>item.addEventListener('click',()=>switchSettingsTab(item.dataset.tab)));
+    
+    // 便签功能
+    let notesEnabled=localStorage.getItem('notesEnabled')==='true', stickyNotes=JSON.parse(localStorage.getItem('stickyNotes'))||[], noteColor='#fff8c9';
+    let draggingNote = null, dragOffsetX = 0, dragOffsetY = 0;
+    
+    function enableStickyNotes() { notesEnabled=true; localStorage.setItem('notesEnabled','true'); document.getElementById('sticky-notes-container').style.display='flex'; document.getElementById('add-note-btn').style.display='flex'; loadStickyNotes(); }
+    function disableStickyNotes() { notesEnabled=false; localStorage.setItem('notesEnabled','false'); document.getElementById('sticky-notes-container').style.display='none'; document.getElementById('add-note-btn').style.display='none'; }
+    function loadStickyNotes() { let c=document.getElementById('sticky-notes-container'); c.innerHTML=''; stickyNotes.forEach(n=>createStickyNoteElement(n)); }
+    
+    function startDrag(e, noteElement) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+        e.preventDefault();
+        draggingNote = noteElement;
+        const rect = noteElement.getBoundingClientRect();
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        noteElement.style.cursor = 'grabbing';
+        noteElement.style.zIndex = '10000';
+        noteElement.style.transition = 'none';
+    }
+    
+    function onDrag(e) {
+        if (!draggingNote) return;
+        e.preventDefault();
+        draggingNote.style.left = (e.clientX - dragOffsetX) + 'px';
+        draggingNote.style.top = (e.clientY - dragOffsetY) + 'px';
+        draggingNote.style.position = 'fixed';
+        draggingNote.style.right = 'auto';
+        draggingNote.style.bottom = 'auto';
+    }
+    
+    function stopDrag() {
+        if (draggingNote) {
+            draggingNote.style.cursor = '';
+            draggingNote.style.zIndex = '';
+            draggingNote.style.transition = '';
+            saveNotePosition(draggingNote.dataset.id, draggingNote.style.left, draggingNote.style.top);
+            draggingNote = null;
+        }
+    }
+    
+    document.addEventListener('mousemove', onDrag);
+    document.addEventListener('mouseup', stopDrag);
+    
+    function createStickyNoteElement(note) {
+        let div = document.createElement('div'); div.className = 'sticky-note'; div.style.background = `linear-gradient(135deg, ${note.color}, #fff2bf)`; div.dataset.id = note.id;
+        if (note.left && note.top && note.left !== 'auto') { div.style.left = note.left; div.style.top = note.top; div.style.position = 'fixed'; div.style.right = 'auto'; div.style.bottom = 'auto'; }
+        div.innerHTML = `<div class="sticky-note-header"><input class="sticky-note-title" value="${note.title.replace(/"/g,'&quot;')}" placeholder="便签标题"><button class="sticky-note-btn" onclick="deleteNote(${note.id})"><i class="fas fa-trash"></i></button></div><div class="sticky-note-content" contenteditable="true">${note.content}</div><div class="sticky-note-footer">${new Date(note.date).toLocaleDateString()}</div>`;
+        document.getElementById('sticky-notes-container').appendChild(div);
+        div.querySelector('.sticky-note-header').addEventListener('mousedown', (e) => startDrag(e, div));
+        div.querySelector('.sticky-note-title').addEventListener('input', () => saveNotes());
+        div.querySelector('.sticky-note-content').addEventListener('input', () => saveNotes());
+    }
+    
+    function saveNotePosition(id, left, top) { let idx = stickyNotes.findIndex(n => n.id == id); if (idx !== -1) { stickyNotes[idx].left = left; stickyNotes[idx].top = top; saveNotes(); } }
+    function saveNotes() { document.querySelectorAll('.sticky-note').forEach(el => { let id = parseInt(el.dataset.id); let title = el.querySelector('.sticky-note-title').value; let content = el.querySelector('.sticky-note-content').innerHTML; let idx = stickyNotes.findIndex(n => n.id === id); if (idx !== -1) { stickyNotes[idx].title = title; stickyNotes[idx].content = content; } }); localStorage.setItem('stickyNotes', JSON.stringify(stickyNotes)); }
+    function createStickyNote() { let newNote = { id: Date.now(), title: '新便签', content: '', color: noteColor, date: new Date().toISOString() }; stickyNotes.push(newNote); saveNotes(); createStickyNoteElement(newNote); }
+    function deleteNote(id) { stickyNotes = stickyNotes.filter(n => n.id !== id); saveNotes(); document.querySelector(`.sticky-note[data-id="${id}"]`)?.remove(); }
+    function clearAllNotes() { if (confirm('清除所有便签？')) { stickyNotes = []; saveNotes(); document.getElementById('sticky-notes-container').innerHTML = ''; } }
+    if (notesEnabled) enableStickyNotes(); else disableStickyNotes();
+    
+    // 初始化
+    setTitleStyle(currentTitleStyle);
+    updateEngineUI();
+    
+    window.performSearch=performSearch; window.toggleSidebarPermanently=toggleSidebarPermanently; window.setLayout=setLayout; window.randomSite=randomSite; window.toggleSettings=toggleSettings; window.enableStickyNotes=enableStickyNotes; window.disableStickyNotes=disableStickyNotes; window.createStickyNote=createStickyNote; window.clearAllNotes=clearAllNotes; window.deleteNote=deleteNote; window.setBackgroundImage=setBackgroundImage; window.resetToDefaultBg=resetToDefaultBg; window.navigateToAddress=navigateToAddress;
+</script>
+</body>
+</html>
