@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug 反馈 - fk.txt</title>
+    <style>
+        :root {
+            --bg: #1a1a24;
+            --surface: #22222f;
+            --surface2: #2a2a3a;
+            --text: #e0e0e8;
+            --text-secondary: #9090a8;
+            --accent: #f0a060;
+            --accent-hover: #e08940;
+            --accent-glow: rgba(240, 160, 96, 0.25);
+            --danger: #f06b6b;
+            --success: #5cce7b;
+            --border: #353550;
+            --border-focus: #f0a060;
+            --radius: 10px;
+            --radius-sm: 6px;
+            --transition: 0.2s ease;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', 'Microsoft YaHei', monospace;
+            --font-sans: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(240, 160, 96, 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 70%, rgba(240, 140, 80, 0.03) 0%, transparent 55%);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border);
+            display: flex;
+            flex-direction: column;
+            max-height: 92vh;
+            overflow: hidden;
+        }
+
+        /* 头部 */
+        .app-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: var(--surface2);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+        .app-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #f0a060, #e07040);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            color: #fff;
+            box-shadow: 0 3px 12px var(--accent-glow);
+        }
+        .app-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .app-subtitle {
+            font-size: 0.73rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            white-space: nowrap;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* 连接状态 */
+        .conn-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            padding: 5px 10px;
+            border-radius: 16px;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        .conn-badge.connected {
+            background: rgba(92, 206, 123, 0.1);
+            color: #5cce7b;
+            border: 1px solid rgba(92, 206, 123, 0.2);
+        }
+        .conn-badge.disconnected {
+            background: rgba(240, 107, 107, 0.1);
+            color: #f06b6b;
+            border: 1px solid rgba(240, 107, 107, 0.2);
+        }
+        .conn-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .conn-badge.connected .conn-dot {
+            background: #5cce7b;
+            box-shadow: 0 0 6px rgba(92, 206, 123, 0.6);
+            animation: pulse-dot 2.5s infinite;
+        }
+        .conn-badge.disconnected .conn-dot {
+            background: #f06b6b;
+            box-shadow: 0 0 6px rgba(240, 107, 107, 0.5);
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(92, 206, 123, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 14px rgba(92, 206, 123, 0.85);
+            }
+        }
+        .conn-badge.saved-flash {
+            background: rgba(92, 206, 123, 0.2) !important;
+            color: #5cce7b !important;
+            border-color: rgba(92, 206, 123, 0.5) !important;
+            transition: all 0.15s ease;
+        }
+
+        /* 按钮 */
+        .btn {
+            padding: 8px 15px;
+            border-radius: 18px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            font-family: var(--font-sans);
+            letter-spacing: 0.01em;
+            outline: none;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #1a1a24;
+            box-shadow: 0 3px 12px var(--accent-glow);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 5px 18px rgba(240, 160, 96, 0.4);
+            transform: translateY(-1px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px var(--accent-glow);
+        }
+        .btn-primary:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .btn-outline:hover {
+            background: var(--surface2);
+            border-color: #555;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.73rem;
+            border-radius: 14px;
+        }
+
+        /* 主体 */
+        .app-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 14px 18px;
+            gap: 6px;
+            min-height: 0;
+        }
+        .editor-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0 2px;
+        }
+        .char-count {
+            font-weight: 400;
+            opacity: 0.7;
+            font-size: 0.7rem;
+        }
+        .textarea-wrapper {
+            flex: 1;
+            position: relative;
+            min-height: 200px;
+            background: var(--bg);
+            border-radius: var(--radius);
+            border: 1.5px solid var(--border);
+            transition: border-color var(--transition), box-shadow var(--transition);
+            overflow: hidden;
+            display: flex;
+        }
+        .textarea-wrapper:focus-within {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(240, 160, 96, 0.06);
+        }
+        .textarea-wrapper.shake {
+            animation: shake 0.4s ease-out;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-5px);
+            }
+            40% {
+                transform: translateX(5px);
+            }
+            60% {
+                transform: translateX(-3px);
+            }
+            80% {
+                transform: translateX(3px);
+            }
+        }
+        #editor {
+            flex: 1;
+            width: 100%;
+            background: transparent;
+            color: #e8e8f0;
+            border: none;
+            padding: 14px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            line-height: 1.65;
+            resize: none;
+            outline: none;
+            tab-size: 4;
+            -moz-tab-size: 4;
+        }
+        #editor::placeholder {
+            color: #4a4a60;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        /* 底部 */
+        .app-footer {
+            padding: 12px 18px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: var(--surface2);
+            font-size: 0.73rem;
+            color: var(--text-secondary);
+        }
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .kbd {
+            background: var(--bg);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            border: 1px solid var(--border);
+            color: #999;
+        }
+        .last-saved {
+            color: #888;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-130px);
+            background: #2a2a38;
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 22px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            z-index: 1000;
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+            border: 1px solid var(--border);
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background: #2d4a35;
+            border-color: rgba(92, 206, 123, 0.3);
+        }
+        .toast.error {
+            background: #4a2d2d;
+            border-color: rgba(240, 107, 107, 0.3);
+        }
+
+        /* 首次连接提示条 */
+        .connect-banner {
+            background: rgba(240, 160, 96, 0.08);
+            border: 1px solid rgba(240, 160, 96, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            color: #d0a070;
+        }
+        .connect-banner .btn {
+            flex-shrink: 0;
+        }
+
+        /* 响应式 */
+        @media (max-width: 520px) {
+            .app-container {
+                border-radius: 10px;
+                max-height: 96vh;
+            }
+            .app-header {
+                padding: 12px 14px;
+                gap: 8px;
+            }
+            .app-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+                border-radius: 5px;
+            }
+            .app-title {
+                font-size: 0.95rem;
+            }
+            .app-body {
+                padding: 10px 10px;
+                gap: 4px;
+            }
+            #editor {
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+            .textarea-wrapper {
+                min-height: 150px;
+            }
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+                border-radius: 14px;
+            }
+            .app-footer {
+                padding: 10px 12px;
+                font-size: 0.68rem;
+                gap: 6px;
+            }
+            .conn-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast 提示 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 主应用 -->
+    <div class="app-container" id="app-container">
+        <!-- 头部 -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="app-icon">🐛</div>
+                <div>
+                    <div class="app-title">Bug 反馈</div>
+                    <div class="app-subtitle">写入同目录 fk.txt</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="conn-badge disconnected" id="conn-badge" title="文件连接状态">
+                    <span class="conn-dot" id="conn-dot"></span>
+                    <span id="conn-text">未连接</span>
+                </span>
+            </div>
+        </header>
+
+        <!-- 主体 -->
+        <div class="app-body">
+            <!-- 未连接时的提示条 -->
+            <div class="connect-banner" id="connect-banner">
+                <span>⚠️ 尚未连接到 fk.txt，请先授权访问文件</span>
+                <button class="btn btn-primary btn-sm" id="btn-connect-now">
+                    📂 连接 fk.txt
+                </button>
+            </div>
+
+            <div class="editor-label-row">
+                <span>📝 反馈内容</span>
+                <span class="char-count" id="char-count">0 字符</span>
+            </div>
+            <div class="textarea-wrapper" id="textarea-wrapper">
+                <textarea
+                id="editor"
+                placeholder="请在此描述您遇到的 Bug…&#10;&#10;示例：&#10;  登录页面在 Safari 浏览器中点击「登录」按钮无响应&#10;  控制台无报错，网络请求状态码 200&#10;  复现步骤：1.打开页面 2.输入账号密码 3.点击登录"
+            ></textarea>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <footer class="app-footer">
+        <div class="footer-left">
+            <span>💾 保存</span>
+            <span class="kbd">Ctrl+S</span>
+            <span>或</span>
+            <span class="kbd">⌘S</span>
+        </div>
+        <span class="last-saved" id="last-saved">尚未保存</span>
+        <button class="btn btn-primary" id="btn-save" disabled>
+            💾 提交反馈
+        </button>
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // ============ DOM 元素 ============
+        const editor = document.getElementById('editor');
+        const charCount = document.getElementById('char-count');
+        const btnSave = document.getElementById('btn-save');
+        const btnConnectNow = document.getElementById('btn-connect-now');
+        const connBadge = document.getElementById('conn-badge');
+        const connDot = document.getElementById('conn-dot');
+        const connText = document.getElementById('conn-text');
+        const lastSavedEl = document.getElementById('last-saved');
+        const textareaWrapper = document.getElementById('textarea-wrapper');
+        const connectBanner = document.getElementById('connect-banner');
+        const toast = document.getElementById('toast');
+
+        // ============ 状态 ============
+        let fileHandle = null;
+        let isSaving = false;
+        let toastTimer = null;
+
+        // ============ IndexedDB 文件句柄持久化 ============
+        const DB_NAME = 'bugfeedback-fk-db';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'file-handles';
+        const HANDLE_KEY = 'fk-txt-handle';
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        async function storeFileHandle(handle) {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                store.put(handle, HANDLE_KEY);
+                await new Promise((resolve, reject) => {
+                    tx.oncomplete = resolve;
+                    tx.onerror = reject;
+                });
+                db.close();
+            } catch (err) {
+                console.warn('无法存储文件句柄:', err);
+            }
+        }
+
+        async function loadFileHandle() {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const store = tx.objectStore(STORE_NAME);
+                const handle = await new Promise((resolve, reject) => {
+                    const request = store.get(HANDLE_KEY);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+                db.close();
+                if (handle && handle.queryPermission) {
+                    return handle;
+                }
+                return null;
+            } catch (err) {
+                console.warn('无法加载文件句柄:', err);
+                return null;
+            }
+        }
+
+        async function clearStoredHandle() {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                store.delete(HANDLE_KEY);
+                await new Promise((resolve, reject) => {
+                    tx.oncomplete = resolve;
+                    tx.onerror = reject;
+                });
+                db.close();
+            } catch (err) { /* 忽略 */ }
+        }
+
+        // ============ Toast ============
+        function showToast(message, type = '') {
+            if (toastTimer) clearTimeout(toastTimer);
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.className = 'toast';
+            }, 2400);
+        }
+
+        // ============ UI 状态更新 ============
+        function updateConnectionUI(state) {
+            if (state === 'connected') {
+                connBadge.className = 'conn-badge connected';
+                connDot.className = 'conn-dot';
+                connText.textContent = '已连接 fk.txt';
+                btnSave.disabled = false;
+                btnSave.textContent = '💾 提交反馈';
+                connectBanner.style.display = 'none';
+            } else {
+                connBadge.className = 'conn-badge disconnected';
+                connDot.className = 'conn-dot';
+                connText.textContent = '未连接';
+                btnSave.disabled = true;
+                btnSave.textContent = '💾 请先连接文件';
+                connectBanner.style.display = 'flex';
+            }
+        }
+
+        function flashSavedBadge() {
+            connBadge.classList.add('saved-flash');
+            connText.textContent = '已保存 ✓';
+            setTimeout(() => {
+                connBadge.classList.remove('saved-flash');
+                connText.textContent = '已连接 fk.txt';
+            }, 1500);
+        }
+
+        function updateLastSavedTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            lastSavedEl.textContent = `上次保存：${timeStr}`;
+        }
+
+        function updateCharCount() {
+            const len = editor.value.length;
+            charCount.textContent = `${len} 字符`;
+        }
+
+        // ============ 编辑器事件 ============
+        editor.addEventListener('input', updateCharCount);
+        editor.addEventListener('keydown', (e) => {
+            // Tab 键支持
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + '\t' + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 1;
+                updateCharCount();
+            }
+        });
+
+        // ============ 文件操作 ============
+        async function verifyPermission(handle) {
+            const options = { mode: 'readwrite' };
+            if ((await handle.queryPermission(options)) === 'granted') return true;
+            if ((await handle.requestPermission(options)) === 'granted') return true;
+            return false;
+        }
+
+        async function readFileContent(handle) {
+            const file = await handle.getFile();
+            return await file.text();
+        }
+
+        async function writeFileContent(handle, content) {
+            const writable = await handle.createWritable();
+            await writable.write(content);
+            await writable.close();
+        }
+
+        /**
+         * 选择 fk.txt 文件（用户手势触发）
+         */
+        async function selectFkFile() {
+            if (!('showOpenFilePicker' in window)) {
+                showToast('浏览器不支持文件系统API，请使用 Chrome 或 Edge', 'error');
+                return null;
+            }
+            try {
+                const [handle] = await window.showOpenFilePicker({
+                    types: [{
+                        description: '文本文件',
+                        accept: { 'text/plain': ['.txt'] },
+                    }],
+                    multiple: false,
+                    startIn: 'documents',
+                });
+                // 验证文件名
+                const file = await handle.getFile();
+                if (!file.name.toLowerCase().includes('fk.txt')) {
+                    showToast('请选择 fk.txt 文件（当前选择了: ' + file.name + '）', 'error');
+                    return null;
+                }
+                return handle;
+            } catch (err) {
+                if (err.name === 'AbortError') return null; // 用户取消
+                console.error('选择文件出错:', err);
+                showToast('选择文件失败: ' + err.message, 'error');
+                return null;
+            }
+        }
+
+        /**
+         * 建立文件连接
+         */
+        async function establishConnection(handle) {
+            if (!handle) return false;
+            const hasPermission = await verifyPermission(handle);
+            if (!hasPermission) {
+                showToast('文件权限被拒绝，请重新授权', 'error');
+                return false;
+            }
+            fileHandle = handle;
+            await storeFileHandle(handle);
+            updateConnectionUI('connected');
+            updateLastSavedTime();
+            editor.focus();
+            return true;
+        }
+
+        /**
+         * 保存：将编辑器内容追加到 fk.txt 末尾（自动换行+时间戳）
+         * 保存后清空编辑器
+         */
+        async function saveFeedback() {
+            if (!fileHandle) {
+                showToast('请先连接 fk.txt 文件', 'error');
+                return;
+            }
+            if (isSaving) return;
+
+            const feedbackText = editor.value.trim();
+            if (!feedbackText) {
+                showToast('请输入反馈内容后再保存', 'error');
+                textareaWrapper.classList.add('shake');
+                setTimeout(() => textareaWrapper.classList.remove('shake'), 400);
+                editor.focus();
+                return;
+            }
+
+            isSaving = true;
+            btnSave.disabled = true;
+            btnSave.textContent = '⏳ 保存中…';
+
+            try {
+                // 验证权限
+                const hasPermission = await verifyPermission(fileHandle);
+                if (!hasPermission) {
+                    showToast('文件权限已失效，请重新连接 fk.txt', 'error');
+                    fileHandle = null;
+                    await clearStoredHandle();
+                    updateConnectionUI('disconnected');
+                    return;
+                }
+
+                // 生成时间戳
+                const now = new Date();
+                const timestamp = now.toISOString().replace('T', ' ').slice(0, 19);
+                const formattedFeedback = `[${timestamp}] ${feedbackText}`;
+
+                // 读取文件当前内容（用于追加）
+                let currentContent = '';
+                try {
+                    currentContent = await readFileContent(fileHandle);
+                } catch (e) {
+                    currentContent = '';
+                }
+
+                // 构建新内容：原内容 + 换行（如需要）+ 新反馈
+                let newContent;
+                if (currentContent.length === 0) {
+                    newContent = formattedFeedback + '\n';
+                } else {
+                    const needsNewline = !currentContent.endsWith('\n');
+                    const separator = needsNewline ? '\n' : '';
+                    newContent = currentContent + separator + formattedFeedback + '\n';
+                }
+
+                // 写入文件
+                await writeFileContent(fileHandle, newContent);
+
+                // 清空编辑器
+                editor.value = '';
+                updateCharCount();
+                editor.focus();
+
+                // 更新UI
+                flashSavedBadge();
+                updateLastSavedTime();
+                showToast('✅ 反馈已追加到 fk.txt', 'success');
+
+            } catch (err) {
+                console.error('保存失败:', err);
+                showToast('保存失败: ' + err.message, 'error');
+                textareaWrapper.classList.add('shake');
+                setTimeout(() => textareaWrapper.classList.remove('shake'), 400);
+            } finally {
+                isSaving = false;
+                btnSave.disabled = false;
+                btnSave.textContent = '💾 提交反馈';
+                if (!fileHandle) {
+                    btnSave.disabled = true;
+                    btnSave.textContent = '💾 请先连接文件';
+                }
+            }
+        }
+
+        // ============ 事件绑定 ============
+        btnSave.addEventListener('click', saveFeedback);
+
+        btnConnectNow.addEventListener('click', async () => {
+            const handle = await selectFkFile();
+            if (handle) {
+                await establishConnection(handle);
+            }
+        });
+
+        // 点击状态徽章也可重新连接
+        connBadge.addEventListener('click', async () => {
+            if (fileHandle) return; // 已连接，不操作
+            const handle = await selectFkFile();
+            if (handle) {
+                await establishConnection(handle);
+            }
+        });
+        connBadge.style.cursor = 'pointer';
+        connBadge.title = '点击连接 fk.txt';
+
+        // 全局快捷键 Ctrl+S / Cmd+S
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                if (fileHandle && !isSaving) {
+                    saveFeedback();
+                } else if (!fileHandle) {
+                    showToast('请先点击「连接 fk.txt」授权文件访问', 'error');
+                }
+            }
+        });
+
+        // ============ 初始化 ============
+        async function init() {
+            console.log('🐛 Bug反馈记事本启动');
+            console.log('📋 目标文件：同目录下的 fk.txt');
+            updateCharCount();
+
+            // 检查浏览器支持
+            if (!('showOpenFilePicker' in window)) {
+                console.warn('⚠️ 浏览器不支持 File System Access API');
+                updateConnectionUI('disconnected');
+                connText.textContent = '浏览器不兼容';
+                connectBanner.innerHTML =
+                    '<span>⚠️ 当前浏览器不支持文件系统API，请使用 <strong>Chrome</strong> 或 <strong>Edge</strong> 打开此页面</span>';
+                btnConnectNow.style.display = 'none';
+                return;
+            }
+
+            // 尝试从 IndexedDB 恢复文件句柄
+            console.log('🔍 尝试恢复之前的文件连接...');
+            const storedHandle = await loadFileHandle();
+
+            if (storedHandle) {
+                const hasPermission = await verifyPermission(storedHandle);
+                if (hasPermission) {
+                    console.log('✅ 文件连接已自动恢复');
+                    fileHandle = storedHandle;
+                    updateConnectionUI('connected');
+                    updateLastSavedTime();
+                    editor.focus();
+                    return;
+                } else {
+                    console.log('⚠️ 存储的句柄权限已过期');
+                    await clearStoredHandle();
+                }
+            }
+
+            // 未连接状态
+            console.log('📂 等待用户连接 fk.txt...');
+            updateConnectionUI('disconnected');
+            editor.focus();
+        }
+
+        // 页面加载完成后初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        // ============ 离开前提醒 ============
+        window.addEventListener('beforeunload', (e) => {
+            if (fileHandle && editor.value.trim() && !isSaving) {
+                const message = '您有未保存的反馈内容，确定要离开吗？';
+                e.preventDefault();
+                e.returnValue = message;
+                return message;
+            }
+        });
+
+        // ============ 定期检查权限 ============
+        setInterval(async () => {
+            if (fileHandle) {
+                const hasPermission = await verifyPermission(fileHandle);
+                if (!hasPermission) {
+                    console.warn('⚠️ 文件权限已失效');
+                    fileHandle = null;
+                    await clearStoredHandle();
+                    updateConnectionUI('disconnected');
+                    showToast('文件权限已失效，请重新连接 fk.txt', 'error');
+                }
+            }
+        }, 30000);
+
+        console.log('📝 就绪 — 连接 fk.txt 后即可提交反馈');
+    })();
+</script>
+</body>
+</html>
