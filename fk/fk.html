@@ -18,8 +18,8 @@
             --success: #5cce7b;
             --border: #353550;
             --border-focus: #f0a060;
-            --radius: 10px;
-            --radius-sm: 6px;
+            --radius: 12px;
+            --radius-sm: 8px;
             --transition: 0.2s ease;
             --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', 'Microsoft YaHei', monospace;
             --font-sans: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -41,16 +41,16 @@
             justify-content: center;
             padding: 20px;
             background-image:
-                radial-gradient(ellipse at 20% 30%, rgba(240, 160, 96, 0.04) 0%, transparent 55%),
-                radial-gradient(ellipse at 75% 70%, rgba(240, 140, 80, 0.03) 0%, transparent 55%);
+                radial-gradient(ellipse at 25% 25%, rgba(240, 160, 96, 0.05) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 75%, rgba(240, 140, 80, 0.04) 0%, transparent 55%);
         }
 
         .app-container {
             width: 100%;
-            max-width: 680px;
+            max-width: 700px;
             background: var(--surface);
-            border-radius: 16px;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
             display: flex;
             flex-direction: column;
             max-height: 92vh;
@@ -59,7 +59,7 @@
 
         /* 头部 */
         .app-header {
-            padding: 18px 20px;
+            padding: 18px 22px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -75,20 +75,20 @@
             min-width: 0;
         }
         .app-icon {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--radius-sm);
             background: linear-gradient(135deg, #f0a060, #e07040);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             flex-shrink: 0;
             color: #fff;
-            box-shadow: 0 3px 12px var(--accent-glow);
+            box-shadow: 0 4px 14px var(--accent-glow);
         }
         .app-title {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
             letter-spacing: -0.01em;
             color: #fff;
@@ -107,70 +107,91 @@
             flex-shrink: 0;
         }
 
+        /* 远程文件指示 */
+        .remote-badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            white-space: nowrap;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: default;
+        }
+        .remote-url {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            opacity: 0.7;
+        }
+
         /* 连接状态 */
         .conn-badge {
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 0.75rem;
-            padding: 5px 10px;
+            padding: 5px 12px;
             border-radius: 16px;
             white-space: nowrap;
             font-weight: 500;
+            cursor: pointer;
         }
         .conn-badge.connected {
             background: rgba(92, 206, 123, 0.1);
             color: #5cce7b;
-            border: 1px solid rgba(92, 206, 123, 0.2);
+            border: 1px solid rgba(92, 206, 123, 0.25);
         }
         .conn-badge.disconnected {
             background: rgba(240, 107, 107, 0.1);
             color: #f06b6b;
-            border: 1px solid rgba(240, 107, 107, 0.2);
+            border: 1px solid rgba(240, 107, 107, 0.25);
         }
         .conn-dot {
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             flex-shrink: 0;
         }
         .conn-badge.connected .conn-dot {
             background: #5cce7b;
-            box-shadow: 0 0 6px rgba(92, 206, 123, 0.6);
+            box-shadow: 0 0 8px rgba(92, 206, 123, 0.6);
             animation: pulse-dot 2.5s infinite;
         }
         .conn-badge.disconnected .conn-dot {
             background: #f06b6b;
-            box-shadow: 0 0 6px rgba(240, 107, 107, 0.5);
+            box-shadow: 0 0 8px rgba(240, 107, 107, 0.6);
         }
         @keyframes pulse-dot {
             0%,
             100% {
-                box-shadow: 0 0 6px rgba(92, 206, 123, 0.5);
+                box-shadow: 0 0 8px rgba(92, 206, 123, 0.5);
             }
             50% {
-                box-shadow: 0 0 14px rgba(92, 206, 123, 0.85);
+                box-shadow: 0 0 16px rgba(92, 206, 123, 0.9);
             }
         }
         .conn-badge.saved-flash {
-            background: rgba(92, 206, 123, 0.2) !important;
+            background: rgba(92, 206, 123, 0.25) !important;
             color: #5cce7b !important;
             border-color: rgba(92, 206, 123, 0.5) !important;
-            transition: all 0.15s ease;
+            transition: all 0.2s;
         }
 
         /* 按钮 */
         .btn {
-            padding: 8px 15px;
-            border-radius: 18px;
-            font-size: 0.82rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.83rem;
             font-weight: 600;
             cursor: pointer;
             border: none;
             transition: all var(--transition);
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             white-space: nowrap;
             font-family: var(--font-sans);
             letter-spacing: 0.01em;
@@ -179,19 +200,19 @@
         .btn-primary {
             background: var(--accent);
             color: #1a1a24;
-            box-shadow: 0 3px 12px var(--accent-glow);
+            box-shadow: 0 4px 14px var(--accent-glow);
         }
         .btn-primary:hover {
             background: var(--accent-hover);
-            box-shadow: 0 5px 18px rgba(240, 160, 96, 0.4);
+            box-shadow: 0 6px 20px rgba(240, 160, 96, 0.45);
             transform: translateY(-1px);
         }
         .btn-primary:active {
             transform: translateY(0);
-            box-shadow: 0 2px 6px var(--accent-glow);
+            box-shadow: 0 2px 8px var(--accent-glow);
         }
         .btn-primary:disabled {
-            opacity: 0.45;
+            opacity: 0.5;
             cursor: not-allowed;
             pointer-events: none;
             box-shadow: none;
@@ -203,12 +224,28 @@
         }
         .btn-outline:hover {
             background: var(--surface2);
-            border-color: #555;
+            border-color: #666;
         }
         .btn-sm {
-            padding: 5px 10px;
+            padding: 5px 12px;
             font-size: 0.73rem;
             border-radius: 14px;
+        }
+
+        /* 提示条 */
+        .connect-banner {
+            background: rgba(240, 160, 96, 0.08);
+            border: 1px solid rgba(240, 160, 96, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            color: #d0a070;
         }
 
         /* 主体 */
@@ -216,7 +253,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 14px 18px;
+            padding: 16px 20px;
             gap: 6px;
             min-height: 0;
         }
@@ -224,12 +261,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.76rem;
             color: var(--text-secondary);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            padding: 0 2px;
         }
         .char-count {
             font-weight: 400;
@@ -239,13 +275,12 @@
         .textarea-wrapper {
             flex: 1;
             position: relative;
-            min-height: 200px;
+            min-height: 220px;
             background: var(--bg);
             border-radius: var(--radius);
             border: 1.5px solid var(--border);
             transition: border-color var(--transition), box-shadow var(--transition);
             overflow: hidden;
-            display: flex;
         }
         .textarea-wrapper:focus-within {
             border-color: var(--border-focus);
@@ -273,15 +308,15 @@
             }
         }
         #editor {
-            flex: 1;
             width: 100%;
+            height: 100%;
             background: transparent;
             color: #e8e8f0;
             border: none;
             padding: 14px;
             font-family: var(--font-mono);
             font-size: 0.88rem;
-            line-height: 1.65;
+            line-height: 1.7;
             resize: none;
             outline: none;
             tab-size: 4;
@@ -295,7 +330,7 @@
 
         /* 底部 */
         .app-footer {
-            padding: 12px 18px;
+            padding: 12px 20px;
             border-top: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -332,17 +367,17 @@
             position: fixed;
             top: 20px;
             left: 50%;
-            transform: translateX(-50%) translateY(-130px);
+            transform: translateX(-50%) translateY(-140px);
             background: #2a2a38;
             color: #fff;
-            padding: 10px 22px;
-            border-radius: 22px;
-            font-size: 0.82rem;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 0.83rem;
             font-weight: 500;
             z-index: 1000;
             pointer-events: none;
             transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             border: 1px solid var(--border);
         }
         .toast.show {
@@ -350,75 +385,47 @@
         }
         .toast.success {
             background: #2d4a35;
-            border-color: rgba(92, 206, 123, 0.3);
+            border-color: rgba(92, 206, 123, 0.35);
         }
         .toast.error {
             background: #4a2d2d;
-            border-color: rgba(240, 107, 107, 0.3);
-        }
-
-        /* 首次连接提示条 */
-        .connect-banner {
-            background: rgba(240, 160, 96, 0.08);
-            border: 1px solid rgba(240, 160, 96, 0.2);
-            border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-            color: #d0a070;
-        }
-        .connect-banner .btn {
-            flex-shrink: 0;
+            border-color: rgba(240, 107, 107, 0.35);
         }
 
         /* 响应式 */
         @media (max-width: 520px) {
             .app-container {
-                border-radius: 10px;
-                max-height: 96vh;
+                border-radius: 12px;
+                max-height: 95vh;
             }
             .app-header {
                 padding: 12px 14px;
                 gap: 8px;
             }
             .app-icon {
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-                border-radius: 5px;
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
             }
             .app-title {
-                font-size: 0.95rem;
+                font-size: 1rem;
             }
             .app-body {
-                padding: 10px 10px;
-                gap: 4px;
+                padding: 10px 12px;
             }
             #editor {
                 padding: 10px;
                 font-size: 0.8rem;
             }
             .textarea-wrapper {
-                min-height: 150px;
+                min-height: 160px;
             }
             .btn {
-                padding: 6px 12px;
-                font-size: 0.75rem;
-                border-radius: 14px;
+                padding: 6px 13px;
+                font-size: 0.76rem;
             }
-            .app-footer {
-                padding: 10px 12px;
-                font-size: 0.68rem;
-                gap: 6px;
-            }
-            .conn-badge {
-                font-size: 0.7rem;
-                padding: 4px 8px;
+            .remote-badge {
+                display: none;
             }
         }
     </style>
@@ -429,18 +436,21 @@
     <div class="toast" id="toast"></div>
 
     <!-- 主应用 -->
-    <div class="app-container" id="app-container">
+    <div class="app-container">
         <!-- 头部 -->
         <header class="app-header">
             <div class="header-left">
                 <div class="app-icon">🐛</div>
                 <div>
                     <div class="app-title">Bug 反馈</div>
-                    <div class="app-subtitle">写入同目录 fk.txt</div>
+                    <div class="app-subtitle">本地写入 fk.txt</div>
                 </div>
             </div>
             <div class="header-right">
-                <span class="conn-badge disconnected" id="conn-badge" title="文件连接状态">
+                <span class="remote-badge" title="远程只读地址（无法直接写入）">
+                    📎 <span class="remote-url">fk.txt 在线地址</span>
+                </span>
+                <span class="conn-badge disconnected" id="conn-badge" title="点击连接本地 fk.txt">
                     <span class="conn-dot" id="conn-dot"></span>
                     <span id="conn-text">未连接</span>
                 </span>
@@ -449,11 +459,11 @@
 
         <!-- 主体 -->
         <div class="app-body">
-            <!-- 未连接时的提示条 -->
+            <!-- 未连接提示 -->
             <div class="connect-banner" id="connect-banner">
-                <span>⚠️ 尚未连接到 fk.txt，请先授权访问文件</span>
+                <span>⚠️ 尚未连接到本地 fk.txt，请点击右侧按钮授权</span>
                 <button class="btn btn-primary btn-sm" id="btn-connect-now">
-                    📂 连接 fk.txt
+                    📂 连接本地 fk.txt
                 </button>
             </div>
 
@@ -472,7 +482,7 @@
     <!-- 底部 -->
     <footer class="app-footer">
         <div class="footer-left">
-            <span>💾 保存</span>
+            <span>💾 提交</span>
             <span class="kbd">Ctrl+S</span>
             <span>或</span>
             <span class="kbd">⌘S</span>
@@ -486,6 +496,9 @@
 
 <script>
     (function() {
+        // ============ 硬编码远程 fk.txt 地址（仅供查看，无法直接写入） ============
+        const FK_TXT_REMOTE_URL = 'https://fdfdq.github.io/fanlink/fk/fk.txt';
+
         // ============ DOM 元素 ============
         const editor = document.getElementById('editor');
         const charCount = document.getElementById('char-count');
@@ -498,14 +511,24 @@
         const textareaWrapper = document.getElementById('textarea-wrapper');
         const connectBanner = document.getElementById('connect-banner');
         const toast = document.getElementById('toast');
+        const remoteBadge = document.querySelector('.remote-badge');
+        const remoteUrlSpan = document.querySelector('.remote-url');
+
+        // 显示远程 URL 片段
+        if (remoteUrlSpan) {
+            remoteUrlSpan.textContent = FK_TXT_REMOTE_URL.length > 45 ?
+                FK_TXT_REMOTE_URL.substring(0, 42) + '…' :
+                FK_TXT_REMOTE_URL;
+            remoteBadge.title = `远程只读地址：${FK_TXT_REMOTE_URL}\n（浏览器安全限制，无法直接写入远程文件，需通过本地文件操作）`;
+        }
 
         // ============ 状态 ============
-        let fileHandle = null;
+        let fileHandle = null; // FileSystemFileHandle
         let isSaving = false;
         let toastTimer = null;
 
         // ============ IndexedDB 文件句柄持久化 ============
-        const DB_NAME = 'bugfeedback-fk-db';
+        const DB_NAME = 'bugfeedback-fk-v2';
         const DB_VERSION = 1;
         const STORE_NAME = 'file-handles';
         const HANDLE_KEY = 'fk-txt-handle';
@@ -535,8 +558,9 @@
                     tx.onerror = reject;
                 });
                 db.close();
+                console.log('✅ 文件句柄已存储');
             } catch (err) {
-                console.warn('无法存储文件句柄:', err);
+                console.warn('存储文件句柄失败:', err);
             }
         }
 
@@ -556,7 +580,7 @@
                 }
                 return null;
             } catch (err) {
-                console.warn('无法加载文件句柄:', err);
+                console.warn('加载文件句柄失败:', err);
                 return null;
             }
         }
@@ -575,7 +599,7 @@
             } catch (err) { /* 忽略 */ }
         }
 
-        // ============ Toast ============
+        // ============ Toast 通知 ============
         function showToast(message, type = '') {
             if (toastTimer) clearTimeout(toastTimer);
             toast.textContent = message;
@@ -583,7 +607,7 @@
             toastTimer = setTimeout(() => {
                 toast.classList.remove('show');
                 toast.className = 'toast';
-            }, 2400);
+            }, 2600);
         }
 
         // ============ UI 状态更新 ============
@@ -611,7 +635,7 @@
             setTimeout(() => {
                 connBadge.classList.remove('saved-flash');
                 connText.textContent = '已连接 fk.txt';
-            }, 1500);
+            }, 1600);
         }
 
         function updateLastSavedTime() {
@@ -632,7 +656,6 @@
         // ============ 编辑器事件 ============
         editor.addEventListener('input', updateCharCount);
         editor.addEventListener('keydown', (e) => {
-            // Tab 键支持
             if (e.key === 'Tab') {
                 e.preventDefault();
                 const start = editor.selectionStart;
@@ -643,7 +666,7 @@
             }
         });
 
-        // ============ 文件操作 ============
+        // ============ 文件操作 (File System Access API) ============
         async function verifyPermission(handle) {
             const options = { mode: 'readwrite' };
             if ((await handle.queryPermission(options)) === 'granted') return true;
@@ -663,11 +686,11 @@
         }
 
         /**
-         * 选择 fk.txt 文件（用户手势触发）
+         * 打开本地文件选择器，要求用户选择 fk.txt
          */
-        async function selectFkFile() {
+        async function selectLocalFkFile() {
             if (!('showOpenFilePicker' in window)) {
-                showToast('浏览器不支持文件系统API，请使用 Chrome 或 Edge', 'error');
+                showToast('浏览器不支持文件API，请使用 Chrome 或 Edge', 'error');
                 return null;
             }
             try {
@@ -679,15 +702,16 @@
                     multiple: false,
                     startIn: 'documents',
                 });
-                // 验证文件名
                 const file = await handle.getFile();
+                // 建议用户选择 fk.txt，但不强制（允许其他命名）
                 if (!file.name.toLowerCase().includes('fk.txt')) {
-                    showToast('请选择 fk.txt 文件（当前选择了: ' + file.name + '）', 'error');
-                    return null;
+                    console.warn('用户选择的文件并非 fk.txt:', file.name);
+                    showToast('建议选择 fk.txt，当前文件：' + file.name, 'error');
+                    // 仍然允许继续，但给出提示
                 }
                 return handle;
             } catch (err) {
-                if (err.name === 'AbortError') return null; // 用户取消
+                if (err.name === 'AbortError') return null;
                 console.error('选择文件出错:', err);
                 showToast('选择文件失败: ' + err.message, 'error');
                 return null;
@@ -695,7 +719,7 @@
         }
 
         /**
-         * 建立文件连接
+         * 建立本地文件连接
          */
         async function establishConnection(handle) {
             if (!handle) return false;
@@ -709,23 +733,25 @@
             updateConnectionUI('connected');
             updateLastSavedTime();
             editor.focus();
+            // 将光标移到末尾（如果编辑器有内容）
+            editor.selectionStart = editor.selectionEnd = editor.value.length;
             return true;
         }
 
         /**
-         * 保存：将编辑器内容追加到 fk.txt 末尾（自动换行+时间戳）
-         * 保存后清空编辑器
+         * 保存反馈：将编辑器内容追加到本地 fk.txt 末尾（带时间戳，自动换行）
+         * 保存后清空编辑器，以便输入下一条反馈
          */
         async function saveFeedback() {
             if (!fileHandle) {
-                showToast('请先连接 fk.txt 文件', 'error');
+                showToast('请先连接本地 fk.txt 文件', 'error');
                 return;
             }
             if (isSaving) return;
 
             const feedbackText = editor.value.trim();
             if (!feedbackText) {
-                showToast('请输入反馈内容后再保存', 'error');
+                showToast('请输入反馈内容', 'error');
                 textareaWrapper.classList.add('shake');
                 setTimeout(() => textareaWrapper.classList.remove('shake'), 400);
                 editor.focus();
@@ -737,22 +763,21 @@
             btnSave.textContent = '⏳ 保存中…';
 
             try {
-                // 验证权限
                 const hasPermission = await verifyPermission(fileHandle);
                 if (!hasPermission) {
-                    showToast('文件权限已失效，请重新连接 fk.txt', 'error');
+                    showToast('文件权限失效，请重新连接 fk.txt', 'error');
                     fileHandle = null;
                     await clearStoredHandle();
                     updateConnectionUI('disconnected');
                     return;
                 }
 
-                // 生成时间戳
+                // 生成带时间戳的反馈记录
                 const now = new Date();
                 const timestamp = now.toISOString().replace('T', ' ').slice(0, 19);
                 const formattedFeedback = `[${timestamp}] ${feedbackText}`;
 
-                // 读取文件当前内容（用于追加）
+                // 读取当前文件内容
                 let currentContent = '';
                 try {
                     currentContent = await readFileContent(fileHandle);
@@ -760,7 +785,7 @@
                     currentContent = '';
                 }
 
-                // 构建新内容：原内容 + 换行（如需要）+ 新反馈
+                // 构建追加内容：确保末尾换行后添加新记录
                 let newContent;
                 if (currentContent.length === 0) {
                     newContent = formattedFeedback + '\n';
@@ -770,7 +795,6 @@
                     newContent = currentContent + separator + formattedFeedback + '\n';
                 }
 
-                // 写入文件
                 await writeFileContent(fileHandle, newContent);
 
                 // 清空编辑器
@@ -778,10 +802,9 @@
                 updateCharCount();
                 editor.focus();
 
-                // 更新UI
                 flashSavedBadge();
                 updateLastSavedTime();
-                showToast('✅ 反馈已追加到 fk.txt', 'success');
+                showToast('✅ 反馈已追加到本地 fk.txt', 'success');
 
             } catch (err) {
                 console.error('保存失败:', err);
@@ -803,22 +826,15 @@
         btnSave.addEventListener('click', saveFeedback);
 
         btnConnectNow.addEventListener('click', async () => {
-            const handle = await selectFkFile();
-            if (handle) {
-                await establishConnection(handle);
-            }
+            const handle = await selectLocalFkFile();
+            if (handle) await establishConnection(handle);
         });
 
-        // 点击状态徽章也可重新连接
         connBadge.addEventListener('click', async () => {
-            if (fileHandle) return; // 已连接，不操作
-            const handle = await selectFkFile();
-            if (handle) {
-                await establishConnection(handle);
-            }
+            if (fileHandle) return; // 已连接，不做操作
+            const handle = await selectLocalFkFile();
+            if (handle) await establishConnection(handle);
         });
-        connBadge.style.cursor = 'pointer';
-        connBadge.title = '点击连接 fk.txt';
 
         // 全局快捷键 Ctrl+S / Cmd+S
         document.addEventListener('keydown', (e) => {
@@ -827,15 +843,31 @@
                 if (fileHandle && !isSaving) {
                     saveFeedback();
                 } else if (!fileHandle) {
-                    showToast('请先点击「连接 fk.txt」授权文件访问', 'error');
+                    showToast('请先点击连接按钮，授权访问本地 fk.txt', 'error');
                 }
             }
         });
 
+        // 尝试从远程 URL 加载内容（可选：仅用于预览历史，但不会自动填充到编辑器）
+        async function loadRemotePreview() {
+            try {
+                const response = await fetch(FK_TXT_REMOTE_URL, { cache: 'no-store' });
+                if (response.ok) {
+                    const text = await response.text();
+                    console.log('📡 远程 fk.txt 内容已获取（仅供查看，不会自动填入编辑器）');
+                    // 我们不在编辑器中显示，以免干扰新反馈
+                    // 但可以在控制台输出最后几行供参考
+                }
+            } catch (err) {
+                console.warn('无法获取远程 fk.txt（可能跨域或网络问题）', err);
+            }
+        }
+
         // ============ 初始化 ============
         async function init() {
-            console.log('🐛 Bug反馈记事本启动');
-            console.log('📋 目标文件：同目录下的 fk.txt');
+            console.log('🐛 Bug 反馈记事本启动');
+            console.log(`📋 远程地址（只读）：${FK_TXT_REMOTE_URL}`);
+            console.log('💡 提示：点击状态徽章或“连接本地 fk.txt”按钮，选择本地 fk.txt 文件即可开始反馈');
             updateCharCount();
 
             // 检查浏览器支持
@@ -849,39 +881,39 @@
                 return;
             }
 
-            // 尝试从 IndexedDB 恢复文件句柄
-            console.log('🔍 尝试恢复之前的文件连接...');
+            // 尝试从 IndexedDB 恢复本地文件句柄
             const storedHandle = await loadFileHandle();
-
             if (storedHandle) {
                 const hasPermission = await verifyPermission(storedHandle);
                 if (hasPermission) {
-                    console.log('✅ 文件连接已自动恢复');
+                    console.log('✅ 已自动恢复本地文件连接');
                     fileHandle = storedHandle;
                     updateConnectionUI('connected');
                     updateLastSavedTime();
                     editor.focus();
-                    return;
                 } else {
-                    console.log('⚠️ 存储的句柄权限已过期');
+                    console.log('⚠️ 存储的句柄权限已过期，需要重新连接');
                     await clearStoredHandle();
+                    updateConnectionUI('disconnected');
                 }
+            } else {
+                updateConnectionUI('disconnected');
             }
 
-            // 未连接状态
-            console.log('📂 等待用户连接 fk.txt...');
-            updateConnectionUI('disconnected');
+            // 静默尝试获取远程内容（不影响使用）
+            loadRemotePreview();
+
+            // 编辑器自动聚焦
             editor.focus();
         }
 
-        // 页面加载完成后初始化
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
         }
 
-        // ============ 离开前提醒 ============
+        // 离开页面提醒
         window.addEventListener('beforeunload', (e) => {
             if (fileHandle && editor.value.trim() && !isSaving) {
                 const message = '您有未保存的反馈内容，确定要离开吗？';
@@ -891,7 +923,7 @@
             }
         });
 
-        // ============ 定期检查权限 ============
+        // 定期检查文件权限
         setInterval(async () => {
             if (fileHandle) {
                 const hasPermission = await verifyPermission(fileHandle);
@@ -900,13 +932,13 @@
                     fileHandle = null;
                     await clearStoredHandle();
                     updateConnectionUI('disconnected');
-                    showToast('文件权限已失效，请重新连接 fk.txt', 'error');
+                    showToast('文件权限失效，请重新连接本地 fk.txt', 'error');
                 }
             }
         }, 30000);
 
-        console.log('📝 就绪 — 连接 fk.txt 后即可提交反馈');
+        console.log('✅ 就绪 — 连接本地 fk.txt 后即可提交反馈');
     })();
-</script>
+& lt;script>
 </body>
-</html>
+    <超文本标记语言
