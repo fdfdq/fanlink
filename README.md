@@ -28,13 +28,13 @@ Fanlink 是一个美观、高效、高度可定制的浏览器起始页，旨在
 ## 🚀 快速开始
 
 ### 在线使用
-直接访问官方网站：https://fdfdq.github.io/fanlink/fanlink.html
+直接访问官方网站：https://fdfdq.rth2.xyz | https://fdfdq.github.io/fanlink/fanlink.html
 
 ## 📥 安装与使用
 
 1.**设置为浏览器主页** 
    - 打开浏览器设置
-   - 将主页设置为：`https://fdfdq.github.io/fanlink/fanlink 3.0x.html`
+   - 将主页设置为：`https://fdfdq.rth2.xyz/fanlink.html | https://fdfdq.github.io/fanlink/fanlink 3.0x.html`
 
 2.**个性化配置** 
    - 点击设置图标进入个性化面板
