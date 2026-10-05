@@ -28,7 +28,7 @@ Fanlink 是一个美观、高效、高度可定制的浏览器起始页，旨在
 ## 🚀 快速开始
 
 ### 在线使用
-直接访问官方网站：https://fdfdq.rth2.xyz | https://fdfdq.github.io/fanlink/index.html
+直接访问官方网站：https://fdfdq.rth1.xyz | https://fdfdq.github.io/fanlink/index.html
 
 ## 📥 安装与使用
 
