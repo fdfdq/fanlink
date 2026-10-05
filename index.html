@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fanlink — 新标签页</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23000' width='100' height='100'/><text x='50' y='68' font-size='50' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>F</text></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-400: #a3a3a3;
+    --gray-600: #525252;
+    --accent: #86b3a0;
+    --accent-dark: #5f8b6f;
+    --max-width: 1280px;
+    --gutter: 24px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    transition: background 0.3s;
+  }
+  nav.scrolled { background: rgba(255,255,255,0.98); }
+  .nav-inner {
+    max-width: var(--max-width); margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex; align-items: center; justify-content: space-between; height: 64px;
+  }
+  .logo {
+    font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em;
+    text-decoration: none; color: var(--black);
+  }
+  .logo span { color: var(--accent-dark); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--gray-600);
+    font-size: 0.875rem; font-weight: 500; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta {
+    padding: 8px 20px; background: var(--black); color: var(--white) !important;
+    font-weight: 600; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-dark); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 0 80px;
+    position: relative;
+  }
+  .hero-label {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent-dark);
+    margin-bottom: 24px;
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .hero h1 {
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900; line-height: 0.95; letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent-dark); }
+  .hero-desc {
+    font-size: 1.25rem; color: var(--gray-600);
+    max-width: 520px; margin-bottom: 40px; line-height: 1.6;
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .hero-actions {
+    display: flex; gap: 16px;
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .btn {
+    display: inline-block; padding: 14px 32px;
+    font-size: 0.9rem; font-weight: 600; text-decoration: none;
+    transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--black); color: var(--white);
+  }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-secondary {
+    background: transparent; color: var(--black);
+    border: 1px solid var(--gray-400);
+  }
+  .btn-secondary:hover { border-color: var(--black); }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .story-section {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .story-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .story-grid.reverse { direction: rtl; }
+  .story-grid.reverse > * { direction: ltr; }
+  .story-visual {
+    aspect-ratio: 4/3;
+    background: var(--gray-100);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.5s ease;
+  }
+  .story-visual:hover { transform: scale(1.02); }
+  .story-visual .visual-inner {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; color: var(--gray-400);
+  }
+  .story-label {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent-dark); margin-bottom: 16px;
+  }
+  .story-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .story-desc {
+    font-size: 1.1rem; color: var(--gray-600); line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .story-list {
+    list-style: none; display: flex; flex-direction: column; gap: 12px;
+  }
+  .story-list li {
+    font-size: 0.95rem; color: var(--gray-600);
+    padding-left: 20px; position: relative;
+  }
+  .story-list li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 8px; height: 8px; background: var(--accent);
+  }
+
+  .features { padding: 120px 0; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent-dark); margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 60px; max-width: 640px;
+  }
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--gray-200);
+    border: 1px solid var(--gray-200);
+  }
+  .feature-card {
+    background: var(--white); padding: 48px 32px;
+    transition: background 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .feature-card:hover { background: var(--gray-100); transform: translateY(-4px); }
+  .feature-num {
+    font-size: 0.75rem; font-weight: 700; color: var(--gray-400);
+    margin-bottom: 24px;
+  }
+  .feature-icon {
+    font-size: 2rem; margin-bottom: 20px; color: var(--accent-dark);
+  }
+  .feature-title {
+    font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .feature-desc {
+    font-size: 0.9rem; color: var(--gray-600); line-height: 1.6;
+  }
+
+  .version-section {
+    padding: 120px 0; background: var(--black); color: var(--white);
+  }
+  .version-grid {
+    display: grid; grid-template-columns: 5fr 7fr; gap: 60px;
+  }
+  .version-badge {
+    display: inline-block; padding: 8px 16px;
+    background: var(--accent-dark); font-size: 0.75rem; font-weight: 700;
+    margin-bottom: 24px; letter-spacing: 0.05em;
+  }
+  .version-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px;
+  }
+  .version-desc {
+    font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.6;
+  }
+  .changelog { display: flex; flex-direction: column; gap: 0; }
+  .changelog-item {
+    padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex; gap: 20px; align-items: baseline;
+  }
+  .changelog-item:last-child { border-bottom: none; }
+  .changelog-tag {
+    font-size: 0.7rem; font-weight: 700; padding: 2px 8px;
+    white-space: nowrap; background: rgba(255,255,255,0.1);
+  }
+  .changelog-tag.new { background: var(--accent-dark); }
+  .changelog-text {
+    font-size: 0.9rem; color: rgba(255,255,255,0.8);
+  }
+
+  .install-section { padding: 120px 0; }
+  .install-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--gray-200); border: 1px solid var(--gray-200);
+  }
+  .install-card {
+    background: var(--white); padding: 40px 32px; text-align: center;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .install-card:hover { background: var(--gray-100); transform: translateY(-4px); }
+  .install-icon { font-size: 2.5rem; margin-bottom: 20px; }
+  .install-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .install-desc {
+    font-size: 0.85rem; color: var(--gray-600); margin-bottom: 24px;
+  }
+  .install-btn {
+    display: inline-block; padding: 12px 28px;
+    background: var(--black); color: var(--white); text-decoration: none;
+    font-size: 0.8rem; font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .install-btn:hover { background: var(--accent-dark); }
+
+  footer { padding: 60px 0; border-top: 1px solid var(--gray-200); }
+  .footer-grid {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--gray-600); }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a {
+    font-size: 0.8rem; color: var(--gray-600); text-decoration: none;
+    transition: color 0.2s; cursor: pointer;
+  }
+  .footer-links a:hover { color: var(--black); }
+
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { min-height: auto; padding: 100px 0 60px; }
+    .story-grid { grid-template-columns: 1fr; gap: 40px; }
+    .story-grid.reverse { direction: ltr; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .version-grid { grid-template-columns: 1fr; }
+    .install-grid { grid-template-columns: 1fr; }
+    .footer-grid { flex-direction: column; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Fan<span>link</span></a>
+    <ul class="nav-links">
+      <li><a href="#story">功能</a></li>
+      <li><a href="#features">特性</a></li>
+      <li><a href="#version">版本</a></li>
+      <li><a href="download.html">安装</a></li>
+    </ul>
+    <a href="download.html" class="nav-cta">立即安装</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">浏览器扩展 · 新标签页</div>
+    <h1>你的新标签页<br>本该<em>更好看</em></h1>
+    <p class="hero-desc">
+      Fanlink 是一款专注效率的新标签页扩展。智能搜索、网站收录、丰富设置——让每次打开新标签页都成为高效的开始。
+    </p>
+    <div class="hero-actions">
+      <a href="download.html" class="btn btn-primary">免费下载</a>
+      <a href="#story" class="btn btn-secondary">了解更多</a>
+    </div>
+  </div>
+</section>
+
+<section class="story-section" id="story">
+  <div class="container">
+    <div class="story-grid">
+      <div class="reveal">
+        <div class="story-label">智能搜索</div>
+        <h2 class="story-title">一个搜索框，<br>四个搜索引擎</h2>
+        <p class="story-desc">
+          内置必应、百度、Google、搜狗四大搜索引擎，一键切换。支持搜索历史自动记录，输入时智能匹配你的浏览习惯。
+        </p>
+        <ul class="story-list">
+          <li>四大主流搜索引擎自由切换</li>
+          <li>搜索历史自动记录，一键清除</li>
+          <li>输入时智能匹配，可调节匹配阈值</li>
+          <li>支持站内搜索，快速定位收录网站</li>
+        </ul>
+      </div>
+      <div class="story-visual reveal">
+        <img src="assets/1.jpg" style="width:100%;height:100%;object-fit:cover;" alt="智能搜索">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-section">
+  <div class="container">
+    <div class="story-grid reverse">
+      <div class="reveal">
+        <div class="story-label">网站收录</div>
+        <h2 class="story-title">上百个网站，<br>九大分类</h2>
+        <p class="story-desc">
+          侧边栏分类导航，涵盖社群、新闻、工具、娱乐、学习、开发、其他、网络安全、随机九大分类。常用网站一键直达，无需翻找。
+        </p>
+        <ul class="story-list">
+          <li>九大分类，上百个常用网站收录</li>
+          <li>侧边栏左右布局自由切换</li>
+          <li>分类栏可隐藏可显示</li>
+          <li>网站图标自动识别，一目了然</li>
+        </ul>
+      </div>
+      <div class="story-visual reveal">
+        <img src="assets/2.gif" style="width:100%;height:100%;object-fit:cover;" alt="网站收录">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-section">
+  <div class="container">
+    <div class="story-grid">
+      <div class="reveal">
+        <div class="story-label">丰富设置</div>
+        <h2 class="story-title">每一个细节，<br>都可定制</h2>
+        <p class="story-desc">
+          七种设置选项卡，从外观到语言，从搜索历史到便签——所有偏好都能按你的习惯调整。一键导出备份，换机无忧。
+        </p>
+        <ul class="story-list">
+          <li>六种主题色、暗黑模式、高对比度</li>
+          <li>背景壁纸自定义，圆角大小自由调节</li>
+          <li>时间格式、标题栏样式、布局切换</li>
+          <li>设置一键导出导入，JSON 格式备份</li>
+        </ul>
+      </div>
+      <div class="story-visual reveal">
+        <img src="assets/3.png" style="width:100%;height:100%;object-fit:cover;" alt="丰富设置">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-label">更多特性</div>
+    <h2 class="section-title reveal">每一处细节，都为效率而做</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-num">01</div>
+        <div class="feature-icon">◐</div>
+        <div class="feature-title">主题外观</div>
+        <p class="feature-desc">六种预设主题色，暗黑模式、高对比度模式。支持自定义背景图片，圆角大小自由调节。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-num">02</div>
+        <div class="feature-icon">✎</div>
+        <div class="feature-title">便签笔记</div>
+        <p class="feature-desc">桌面便签随时记录灵感，可拖拽移动位置。黄色便签风格，支持添加多个，一键清除。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-num">03</div>
+        <div class="feature-icon">◷</div>
+        <div class="feature-title">最近访问</div>
+        <p class="feature-desc">自动记录最近访问的网站，打开新标签页即可快速回访。一键清除所有记录，保护隐私。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-num">04</div>
+        <div class="feature-icon">◑</div>
+        <div class="feature-title">每日一言</div>
+        <p class="feature-desc">搜索框随机显示名言警句，每次打开新标签页都有不同的灵感。可在设置中开关。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-num">05</div>
+        <div class="feature-icon">◨</div>
+        <div class="feature-title">多语言</div>
+        <p class="feature-desc">支持简体中文、繁体中文、英文、俄语四种语言。根据你的习惯自由切换。</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-num">06</div>
+        <div class="feature-icon">◧</div>
+        <div class="feature-title">设置备份</div>
+        <p class="feature-desc">所有设置一键导出为 JSON 文件，换机无忧。导入即可恢复你的个性化配置。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="version-section" id="version">
+  <div class="container">
+    <div class="version-grid">
+      <div class="reveal">
+        <div class="version-badge">v3.05</div>
+        <h2 class="version-title">最新版本<br>更新内容</h2>
+        <p class="version-desc">
+          从智能搜索到网站收录，从主题外观到设置备份，Fanlink 3.05 带来了完整的新标签页体验。
+        </p>
+      </div>
+      <div class="changelog reveal">
+        <div class="changelog-item">
+          <span class="changelog-tag new">NEW</span>
+          <span class="changelog-text">每日一言：搜索框随机显示名言警句</span>
+        </div>
+        <div class="changelog-item">
+          <span class="changelog-tag">NEW</span>
+          <span class="changelog-text">最近访问记录：自动记录浏览历史，一键清除</span>
+        </div>
+        <div class="changelog-item">
+          <span class="changelog-tag">NEW</span>
+          <span class="changelog-text">设置导入导出：JSON 格式一键备份恢复</span>
+        </div>
+        <div class="changelog-item">
+          <span class="changelog-tag">IMPROVED</span>
+          <span class="changelog-text">搜索历史：输入智能匹配，可调节匹配阈值</span>
+        </div>
+        <div class="changelog-item">
+          <span class="changelog-tag">IMPROVED</span>
+          <span class="changelog-text">多语言：简体中文、繁体中文、英文、俄语</span>
+        </div>
+        <div class="changelog-item">
+          <span class="changelog-tag">IMPROVED</span>
+          <span class="changelog-text">主题外观：六种预设配色，暗黑模式支持</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-copy">© 2026 Fanlink. 开源项目，自由使用。</div>
+      <ul class="footer-links">
+        <li><a onclick="showToast('文档即将上线')">文档</a></li>
+        <li><a onclick="showToast('GitHub 即将上线')">GitHub</a></li>
+        <li><a onclick="showToast('反馈渠道即将上线')">反馈</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" style="
+  position: fixed; bottom: 32px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--black); color: var(--white);
+  padding: 12px 24px; font-size: 0.85rem; font-weight: 500;
+  transition: transform 0.3s ease; z-index: 1000; pointer-events: none;
+"></div>
+
+<script>
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(() => {
+      toast.style.transform = 'translateX(-50%) translateY(100px)';
+    }, 2000);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+
+  document.querySelectorAll('.feature-card, .install-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const title = card.querySelector('.feature-title, .install-name');
+      if (title) showToast('「' + title.textContent + '」功能详情即将上线');
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const hero = document.querySelector('.hero');
+    if (hero && scrolled < window.innerHeight) {
+      hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+      hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+    }
+  });
+</script>
+
+</body>
+</html>

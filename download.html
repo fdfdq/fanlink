@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>下载 Fanlink — 新标签页</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23000' width='100' height='100'/><text x='50' y='68' font-size='50' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>F</text></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-400: #a3a3a3;
+    --gray-600: #525252;
+    --accent-dark: #5f8b6f;
+    --max-width: 1280px;
+    --gutter: 24px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .nav-inner {
+    max-width: var(--max-width); margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex; align-items: center; justify-content: space-between; height: 64px;
+  }
+  .logo {
+    font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em;
+    text-decoration: none; color: var(--black);
+  }
+  .logo span { color: var(--accent-dark); }
+  .nav-back {
+    text-decoration: none; color: var(--gray-600);
+    font-size: 0.875rem; font-weight: 500; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--black); }
+
+  .hero {
+    min-height: 60vh;
+    display: flex; align-items: center;
+    padding: 140px 0 60px;
+  }
+  .hero-label {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent-dark);
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900; line-height: 0.95; letter-spacing: -0.04em;
+    margin-bottom: 24px;
+  }
+  .hero-desc {
+    font-size: 1.125rem; color: var(--gray-600);
+    max-width: 480px; line-height: 1.6;
+  }
+
+  .download-section {
+    padding: 60px 0 120px;
+  }
+  .download-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--gray-200); border: 1px solid var(--gray-200);
+  }
+  .download-card {
+    background: var(--white); padding: 48px;
+    transition: background 0.3s;
+  }
+  .download-card:hover { background: var(--gray-100); }
+  .browser-icon {
+    width: 64px; height: 64px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin-bottom: 24px;
+    background: var(--gray-100);
+  }
+  .browser-name {
+    font-size: 1.5rem; font-weight: 800; margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .browser-version {
+    font-size: 0.85rem; color: var(--gray-400); margin-bottom: 20px;
+  }
+  .browser-desc {
+    font-size: 0.95rem; color: var(--gray-600); line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .download-btn {
+    display: inline-block; padding: 16px 40px;
+    background: var(--black); color: var(--white);
+    text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    transition: background 0.2s;
+    border: none; cursor: pointer;
+  }
+  .download-btn:hover { background: var(--accent-dark); }
+
+  .install-guide {
+    margin-top: 80px;
+    padding: 48px;
+    background: var(--gray-100);
+  }
+  .guide-title {
+    font-size: 1.25rem; font-weight: 700; margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .guide-steps {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+  .step {
+    padding: 24px;
+    background: var(--white);
+  }
+  .step-num {
+    font-size: 0.75rem; font-weight: 700; color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+  .step-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-desc {
+    font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;
+  }
+
+  footer {
+    padding: 60px 0; border-top: 1px solid var(--gray-200);
+  }
+  .footer-grid {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--gray-600); }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a {
+    font-size: 0.8rem; color: var(--gray-600); text-decoration: none;
+    transition: color 0.2s; cursor: pointer;
+  }
+  .footer-links a:hover { color: var(--black); }
+
+  /* 弹窗 */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  .modal-overlay.active {
+    opacity: 1; visibility: visible;
+  }
+  .modal {
+    background: var(--white);
+    padding: 48px;
+    max-width: 420px; width: 90%;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.active .modal {
+    transform: translateY(0);
+  }
+  .modal-title {
+    font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .modal-desc {
+    font-size: 0.9rem; color: var(--gray-600); margin-bottom: 32px;
+  }
+  .modal-options {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .modal-option {
+    display: block; padding: 20px 24px;
+    background: var(--gray-100);
+    text-decoration: none; color: var(--black);
+    transition: background 0.2s;
+  }
+  .modal-option:hover { background: var(--gray-200); }
+  .modal-option-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 4px;
+  }
+  .modal-option-desc {
+    font-size: 0.8rem; color: var(--gray-600);
+  }
+  .modal-close {
+    margin-top: 24px;
+    background: none; border: none;
+    color: var(--gray-400); font-size: 0.85rem;
+    cursor: pointer; text-decoration: underline;
+  }
+  .modal-close:hover { color: var(--black); }
+
+  @media (max-width: 768px) {
+    .download-grid { grid-template-columns: 1fr; }
+    .guide-steps { grid-template-columns: 1fr; }
+    .footer-grid { flex-direction: column; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="fanlink.html" class="logo">Fan<span>link</span></a>
+    <a href="fanlink.html" class="nav-back">← 返回首页</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">下载</div>
+    <h1>选择你的浏览器</h1>
+    <p class="hero-desc">
+      Fanlink 支持 Chrome 和 Firefox 两大主流浏览器。选择对应版本即可开始安装。
+    </p>
+  </div>
+</section>
+
+<section class="download-section">
+  <div class="container">
+    <div class="download-grid">
+      <div class="download-card">
+        <div class="browser-icon">●</div>
+        <div class="browser-name">Chrome 版</div>
+        <div class="browser-version">v3.05</div>
+        <p class="browser-desc">
+          适用于 Google Chrome、Microsoft Edge、Brave 等所有 Chromium 内核浏览器。
+        </p>
+        <button class="download-btn" onclick="openChromeModal()">下载</button>
+      </div>
+      <div class="download-card">
+        <div class="browser-icon">○</div>
+        <div class="browser-name">Firefox 版</div>
+        <div class="browser-version">v3.05</div>
+        <p class="browser-desc">
+          适用于 Mozilla Firefox 浏览器。
+        </p>
+        <a href="https://example.com" class="download-btn" target="_blank">下载</a>
+      </div>
+    </div>
+
+    <div class="install-guide">
+      <div class="guide-title">安装指南</div>
+      <div class="guide-steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-title">下载扩展文件</div>
+          <div class="step-desc">点击上方按钮获取扩展，保存到本地。</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-title">打开扩展管理页</div>
+          <div class="step-desc">Chrome 输入 chrome://extensions，Firefox 输入 about:addons，开启开发者模式。</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-title">加载扩展</div>
+          <div class="step-desc">安装完成后，打开新标签页即可看到 Fanlink 起始页。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-copy">© 2026 Fanlink. 开源项目，自由使用。</div>
+      <ul class="footer-links">
+        <li><a href="fanlink.html">返回首页</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- Chrome 下载弹窗 -->
+<div class="modal-overlay" id="chromeModal">
+  <div class="modal">
+    <div class="modal-title">选择下载方式</div>
+    <div class="modal-desc">请选择你要从哪里下载 Chrome 版本的 Fanlink</div>
+    <div class="modal-options">
+      <a href="https://example.com" class="modal-option" target="_blank">
+        <div class="modal-option-title">Microsoft Edge 商店</div>
+        <div class="modal-option-desc">从 Edge 附加组件商店下载安装</div>
+      </a>
+      <a href="https://example.com" class="modal-option" target="_blank">
+        <div class="modal-option-title">GitHub 仓库</div>
+        <div class="modal-option-desc">从 GitHub Releases 页面下载最新版本</div>
+      </a>
+    </div>
+    <button class="modal-close" onclick="closeChromeModal()">取消</button>
+  </div>
+</div>
+
+<script>
+  function openChromeModal() {
+    document.getElementById('chromeModal').classList.add('active');
+  }
+  function closeChromeModal() {
+    document.getElementById('chromeModal').classList.remove('active');
+  }
+  // 点击遮罩关闭
+  document.getElementById('chromeModal').addEventListener('click', function(e) {
+    if (e.target === this) closeChromeModal();
+  });
+</script>
+
+</body>
+</html>
